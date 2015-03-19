@@ -1,0 +1,14 @@
+<template name="ideologyList">
+    <div class="ideologies">
+        <h1>Ideologies</h1><hr>
+        {{#each ideologies}}
+            {{> ideologyItem}}
+        {{/each}}
+
+
+        {{#if currentUser}}
+            <a class="btn btn-success" href="{{pathFor 'chooseIdeology'}}">Add new ideology</a>
+        {{/if}}
+        <br><br>
+    </div>
+</template>

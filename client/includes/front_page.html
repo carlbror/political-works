@@ -1,0 +1,121 @@
+<template name="frontPage">
+    <div style="text-align: justify;">
+
+        <div class="centered">
+            <a href="https://www.flickr.com/photos/belalan/4598520299" target="_blank">
+                <img src="/book_porn.jpg">
+            </a>
+        </div>
+        <br>
+
+        <!--"Book Porn" by Alan Bell, some rights reserved https://creativecommons.org/licenses/by-nc-nd/2.0/ -->
+
+
+        <h1 class="center">The Best Political Works</h1>
+
+        <p>Share what literature, documentaries, lectures, or other political media you find the most persuasive for
+            or against any <a href="{{pathFor 'ideologyList'}}">ideology</a> or <a href="{{pathFor 'policyList'}}">policy</a>.
+            Learn what others believe are the best political works and discuss their importance.
+        </p>
+
+        <p>
+            The purpose of politicalWorks is to make political debates easier, by making it clear exactly what
+            views
+            some political supporters find most persuasive, and thus enabling all to understand the essentials
+            of their views
+            much quicker.
+        </p>
+        <br>
+
+        <h3>To get started</h3>
+        <ul>
+            <li>
+                Click 'Sign In/Up' up in the right corner to create your account.
+            </li>
+            <li>
+                Or simply browse the lists on the menu.
+            </li>
+        </ul>
+        <br>
+
+        <h3>Add material on ideologies {{#unless currentUser}}(need to be logged in){{/unless}}</h3>
+        <ul>
+            <li>
+                Add an {{#if currentUser}}<a href="{{pathFor 'addIdeology'}}">ideology</a>{{else}}ideology{{/if}}.
+            </li>
+            <li>
+                Add a {{#if currentUser}}<a href="{{pathFor 'newAddWork'}}">political work</a>{{else}}political
+                work{{/if}} -
+                such as a book, clip on youtube or whatever media you want - for an ideology.
+            </li>
+            <li>
+                {{#if currentUser}}<a href="{{pathFor 'chooseIdeology'}}">Show</a>{{else}}
+                    Show{{/if}} which ideology you find most appealing (if you want to).
+            </li>
+        </ul>
+        <br>
+
+
+        <h3>Add material on policies</h3>
+        <ol>
+            <li>
+                Find or create a {{#if currentUser}}<a href="{{pathFor 'createNewPolicyArea'}}">policy area</a>{{else}}
+                policy area{{/if}}
+                where your policy might be a solution.
+            </li>
+            <li>
+                When you've found/created a policy area, go to its page
+                {{#with policyArea}}(like <a href="{{pathFor 'policyAreaPage'}}">this one</a>){{/with}}
+                and click the button at the bottom.
+            </li>
+        </ol>
+        <ul>
+            <li>
+                Or you could just add a {{#if currentUser}}<a href="{{pathFor 'discussAPolicy'}}">policy</a>{{else}}
+                policy{{/if}}
+                without having to specify any problem it is intended to solve (you can do it later).
+            </li>
+            <li>
+                Add a {{#if currentUser}}<a href="{{pathFor 'newAddWork'}}">political work</a>{{else}}political
+                work{{/if}} -
+                such as a book, clip on youtube or whatever media you want - for a policy.
+            </li>
+        </ul>
+        <br>
+
+        <p>
+            For a longer introduction to the purpose of politicalWorks <a href="{{pathFor 'aLongerIntroduction'}}">
+            click here</a>. View our privacy policy <a href="{{pathFor 'privacyPolicy'}}">here</a>. Learn about badges
+            <a href="{{pathFor 'badges'}}">here</a>.
+        </p>
+
+        <p>For support, comments, or suggestions please comment below.</p>
+    </div>
+
+    <br><br>
+
+    <h1>Disqus</h1>
+    <br><br>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'thebestpoliticalworks'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+</template>
+
+
+
+
+

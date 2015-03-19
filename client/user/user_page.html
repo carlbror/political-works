@@ -1,0 +1,156 @@
+<template name="userPage">
+    <div class="user-header">
+        <div class="container">
+            <h2>{{#if username}}{{username}}{{else}}{{profile.name}}{{/if}}</h2>
+        </div>
+    </div>
+
+    <div class="user-wallpaper">
+        <div class="container">
+            <div class="row">
+                <div class="span3">
+                    <div class="profile-resume">
+                        <p>
+                            Committed
+                            {{#if userRatings}}{{userRatings.length}}
+                            review{{#unless userHasMadeOneRating}}s.{{/unless}}{{else}}0 reviews.{{/if}}<br>
+                            Subscribes to {{#if ideologies}}{{ideologies.length}} {{#if userSubscribesToOneIdeology}}
+                            ideology.{{else}} ideologies.{{/if}}{{else}}no ideology.{{/if}}
+                        </p>
+
+                        <p style="margin: 0;">
+                            <a href="#ideologies" class="link">Ideologies</a>
+                        </p>
+                        <ul>
+                            {{#each ideologies}}
+                            <p style="margin: 0;">{{#with ideologyFromId}}{{name}}{{/with}}</p>
+                            {{/each}}
+                        </ul>
+
+                        <p style="margin: 0;">
+                            Reviews
+                        </p>
+                        <ul>
+                            on ideologies
+                            <ul>
+                                {{#each ratingsByIdeology}}
+                                <p style="margin: 0;">{{#with ideologyFromIdeologyId}}
+                                    <a href="#{{_id}}" class="link">{{name}}</a>{{/with}}</p>
+                                {{/each}}
+                            </ul>
+
+                            on policies
+                            <ul>
+                                {{#each ratingsByPolicy}}
+                                <p style="margin: 0;">{{#with policyFromPolicyId}}
+                                    <a href="#{{_id}}" class="link">{{solution}}</a>{{/with}}</p>
+                                {{/each}}
+                            </ul>
+                        </ul>
+                    </div>
+
+                    <div class="sort-works-by">
+                        {{#if hasRatingsOn}}
+                        {{> chooseScore}}
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="span9">
+                    <div class="tab-content">
+                        <div id="tab1" class="tab active">
+                        </div>
+
+                        <div id="ideologies" class="tab">
+                            {{#each ideologies}}
+                            <div class="ideology-view"><h4>{{#with ideologyFromId}}<a href="{{pathFor 'ideologyPage'}}">
+                                {{name}}</a>{{/with}}</h4>
+                            </div>
+                            {{/each}}
+                        </div>
+
+                        {{#each ratingsByIdeology}}
+                        <div id="{{ideologyId}}" class="tab">
+                            {{#if supportiveRatings}}
+                            <h4>Reviews on works that support {{#with ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
+
+                            <ul>
+                                {{#each supportiveRatings}}
+                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                {{/each}}
+                            </ul>
+                            {{/if}}
+
+                            {{#if underminingRatings}}
+                            <h4>Reviews on works that argue against {{#with
+                                ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
+
+                            <ul>
+                                {{#each underminingRatings}}
+                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                {{/each}}
+                            </ul>
+                            {{/if}}
+                        </div>
+                        {{/each}}
+
+
+                        {{#each ratingsByPolicy}}
+                        <div id="{{policyId}}" class="tab">
+                            {{#if supportiveRatings}}
+                            <h4>Reviews on works that support the policy to {{#with
+                                policyFromPolicyId}}{{solution}}{{/with}}</h4>
+
+                            <ul>
+                                {{#each supportiveRatings}}
+                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                {{/each}}
+                            </ul>
+                            {{/if}}
+
+                            {{#if underminingRatings}}
+                            <h4>Reviews on works that argue against the policy to {{#with
+                                policyFromPolicyId}}{{solution}}{{/with}}</h4>
+
+                            <ul>
+                                {{#each underminingRatings}}
+                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                {{/each}}
+                            </ul>
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="main">
+        <div class="badges-on-user">
+            <div class="container">
+                {{#each badgesForReviewedIdeologies}}
+                {{> rowOfBadges}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<template name="rowOfBadges">
+    <div class="row">
+        <div class="span2">
+            Badges
+            {{#with ideology}}
+            <a href="{{pathFor 'ideologyPage'}}">{{name}}</a>
+            {{/with}}
+        </div>
+        <div class="span2"><img src="{{bronze}}"></div>
+        <div class="span2"><img src="{{silver}}"></div>
+        <div class="span2"><img src="{{gold}}"></div>
+        <div class="span2"></div>
+        <div class="span2"></div>
+    </div>
+</template>

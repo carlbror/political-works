@@ -1,0 +1,20 @@
+<template name="policyAreaPage">
+    <div class="main">
+        <h1>{{area}}</h1>
+        <hr>
+        {{{summary}}}<br><br>
+
+        {{#if policies}}
+            <b>Proposed solutions:</b><br>
+            {{#each policies}}
+                <a href="{{pathFor 'policyPage'}}">{{solution}}</a><br>
+            {{/each}}
+        {{/if}}
+
+        <br><br>
+        {{#if currentUser}}
+            <input type="submit" value="Add a solution to this problem" class="btn add-policy-for-an-area btn-primary">
+        {{/if}}
+
+    </div>
+</template>

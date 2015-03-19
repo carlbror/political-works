@@ -1,0 +1,48 @@
+<template name="reviewBox">
+    <div class="horizontal-list box" id="{{_id}}" style="display: none;">
+        <div class="showOnlyWhenLarge special-table">
+            <table>
+                <tr>
+                    <th>Familiarity</th>
+                    <th>Review</th>
+                    <th>Convincing</th>
+                    <th>Readable</th>
+                </tr>
+                <tr>
+                    <td>{{getFamiliarity}}</td>
+                    {{#if urlReview}}
+                        <td><a target="_blank" href="{{urlReview}}">&#9808;</a></td>
+                    {{else}}
+                        <td>none</td>
+                    {{/if}}
+                    <td>{{scores.convincingScore}}</td>
+                    <td>{{scores.readabilityScore}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="showOnlyWhenSmall special-table">
+            <table>
+                <tr>
+                    <th>Familiarity</th>
+                    <td>{{getFamiliarity}}</td>
+                </tr>
+                <tr>
+                    <th>Review</th>
+                    {{#if urlReview}}
+                    <td><a target="_blank" href="{{urlReview}}">&#9808;</a></td>
+                    {{else}}
+                    <td>none</td>
+                    {{/if}}
+                </tr>
+                <tr>
+                    <th>Convincing</th>
+                    <td>{{scores.convincingScore}}</td>
+                </tr>
+                <tr>
+                    <th>Readable</th>
+                    <td>{{scores.readabilityScore}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</template>

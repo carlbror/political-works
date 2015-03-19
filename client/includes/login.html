@@ -1,0 +1,21 @@
+<template name="logIn">
+    <div class="login">
+        <h5>Sign in/up</h5>
+        <hr>
+        {{#if currentUser}}
+            <p align="center">
+                <input type="submit" class="btn btn-primary log-out" value="Log out"><br><br>
+            </p>
+        {{else}}
+            <p align="center">
+                <input class="username" type="text" placeholder="Username"><br>
+                <input pattern=".{6,}" required title="3 characters minimum" class="password-1" type="password" placeholder="Password">
+                <input pattern=".{6,}" required title="3 characters minimum" class="password-2" type="password" placeholder="Password (again)" style="display: none;">
+                <input type="submit" class="btn btn-primary log-in" value="Log in">
+                <input type="submit" class="btn btn-primary create-account" style="display: none;" value="Create account" disabled><br>
+            </p>
+            <a class="register-link register-login" href="">Create account</a>
+            <a class="login-link register-login" href="" style="display: none;">Login</a>
+       {{/if}}
+    </div>
+</template>

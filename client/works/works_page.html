@@ -1,0 +1,163 @@
+<template name="worksPage">
+    <link rel="stylesheet" href="../scripts/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="../scripts/owl-carousel/owl.theme.css">
+    <script src="../scripts/assets/owl-carousel/owl.carousel.js"></script>
+
+    <div class="works-page main">
+        <h1>{{title}}</h1>
+        <hr>
+
+        <h4>By {{#each markedProducers}}{{#with producer}}{{name}}{{/with}}{{#unless last}},
+            {{/unless}}{{/each}}</h4>
+        <a href="{{url}}">obtain the work</a> | <a href="{{discussionUrl}}">discussion of the work</a> <i
+            class="fa fa-cog"></i>
+        <br><br>
+
+
+        {{#if ratings}}
+        You have reviewed this work for:<br>
+
+        <p>
+            {{#each ratings}}
+            {{#if ideologyId}}
+
+        <p style="padding-left: 30px;">
+            {{#with ideology}}<a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{/with}} <a href=""
+                                                                                            class="show-review"
+                                                                                            id="click-{{_id}}">
+            &#8659;</a></p>
+        {{> reviewBox}}
+        {{/if}}
+
+        {{#if policyId}}
+        <p style="padding-left: 30px;">
+            {{#with policy}}<a href="{{pathFor 'policyPage'}}">{{solution}}</a>{{/with}} <a href=""
+                                                                                            class="show-review"
+                                                                                            id="click-{{_id}}">
+            &#8659;</a></p>
+        {{> reviewBox}}
+        {{/if}}
+        {{/each}}
+        </p>
+        {{/if}}
+
+
+        <br>
+
+
+        <div class="fiveHundredPixels">
+            <div class="owl">
+                <div class="item">&nbsp;</div>
+
+
+                <div class="item">
+                    <div class="right"><i class="showOnlyWhenLarge">1/2</i></div>
+                    <br>
+                    <b>Is the work reviewing an ideology or policy?</b>
+
+                    <form action="">
+                        <input type="radio" class="ideology-reviewed" name="type" value="ideology" tabIndex="-1">
+                        Ideology<br>
+                        <input type="radio" class="policy-reviewed" name="type" value="policy" tabIndex="-1"> Policy
+                    </form>
+                    <br>
+
+                    <div class="space"><br><br><br><br><br><br><br><br><br></div>
+
+                    <div class="ideology-selector" style="display: none;">
+                        <b>Which ideology is the work reviewing?</b>
+                        <br>
+                        <select class="ideology-list-selector">
+                            <option></option>
+                            {{#each ideologies}}
+                            <option value="{{_id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                        <br><br>
+                    </div>
+
+
+                    <div class="policy-selector" style="display: none;">
+                        <b>Which policy is the work reviewing?</b>
+                        <br>
+                        <select class="policy-list-selector">
+                            <option></option>
+                            {{#each policies}}
+                            <option value="{{_id}}">{{solution}}</option>
+                            {{/each}}
+                        </select><br><br>
+                    </div>
+
+                    <div class="ideology-type" style="display: none;">
+                        <b>Is the work positive or critical of the ideology?</b>
+                        <br>
+
+                        <form action="">
+                            <input type="radio" name="type" class="positive" value="positive"> Positive<br>
+                            <input type="radio" name="type" class="critical" value="critical"> Critical
+                        </form>
+                        <br>
+                    </div>
+                    <div class="policy-type" style="display: none;">
+                        <b>Is the work for or against the policy?</b>
+                        <br>
+
+                        <form action="">
+                            <input type="radio" name="type" class="for" value="for"> For<br>
+                            <input type="radio" name="type" class="against" value="against"> Against
+                        </form>
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="item">
+                    <div class="right"><i class="showOnlyWhenLarge">2/2</i></div>
+
+                    <b>Between 1-100, how good, do you reckon, is the work in:</b><br>
+                    <table>
+                        <tr>
+                            <td>Convincing a rational individual the position is good/bad</td>
+                            <td><input type="number" class="convincing-score" max="100" min="0" maxlength="3"
+                                       style="width:40px" tabIndex="-1"></td>
+                        </tr>
+                        <tr>
+                            <td>Readability</td>
+                            <td><input type="number" class="readability-score" max="100" min="0" maxlength="3"
+                                       style="width:40px"
+                                       tabIndex="-1"></td>
+                        </tr>
+                    </table>
+                    <br><br>
+
+                    <b>How familiar are you with this work</b><br>
+                    <select class="work-familiarity" style="width:270px" tabIndex="-1">
+                        <option></option>
+                        <option value="1">Briefly familiar</option>
+                        <option value="4">Read/watched it once</option>
+                        <option value="5">Read/watched it a few times</option>
+                        <option value="7">Know it by heart</option>
+                    </select><br><br>
+
+                    <b>Optional: Submit a link to a review or summary you've made on this work:</b><br>
+                    <input type="text" class="url-review" placeholder="URL to a review of the work" tabIndex="-1"
+                           style="width:400px;"/>
+                </div>
+            </div>
+
+
+            <div class="right">
+                <input class="previous btn btn minimizeButtonWhenSmall" type="submit" value="Previous"
+                       style="display: none;"/>
+                <input class="next btn btn minimizeButtonWhenSmall" type="submit" value="Next" disabled
+                       style="display: none;"/>
+                <input class="finish btn btn-success minimizeButtonWhenSmall" type="submit" value="Finish" disabled
+                       style="display: none;"/>
+            </div>
+            {{#if currentUser}}<input class="review btn btn-success minimizeButtonWhenSmall" type="submit"
+                                      value="Review work"/>{{/if}}
+            <input class="cancel btn btn minimizeButtonWhenSmall" type="submit" value="Cancel" style="display: none;"/>
+
+        </div>
+    </div>
+</template>

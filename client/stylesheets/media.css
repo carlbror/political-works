@@ -1,0 +1,163 @@
+/* SMALL SCREENS !!! */
+
+@media screen and (min-width: 0) and (max-width: 500px) {
+    body {
+    }
+
+    .main-place{
+        max-width: 1152px;
+        margin-left: -40px;
+        margin-right: -40px;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        position: relative;
+    }
+
+    .navbar{
+        margin-right: -40px;
+        margin-left: -40px;
+    }
+
+    h1{
+        font-size: medium;
+    }
+    
+    .big-header{
+        font-size: 150%;
+    }
+
+    .showOnlyWhenLarge{
+        display: none;
+    }
+
+    .showOnlyWhenSmall{
+        display: block;
+    }
+
+    .fiveHundredPixels{
+        position:relative;
+        width: 100%;
+    }
+
+    .minimizeButtonWhenSmall{
+        width: 40px;
+    }
+}
+
+
+@media screen and (min-width: 501px) and (max-width: 767px) {
+    .main-place{
+        max-width: 1152px;
+        margin-left: -40px;
+        margin-right: -40px;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        position: relative;
+    }
+
+    .navbar{
+        margin-right: -40px;
+        margin-left: -40px;
+    }
+
+    .showOnlyWhenLarge{
+        display: none;
+    }
+
+    .showOnlyWhenSmall{
+        display: block;
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 900px) {
+    .main-place{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        position: relative;
+    }
+
+    .navbar{
+    }
+
+    .showOnlyWhenLarge{
+        display: none;
+    }
+
+    .showOnlyWhenSmall{
+        display: block;
+    }
+}
+
+
+
+/* BIG SCREENS !!! */
+@media screen and (min-width: 901px) and (max-width: 4096px) {
+    .header
+    {
+        height:53px;
+        position: relative;
+        background: #ffffff;
+    }
+
+
+    .content
+    {
+        position:absolute;
+        top: 53px;
+        left:0px;
+        right:0px;
+        bottom:0px;
+        overflow-y:scroll;
+    }
+
+    .main-place{
+        max-width: 1152px;
+
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        position: relative;
+    }
+
+    .showOnlyWhenLarge{
+        display: block;
+    }
+
+    .showOnlyWhenSmall{
+        display: none;
+    }
+
+    .showOnlyWhenSmall{
+        display: none;
+    }
+
+    .fiveHundredPixels{
+        position:relative;
+        width: 500px;
+    }
+
+    .minimizeButtonWhenSmall{
+        width: 80px;
+    }
+}
+
+
+
+
+/* IPADS? */

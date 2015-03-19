@@ -1,0 +1,70 @@
+<template name="badges">
+    <h1>Badges</h1>
+    <hr>
+
+    <p>Analyzing works gives you points. More popular works awards more points.</p>
+
+    <div class="badges-table">
+        <div class="container">
+            <table>
+                <tr>
+                    <td>90-100%</td>
+                    <td>5.00 points</td>
+                </tr>
+                <tr>
+                    <td>80-89%</td>
+                    <td>2.00 points</td>
+                </tr>
+                <tr>
+                    <td>70-79%</td>
+                    <td>1.00 point</td>
+                </tr>
+                <tr>
+                    <td>50-69%</td>
+                    <td>0.5 points</td>
+                </tr>
+                <tr>
+                    <td>25-49%</td>
+                    <td>0.1 points</td>
+                </tr>
+                <tr>
+                    <td>&lt; 25%</td>
+                    <td>nothing</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <p>So, for instance, {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a> {{/with}} has a score
+        of {{score}}% for {{#with ideology}}<a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{/with}}. Analyzing it
+        will give you {{points}} points.
+    </p>
+
+    <p>And, by gathering enough points you get badges.</p>
+
+    <div class="badges-grade">
+        <div class="container">
+            <div class="row">
+                <div class="span2"></div>
+                <div class="span2">
+                    <img src="bronze2.png">
+
+                    <p>5 points</p>
+                </div>
+                <div class="span1"></div>
+                <div class="span2">
+                    <img src="silver.png">
+
+                    <p>15 points</p>
+                </div>
+                <div class="span1"></div>
+                <div class="span2">
+                    <img src="gold2.png">
+
+                    <p>50 points</p>
+                </div>
+                <div class="span2"></div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,13 @@
+<template name="addIdeology">
+    <h1>Add ideology</h1>
+    <hr>
+
+    <br>
+    <input class="ideology-text" type="text" name="title" placeholder="The name of the ideology"><br><br>
+    <input class="add-ideology btn btn-primary" type="submit" value="Add ideology">
+
+    {{#with ideology}}
+    <br><br>
+    <a href="{{pathFor 'ideologyPage'}}">{{name}}</a>
+    {{/with}}
+</template>

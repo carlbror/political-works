@@ -1,0 +1,15 @@
+<template name="worksList">
+    <h1>Political works</h1><hr>
+    {{#each works}}
+        <div class="post">
+            <div class="post-content">
+                <h3><a href="{{pathFor 'worksPage'}}">{{title}}</a><span>{{producerNames}}</span></h3>
+            </div>
+        </div>
+    {{/each}}
+
+    {{#if currentUser}}
+    <a class="btn btn-success" href="{{pathFor 'newAddWork'}}">Add new work</a>
+    {{/if}}
+    <br><br>
+</template>

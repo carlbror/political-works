@@ -1,0 +1,50 @@
+<template name="chooseIdeology">
+    <div class="main choose-ideology">
+        {{#with currentUser}}
+        {{#if ideologies}}
+            You are subscribing to:
+            {{#each ideologies}}
+                {{#with ideology}}
+                        <a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{#unless last}}, {{/unless}}
+                {{/with}}
+            {{/each}}
+        <br><br>
+        {{/if}}
+
+        <label class="control-label" for="ideology-text">To subscribe to a new ideology, write its name here:</label>
+
+        <div class="controls"><input id="ideology-text" type="text" name="title"></div>
+        <input id="add-ideology" type="submit" value="Add new ideology" class="btn btn-primary">
+        <br><br><br>
+
+        Or choose an existing from a list:
+        <br>
+        <select id="ideology-selector">
+            <option></option>
+            {{#each allIdeologies}}
+            <option>{{name}}</option>
+            {{/each}}
+        </select>
+
+        <br>
+        <input id="select-ideology" type="submit" value="Select ideology" class="btn btn-primary">
+
+
+        {{#if ideologies}}<br><br><br>
+        Do you want to stop subscribing to an ideology? Choose the one below
+        <br>
+        <select class="reject-ideology-selector">
+            <option></option>
+            {{#each ideologies}}
+            {{#with ideology}}
+            <option>{{name}}</option>
+            {{/with}}
+            {{/each}}
+        </select>
+
+        <br>
+        <input id="reject-ideology" type="submit" value="Stop subscribing to ideology" class="btn btn-primary">
+        {{/if}}
+        {{/with}}
+    </div>
+</template>

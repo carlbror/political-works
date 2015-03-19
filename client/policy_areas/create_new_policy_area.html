@@ -1,0 +1,45 @@
+<template name="createNewPolicyArea">
+    <div class="main">
+        Add a new policy area to the database:<br><br>
+        <input class="policy-area" style="max-width:400px" type="text" name="policy-area"><br><br>
+
+        A summary of the area - how is it defined?, what types of questions are involved?, etc. (optional - max 600 characters - html-tags are allowed):<br><br>
+
+        <textarea rows="4" style="max-width:400px" class="policy-area-summary"> </textarea><br><br>
+
+        Is this policy area of universal concern or only for those in a certain region? (Universal is default.)<br>
+        <input type="checkbox" class="universal" checked> Universal <input type="checkbox" class="regional">
+        Regional<br><br>
+
+        <div class="regional-choices" style="display: none;">
+            Which country?<br>
+            {{> worldsCountries}}<br><br>
+
+            Which region/city? (Null if policy concerns entire country.)<br>
+            <input type="text" class="region-city"><br><br>
+
+            If not part of any country (e.g. internet, a group) or an area covering several countries (an ocean or a
+            mountain range)
+            write it here (making the above choices obsolete):<br>
+            <input type="text" class="custom-place"><br><br>
+        </div>
+
+
+        <input type="submit" value="Add new policy area" class="btn add-policy-area btn-primary"><br><br>
+
+        <h5>Already registered policy areas:</h5>
+        {{#each policyAreas}}
+        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>
+        {{#with place}}{{#unless universal}}in
+
+        {{#if onlyCountry}}<a href="{{pathFor 'placePage'}}">{{country}}</a>{{/if}}
+
+        {{#if countryAndArea}}<a href="{{pathFor 'placePage'}}">{{area}}, {{country}}</a>{{/if}}
+
+        {{#if customArea}}<a href="{{pathFor 'placePage'}}">{{area}}</a>{{/if}}
+
+        {{/unless}}{{/with}}<br>
+        {{/each}}
+
+    </div>
+</template>

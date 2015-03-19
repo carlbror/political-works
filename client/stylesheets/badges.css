@@ -1,0 +1,27 @@
+.badges h1{
+    color: white;
+}
+
+.badges-table .container{
+}
+
+.badges-table table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.badges-table td:nth-child(1){
+    text-align: right;
+}
+
+.badges-table td{
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.badges-grade p{
+    font-weight: bold;
+    text-align: center;
+}
+

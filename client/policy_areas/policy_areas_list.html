@@ -1,0 +1,16 @@
+<template name="policyAreasList">
+    <div class="policy-list main3">
+        <h1>Policy Areas</h1><hr>
+        {{#each policyAreas}}
+        <div class="post">
+            <div class="post-content">
+                <h3><a href="{{pathFor 'policyAreaPage'}}">{{area}}</a><span></span></h3>
+            </div>
+        </div>
+        {{/each}}
+
+        {{#if currentUser}}
+            <a class="btn btn-success" href="{{pathFor 'createNewPolicyArea'}}">Add new policy area</a><br><br>
+        {{/if}}
+    </div>
+</template>

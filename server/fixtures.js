@@ -1,0 +1,3 @@
+secrets = {};
+
+secrets.discussionUrlPassword = "somethingSimpleWhyNot?";

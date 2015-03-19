@@ -1,0 +1,11 @@
+<template name="placePage">
+    <div class="main">
+        <h1>{{truePlace}}</h1>
+        <hr>
+
+        <h5>Policies discussed in this region:</h5>
+        {{#each policies}}
+        <a href="{{pathFor 'policyPage'}}">{{solution}}</a><br>
+        {{/each}}
+    </div>
+</template>
