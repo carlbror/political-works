@@ -1,7 +1,7 @@
 ### Political works recommendation app using:
 
 
-![Meteor Logo](carlbror.github.com/political-works/meteor-logo.png)
+![Meteor Logo](https://raw.githubusercontent.com/carlbror/political-works/master/meteor-logo.png)
 
 # Meteor
 
