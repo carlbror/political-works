@@ -3,8 +3,6 @@
 
 ![Meteor Logo](https://raw.githubusercontent.com/carlbror/political-works/master/meteor-logo.png)
 
-# Meteor
-
 Meteor is an ultra-simple environment for building modern web
 applications.
 
