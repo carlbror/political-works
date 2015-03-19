@@ -1,4 +1,7 @@
-### Political works recommendation app using: 
+### Political works recommendation app using:
+
+
+![Meteor Logo](carlbror.github.com/political-works/meteor-logo.png)
 
 # Meteor
 
@@ -29,7 +32,7 @@ Or install a linux distro, such as:
 
 Go to the folder where you've downloaded this app an run it:
 
-    cd best-political-works
+    cd political-works
     meteor
 
 It will now run on:
