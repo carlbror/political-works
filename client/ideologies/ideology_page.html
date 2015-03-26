@@ -1,51 +1,60 @@
 <template name="ideologyPage">
-    <div class="main ideology-page">
+    <div class="ideology-page">
         <h1>{{name}}</h1>
         <hr>
 
-        <h3>Supporting works</h3>
-        <h4>According to proponents:</h4>
-        <ol>
-        {{#each proponentsPositiveWorks}}
-            {{> listItemForIdeologyPage}}
-        {{/each}}
-        </ol>
-        <br>
+        <div class="supporting-underminig-works">
+            <div class="container">
+                <div class="row">
+                    <div class="span10">
+                        <h3>Supporting works</h3>
+                        <h4>According to proponents:</h4>
+                        <ol>
+                            {{#each proponentsPositiveWorks}}
+                            {{> listItemForIdeologyPage}}
+                            {{/each}}
+                        </ol>
+                        <br>
 
 
-        <h4>According to non-proponents</h4>
-        <ol>
-            {{#each othersPositiveWorks}}
-                {{> listItemForIdeologyPage}}
-            {{/each}}
-        </ol>
-        <br>
+                        <h4>According to non-proponents</h4>
+                        <ol>
+                            {{#each othersPositiveWorks}}
+                            {{> listItemForIdeologyPage}}
+                            {{/each}}
+                        </ol>
+                        <br>
 
 
-        <h3>Undermining works</h3>
-        <h4>According to non-proponents</h4>
-        <ol>
-            {{#each sortedOthersCriticalWorks}}
-                {{> listItemForIdeologyPage}}
-            {{/each}}
-        </ol>
+                        <h3>Undermining works</h3>
+                        <h4>According to non-proponents</h4>
+                        <ol>
+                            {{#each sortedOthersCriticalWorks}}
+                            {{> listItemForIdeologyPage}}
+                            {{/each}}
+                        </ol>
 
-        <br>
+                        <br>
 
-        <h4>According to proponents</h4>
-        <ol>
-            {{#each sortedProponentsCriticalWorks}}
-                {{> listItemForIdeologyPage}}
-            {{/each}}
-        </ol>
+                        <h4>According to proponents</h4>
+                        <ol>
+                            {{#each sortedProponentsCriticalWorks}}
+                            {{> listItemForIdeologyPage}}
+                            {{/each}}
+                        </ol>
 
-        <br><br>
-        {{> chooseScore}}
+                        {{#if currentUser}}
+                        <br><br>
+                        <a class="btn btn-success" href="{{pathFor 'newAddWork'}}">Add a work for this ideology</a>
+                        {{/if}}
+                    </div>
 
-        {{#if currentUser}}
-        <br><br>
-        <a class="btn btn-success" href="{{pathFor 'newAddWork'}}">Add a work for this ideology</a>
-        {{/if}}
+                    <div class="span2">
+                        {{> chooseScore}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

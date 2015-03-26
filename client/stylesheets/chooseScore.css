@@ -1,0 +1,17 @@
+.choose-score {
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+
+.show-types p:first-child{
+    margin-bottom: 1px;
+}
+
+.show-types label{
+    margin: 1px;
+}
+
+.show-types input{
+    vertical-align: text-bottom;
+}

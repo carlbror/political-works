@@ -82,7 +82,7 @@ utils_.putPositiveReviewsOnAPolicy = function(policy, scoreType){
 
 
 
-putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType){
+putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, typeOfWork){
     if(scoreType.indexOf('-')){
         var scoreTypeSplit = scoreType.split('-');
         scoreType = scoreTypeSplit[0] + "Score";
@@ -91,6 +91,17 @@ putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType){
     var ideology = Ideologies.findOne({name: ideologyName});
     if(ideology) {
         var ratings = Ratings.find({ideologyId: ideology._id}, {fields: {worksId: 1, scores: 1, ratingType: 1, userId: 1}}).fetch();
+
+        if(typeOfWork !== "all"){
+            var arrayOfSelectedTypes = typeOfWork.split(',');
+
+            _.each(ratings, function(rating){
+                var work = Works.findOne(rating.worksId, {fields: {type:1}});
+                if(!_.contains(arrayOfSelectedTypes, work.type)){
+                    ratings = _.without(ratings, rating);
+                }
+            });
+        }
 
         var positiveRatings = _.where(ratings, {ratingType: "positive"}),
             criticalRatings = _.where(ratings, {ratingType: "critical"});

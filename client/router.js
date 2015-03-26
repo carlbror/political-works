@@ -68,11 +68,19 @@ Router.map(function(){
             if(!Session.get('scoreView')){
                 Session.set('scoreView', 'convincing-score');
             }
+            if(!Session.get('typeView')){
+                Session.set('typeView', 'all');
+            }
 
             this.next();
         },
         data: function(){
-            return putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"));
+            var data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
+                Session.get('typeView'));
+            if(data){
+                data.typeOfWork = typeOfWork;
+                return data;
+            }
         }
     });
 
@@ -291,7 +299,7 @@ Router.map(function(){
 
             if(!jQuery.isEmptyObject(this.params.query)){
                 Session.set('query', this.params.query);
-            } else{
+            } else {
                 Session.set('query', false);
             }
 
@@ -312,8 +320,12 @@ Router.map(function(){
                     user = utils_.putPositiveAndCriticalIdeologyRatingsOnUser(user, ratings, score);
                     user.userRatings = ratings;
 
-                    user.ratingsOnIdeologies = _.filter(ratings, function(rating){ return rating.ideologyId; });
-                    user.ratingsOnPolicies = _.filter(ratings, function(rating){ return rating.policyId; });
+                    user.ratingsOnIdeologies = _.filter(ratings, function(rating){
+                        return rating.ideologyId;
+                    });
+                    user.ratingsOnPolicies = _.filter(ratings, function(rating){
+                        return rating.policyId;
+                    });
 
                     user.ratingsByIdeology = [];
                     user.ratingsByPolicy = [];
@@ -329,11 +341,11 @@ Router.map(function(){
                                     {ideologyId: rating.ideologyId, ratingType: "critical"})
                             });
                             listOfIdeologiesAlreadyAdded.push(rating.ideologyId);
-                            if(user.ratingsByIdeology[user.ratingsByIdeology.length-1].supportiveRatings.length === 0){
-                                delete user.ratingsByIdeology[user.ratingsByIdeology.length-1].supportiveRatings;
+                            if(user.ratingsByIdeology[user.ratingsByIdeology.length - 1].supportiveRatings.length === 0){
+                                delete user.ratingsByIdeology[user.ratingsByIdeology.length - 1].supportiveRatings;
                             }
-                            if(user.ratingsByIdeology[user.ratingsByIdeology.length-1].underminingRatings.length === 0){
-                                delete user.ratingsByIdeology[user.ratingsByIdeology.length-1].underminingRatings;
+                            if(user.ratingsByIdeology[user.ratingsByIdeology.length - 1].underminingRatings.length === 0){
+                                delete user.ratingsByIdeology[user.ratingsByIdeology.length - 1].underminingRatings;
                             }
                         }
                     });
@@ -347,11 +359,11 @@ Router.map(function(){
                                 underminingRatings: _.where(user.ratingsOnPolicies, {policyId: rating.policyId, ratingType: "against"})
                             });
                             listOfPoliciesAlreadyAdded.push(rating.policyId);
-                            if(user.ratingsByPolicy[user.ratingsByPolicy.length-1].supportiveRatings.length === 0){
-                                delete user.ratingsByPolicy[user.ratingsByPolicy.length-1].supportiveRatings;
+                            if(user.ratingsByPolicy[user.ratingsByPolicy.length - 1].supportiveRatings.length === 0){
+                                delete user.ratingsByPolicy[user.ratingsByPolicy.length - 1].supportiveRatings;
                             }
-                            if(user.ratingsByPolicy[user.ratingsByPolicy.length-1].underminingRatings.length === 0){
-                                delete user.ratingsByPolicy[user.ratingsByPolicy.length-1].underminingRatings;
+                            if(user.ratingsByPolicy[user.ratingsByPolicy.length - 1].underminingRatings.length === 0){
+                                delete user.ratingsByPolicy[user.ratingsByPolicy.length - 1].underminingRatings;
                             }
                         }
                     });
@@ -367,7 +379,7 @@ Router.map(function(){
                     user.currentUserIsSameAsVisitingUser = true;
                 }
                 if(user.ideologies && user.ideologies.length === 1){
-                        user.userSubscribesToOneIdeology = true;
+                    user.userSubscribesToOneIdeology = true;
                 }
                 return user;
             }

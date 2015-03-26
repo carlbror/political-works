@@ -1,6 +1,31 @@
 <template name="chooseScore">
-    Sort the political works by:<br>
-    <input class="choose-score-checkbox" type="checkbox" id="convincing-score" {{functionSessionSet}}> how well,
-    convincingly, and accurately they describe how the ideology/policy would function,<br>
-    <input class="choose-score-checkbox" type="checkbox" id="readability-score"> their readability.<br>
+    <div class="choose-score">
+        <p style="text-align: center">
+            <b>Sort works</b>
+        </p>
+
+        <p>
+            <label for="convincing-score">
+                <input class="choose-score-checkbox" type="checkbox" id="convincing-score" {{functionSessionSet}}>
+                by how well, convincingly, and accurately they describe how the ideology/policy is good,</label>
+
+            <label for="readability-score">
+                <input class="choose-score-checkbox" type="checkbox" id="readability-score"> by their
+                readability.</label>
+        </p>
+    </div>
+
+    <div class="show-types">
+        <p style="text-align: center;">
+            <b>Show media types</b>
+        </p>
+
+        <p>
+            <label class="view-type" for="all"><input class="show-type" type="checkbox" id="all" checked> All</label>
+            {{#each typeOfWork}}
+            <label class="view-type" for="{{htmlName}}">
+                <input class="show-type" type="checkbox" id="{{htmlName}}" checked> {{clientName}} </label>
+            {{/each}}
+        </p>
+    </div>
 </template>
