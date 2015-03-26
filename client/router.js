@@ -125,6 +125,9 @@ Router.map(function(){
             if(!Session.get('scoreView')){
                 Session.set('scoreView', 'convincing-score');
             }
+            if(!Session.get('typeView')){
+                Session.set('typeView', 'all');
+            }
             this.next();
         },
         data: function(){
@@ -135,6 +138,7 @@ Router.map(function(){
                     policyAreas[policyAreas.length - 1].last = true;
                     originalPolicy.policyAreas = policyAreas;
                 }
+                originalPolicy.typeOfWork = typeOfWork;
                 return originalPolicy;
             }
         }

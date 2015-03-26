@@ -1,39 +1,52 @@
 <template name="policyPage">
-    <div class="policy-page main">
-        <h1>{{solution}} <small>{{#with place}}<a href="{{pathFor 'placePage'}}">{{truePlaceName}}</a>{{/with}}</small></h1>
+    <div class="policy-page">
+        <h1>{{solution}}
+            <small>{{#with place}}<a href="{{pathFor 'placePage'}}">{{truePlaceName}}</a>{{/with}}</small>
+        </h1>
         <hr>
-        {{#if summary}}<b>Summary of the policy:</b> {{{summary}}} {{/if}}
-        {{#if policyAreas}}Proposed as a solution to the area(s) of {{#each policyAreas}}
-        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{#unless last}}, {{/unless}}{{/each}}.{{/if}}<br><br>
-
-        <h3>Why the policy proposal should be pursued</h3>
-        <ol>
-            {{#each positiveWorks}}
-            <li>
-                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
-                <small>{{totalRatingSubString}}%</small>
-            </li>
-            {{/each}}
-        </ol><br>
 
 
+        <div class="supporting-underminig-works">
+            <div class="container">
+                <div class="row">
+                    <div class="span10">
+                        {{#if summary}}<b>Summary of the policy:</b> {{{summary}}} {{/if}}
+                        {{#if policyAreas}}Proposed as a solution to the area(s) of {{#each policyAreas}}
+                        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{#unless last}}, {{/unless}}{{/each}}.{{/if}}<br><br>
+
+                        <h3>Why the policy proposal should be pursued</h3>
+                        <ol>
+                            {{#each positiveWorks}}
+                            <li>
+                                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
+                                <small>{{totalRatingSubString}}%</small>
+                            </li>
+                            {{/each}}
+                        </ol>
+                        <br>
 
 
-        <h3>Why it shouldn't be pursued</h3>
-        <ol>
-            {{#each criticalWorks}}
-            <li>
-                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
-                <small>{{totalRatingSubString}}%</small>
-            </li>
-            {{/each}}
-        </ol><br>
+                        <h3>Why it shouldn't be pursued</h3>
+                        <ol>
+                            {{#each criticalWorks}}
+                            <li>
+                                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
+                                <small>{{totalRatingSubString}}%</small>
+                            </li>
+                            {{/each}}
+                        </ol>
 
-        {{>chooseScore}}
+                        {{#if currentUser}}
+                        <br><br>
+                        <a class="btn btn-success" href="{{pathFor 'newAddWork'}}">Add a work for this policy</a>
+                        {{/if}}
+                    </div>
 
-        {{#if currentUser}}
-        <br><br>
-        <a class="btn btn-success" href="{{pathFor 'newAddWork'}}">Add a work for this policy</a>
-        {{/if}}
+                    <div class="span2">
+                        {{>chooseScore}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

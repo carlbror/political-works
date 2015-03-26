@@ -1,17 +1,9 @@
-Template.chooseScore.helpers({
-    functionSessionSet: function () {
-        if (Session.get('scoreView') == 'convincing-score') {
-            return "checked";
-        }
-    }
-});
-
 Template.chooseScore.events({
     'change .choose-score-checkbox': function (event) {
         var score = event.currentTarget.id;
 
         Session.set('scoreView', score);
-        uncheckScoreChoosersExceptOwn2(score);
+        uncheckScoreChoosersExceptOwn(score);
     },
     'change .view-type': function(event){
         Session.set('typeView', event.target.id);
@@ -44,7 +36,7 @@ Template.chooseScore.events({
 });
 
 
-uncheckScoreChoosersExceptOwn2 = function (scoreId) {
+uncheckScoreChoosersExceptOwn = function (scoreId) {
     $('#convincing-score').prop('checked', false);
     $('#readability-score').prop('checked', false);
 
