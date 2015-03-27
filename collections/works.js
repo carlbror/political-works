@@ -19,7 +19,8 @@ Meteor.methods({
             producers: attr.producers,
             url: attr.url,
             discussionUrl: attr.discussionUrl,
-            type: attr.type
+            type: attr.type,
+            dateAdded: new Date()
         });
     }
 });

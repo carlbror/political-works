@@ -21,7 +21,8 @@ Meteor.methods({
                 solution: attr.solution,
                 proposer: user._id,
                 summary: attr.summary,
-                placeId: attr.placeId
+                placeId: attr.placeId,
+                dateAdded: new Date()
             });
         }
     }

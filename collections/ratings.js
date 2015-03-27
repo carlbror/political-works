@@ -70,7 +70,7 @@ ratings_.createNewRating = function(attr, userId){
         scores: attr.scores,
         familiarity: attr.familiarity,
         ratingType: attr.ratingType,
-        dateWhenRated: new Date()
+        dateAdded: new Date()
     });
 };
 
@@ -82,6 +82,6 @@ ratings_.createNewPolicyRating = function(attr, userId){
         scores: attr.scores,
         familiarity: attr.familiarity,
         ratingType: attr.ratingType,
-        dateWhenRated: new Date()
+        dateAdded: new Date()
     });
 };

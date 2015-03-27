@@ -10,7 +10,8 @@ producers_.createNewProducers = function(arrayOfProducerNames){
                 producerIds.push(producer._id);
             } else {
                 producerIds.push(Producers.insert({
-                    name: producerName
+                    name: producerName,
+                    dateAdded: new Date()
                 }));
             }
         }

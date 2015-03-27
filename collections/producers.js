@@ -12,7 +12,8 @@ Meteor.methods({
 
         if(producer) return producer._id;
         else return Producers.insert({
-            name: producerName
+            name: producerName,
+            dateAdded: new Date()
         });
     }
 });

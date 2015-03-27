@@ -26,7 +26,8 @@ Meteor.methods({
             return ideology._id;
         } else {
             var ideologyId = Ideologies.insert({
-                name: name
+                name: name,
+                dateAdded: new Date()
             });
             return ideologyId;
         }
