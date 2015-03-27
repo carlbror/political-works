@@ -7,6 +7,8 @@ Producers.allow({
 });
 
 
+
+
 Meteor.methods({
     createProducer: function(producerName){
         var producer = Producers.findOne({name: producerName});

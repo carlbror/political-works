@@ -248,14 +248,15 @@ Router.map(function(){
     this.route('newAddWork', {
         path: 'add-another-work',
         data: function(){
-            var ideologies = Ideologies.find({}, {fields: {name: 1}}).fetch();
+            var ideologies = Ideologies.find({}, {fields: {name: 1}}).fetch(),
+                policies = Policies.find({}, {fields: {solution: 1}}).fetch(),
+                producers = Producers.find({}, {fields: {name: 1}}).fetch();
+
             ideologies.sort(function(a, b){
                 if(a.name < b.name) return -1;
                 if(a.name > b.name) return 1;
                 return 0;
             });
-
-            var policies = Policies.find({}, {fields: {solution: 1}}).fetch();
 
             policies.sort(function(a, b){
                 if(a.solution < b.solution) return -1;
@@ -263,7 +264,7 @@ Router.map(function(){
                 return 0;
             });
 
-            return {ideologies: ideologies, policies: policies};
+            return {ideologies: ideologies, policies: policies, producers: _.pluck(producers, 'name')};
         }
     });
 

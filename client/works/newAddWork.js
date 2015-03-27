@@ -1,30 +1,26 @@
 var entireOwl,
-    commandOwl;
+    commandOwl,
+    availableTags = [];
 
-Template.newAddWork.rendered = function() {
+Template.newAddWork.rendered = function(){
     entireOwl = $('.owl');
 
     entireOwl.owlCarousel({
-        items : 1,
-        singleItem : true,
-        mouseDrag : false,
-        touchDrag : false,
+        items: 1,
+        singleItem: true,
+        mouseDrag: false,
+        touchDrag: false,
         transitions: "fade",
         autoHeight: true,
 
-        pagination : false
+        pagination: false
     });
-
 
     $(".owl-dots").remove();
     commandOwl = entireOwl.data('owlCarousel');
-
 };
 
 Template.newAddWork.helpers({
-    work: function(){
-        return "help";
-    },
     clickedNextOnce: function(){
         return Session.get('clickedNextOnce');
     },
@@ -46,8 +42,45 @@ var changedIdeologyPolicyReviewed,
 var changedConvincingScore,
     changedReadabilityScore;
 
+function split(val){
+    return val.split(/,\s*/);
+}
+
+function extractLast(term){
+    return split(term).pop();
+}
 
 Template.newAddWork.events({
+    'keydown .producer': function(event){
+        if(this.producers.length > 0){
+            availableTags = this.producers;
+
+            if(event.keyCode === $.ui.keyCode.TAB &&
+                $(this).autocomplete("instance").menu.active){
+                event.preventDefault();
+            }
+
+
+            $('.producer').autocomplete({
+                minLength: 0,
+                source: function(request, response){
+                    response($.ui.autocomplete.filter(
+                        availableTags, extractLast(request.term)));
+                },
+                focus: function(){
+                    return false;
+                },
+                select: function(event, ui){
+                    var terms = split(this.value);
+                    terms.pop();
+                    terms.push(ui.item.value);
+                    terms.push("");
+                    this.value = terms.join(", ");
+                    return false;
+                }
+            });
+        }
+    },
     'click .ideology-reviewed': function(){
         Session.set('showingSelectorsForIdeology', true);
         $('.ideology-type').show();
@@ -79,7 +112,7 @@ Template.newAddWork.events({
                 if(ideologyListSelector.val() === "") throwError("You need to choose an ideology");
             }
         }
-        commandOwl.jumpTo(commandOwl.currentItem+1);
+        commandOwl.jumpTo(commandOwl.currentItem + 1);
         commandOwl = entireOwl.data('owlCarousel');
         if(positionReached <= commandOwl.currentItem){
             var next = $('.next');
@@ -99,11 +132,11 @@ Template.newAddWork.events({
             next.show();
             $('.finish').hide();
         }
-        commandOwl.jumpTo(commandOwl.currentItem-1);
+        commandOwl.jumpTo(commandOwl.currentItem - 1);
 
         commandOwl = entireOwl.data('owlCarousel');
         next.prop('disabled', false);
-        if(commandOwl.currentItem <= 0) {
+        if(commandOwl.currentItem <= 0){
             Session.set('clickedNextOnce', false);
         }
         makeElementsCorrectlyTabbable(commandOwl.currentItem);
@@ -114,18 +147,18 @@ Template.newAddWork.events({
         checkItContainsEverything(_.omit(attr, 'review'));
 
 
-        Meteor.call('createWork', attr, function(error, worksId) {
-            if (error) throwError(error.reason);
+        Meteor.call('createWork', attr, function(error, worksId){
+            if(error) throwError(error.reason);
             attr.worksId = worksId;
 
-            if(attr.ideologyId) {
-                Meteor.call('addNewRatingOrChangeOld', attr, function (error) {
-                    if (error) throwError(error.reason);
+            if(attr.ideologyId){
+                Meteor.call('addNewRatingOrChangeOld', attr, function(error){
+                    if(error) throwError(error.reason);
                     location.reload();
                 });
-            } else if (attr.policyId){
-                Meteor.call('addNewPolicyRatingOrChangeOld', attr, function (error) {
-                    if (error) throwError(error.reason);
+            } else if(attr.policyId){
+                Meteor.call('addNewPolicyRatingOrChangeOld', attr, function(error){
+                    if(error) throwError(error.reason);
                     location.reload();
                 });
             }
@@ -198,7 +231,7 @@ ifFourthSectionFieldsAreFilledInEnableNext = function(){
 };
 
 makeElementsCorrectlyTabbable = function(currentItem){
-    switch(currentItem) {
+    switch(currentItem){
         case 0:
             makeFirstSectionElementsTabbablreOrNot(0);
             makeSecondSectionElementsTabbableOrNot(-1);
@@ -277,7 +310,7 @@ getValuesFromNewAddWork = function(){
         _.each(producers, function(producer){
             attr.producers.push(producer.trim());
         });
-    } else{
+    } else {
         attr.producers.push(producers.trim());
     }
 
@@ -291,7 +324,7 @@ getValuesFromNewAddWork = function(){
     if(policyListSelector.is(":visible")){
         if($('.for').prop('checked')){
             attr.ratingType = "for";
-        } else if ($('.against').prop('checked')) {
+        } else if($('.against').prop('checked')){
             attr.ratingType = "against";
         }
         attr.policyId = policyListSelector.val();
@@ -299,7 +332,7 @@ getValuesFromNewAddWork = function(){
     else if(ideologyListSelector.is(":visible")){
         if($('.positive').prop('checked')){
             attr.ratingType = "positive";
-        } else if ($('.critical').prop('checked')) {
+        } else if($('.critical').prop('checked')){
             attr.ratingType = "critical";
         }
         attr.ideologyId = ideologyListSelector.val();

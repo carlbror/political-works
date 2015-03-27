@@ -1,168 +1,169 @@
 <template name="newAddWork">
-    <link rel="stylesheet" href="../../../scripts/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="../../../scripts/owl-carousel/owl.theme.css">
-    <script src="../../../scripts/assets/owl-carousel/owl.carousel.js"></script>
-    <div class="main">
-        <h1>Add a new work to the database</h1>
-        <hr>
+<link rel="stylesheet" href="../../../scripts/owl-carousel/owl.carousel.css">
+<link rel="stylesheet" href="../../../scripts/owl-carousel/owl.theme.css">
+<script src="../../../scripts/assets/owl-carousel/owl.carousel.js">
+</script>
+<div class="main">
+    <h1>Add a new work to the database</h1>
+    <hr>
 
-        <div class="fiveHundredPixels">
-            <div class="owl">
-                <div class="item">
-                    <div class="right"><i>1/4</i></div>
-                    <br>
-                    <b>What is the title of the work?</b><br>
-                    <input type="text" class="title" value="" placeholder="Title" style="width:400px;"/>
-                </div>
+    <div class="fiveHundredPixels">
+        <div class="owl">
+            <div class="item">
+                <div class="right"><i>1/4</i></div>
+                <br>
+                <b>What is the title of the work?</b><br>
+                <input type="text" class="title" value="" placeholder="Title" style="width:400px;"/>
+            </div>
 
 
-                <div class="item">
-                    <div class="right"><i>2/4</i></div>
-                    <br>
-                    <b>Who produced the work?</b> (If several, separate producers with commas.)<br>
-                    <input type="text" class="producer" placeholder="Producer(s)" tabIndex="-1"
-                           style="width:400px;"/><br>
+            <div class="item">
+                <div class="right"><i>2/4</i></div>
+                <br>
+                <b>Who produced the work?</b> (If several, separate producers with commas.)<br>
+                <input type="text" class="producer" placeholder="Producer(s)" tabIndex="-1"
+                       style="width:400px;"/><br>
 
-                    <b>URL to the actual work or where to buy it:</b><br>
-                    <input type="text" class="url" placeholder="URL to the work" tabIndex="-1" style="width:400px;"/>
+                <b>URL to the actual work or where to buy it:</b><br>
+                <input type="text" class="url" placeholder="URL to the work" tabIndex="-1" style="width:400px;"/>
+                <br>
+                <b>URL to where the work might be discussed (Wikipedia, prominent blog):</b>
+                <br>
+                <input type="text" class="discussion-url" placeholder="URL to a discussion or Wiki" tabIndex="-1"
+                       style="width:400px;"/>
+                <br>
+                <b>What kind of work is it?</b><br>
+                <select class="type-of-work" tabIndex="-1">
+                    <option></option>
+                    <option>Article</option>
+                    <option>Series of articles</option>
+                    <option>Peer reviewed article</option>
+                    <option>Pamphlet</option>
+                    <option>Book</option>
+                    <option>Book chapter</option>
+                    <option>Documentary</option>
+                    <option>Picture</option>
+                    <option>Lecture</option>
+                    <option>Movie</option>
+                    <option>Short film</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+
+            <div class="item">
+                <div class="right"><i>3/4</i></div>
+                <br>
+                <b>Is the work reviewing an ideology or policy?</b>
+
+                <form action="">
+                    <input type="radio" class="ideology-reviewed" name="type" value="ideology" tabIndex="-1">
+                    Ideology<br>
+                    <input type="radio" class="policy-reviewed" name="type" value="policy" tabIndex="-1"> Policy
+                </form>
+                <br>
+
+                {{#unless showingSelectorsForIdeology}}<br><br><br><br><br><br><br><br><br>{{/unless}}
+
+                <div class="ideology-selector" style="display: none;">
+                    <b>Which ideology is the work reviewing?</b>
                     <br>
-                    <b>URL to where the work might be discussed (Wikipedia, prominent blog):</b>
-                    <br>
-                    <input type="text" class="discussion-url" placeholder="URL to a discussion or Wiki" tabIndex="-1"
-                           style="width:400px;"/>
-                    <br>
-                    <b>What kind of work is it?</b><br>
-                    <select class="type-of-work" tabIndex="-1">
+                    <select class="ideology-list-selector">
                         <option></option>
-                        <option>Article</option>
-                        <option>Series of articles</option>
-                        <option>Peer reviewed article</option>
-                        <option>Pamphlet</option>
-                        <option>Book</option>
-                        <option>Book chapter</option>
-                        <option>Documentary</option>
-                        <option>Picture</option>
-                        <option>Lecture</option>
-                        <option>Movie</option>
-                        <option>Short film</option>
-                        <option>Other</option>
+                        {{#each ideologies}}
+                        <option value="{{_id}}">{{name}}</option>
+                        {{/each}}
                     </select>
+                    <br><br>
                 </div>
 
 
-                <div class="item">
-                    <div class="right"><i>3/4</i></div>
+                <div class="policy-selector" style="display: none;">
+                    <b>Which policy is the work reviewing?</b>
                     <br>
-                    <b>Is the work reviewing an ideology or policy?</b>
+                    <select class="policy-list-selector">
+                        <option></option>
+                        {{#each policies}}
+                        <option value="{{_id}}">{{solution}}</option>
+                        {{/each}}
+                    </select><br><br>
+                </div>
+
+                <div class="ideology-type" style="display: none;">
+                    <b>Is the work, overall, lending support or criticizing the ideology?</b>
+                    <br>
 
                     <form action="">
-                        <input type="radio" class="ideology-reviewed" name="type" value="ideology" tabIndex="-1">
-                        Ideology<br>
-                        <input type="radio" class="policy-reviewed" name="type" value="policy" tabIndex="-1"> Policy
+                        <input type="radio" name="type" class="positive" value="positive"> Lending support<br>
+                        <input type="radio" name="type" class="critical" value="critical"> Criticizes
                     </form>
                     <br>
-
-                    {{#unless showingSelectorsForIdeology}}<br><br><br><br><br><br><br><br><br>{{/unless}}
-
-                    <div class="ideology-selector" style="display: none;">
-                        <b>Which ideology is the work reviewing?</b>
-                        <br>
-                        <select class="ideology-list-selector">
-                            <option></option>
-                            {{#each ideologies}}
-                            <option value="{{_id}}">{{name}}</option>
-                            {{/each}}
-                        </select>
-                        <br><br>
-                    </div>
-
-
-                    <div class="policy-selector" style="display: none;">
-                        <b>Which policy is the work reviewing?</b>
-                        <br>
-                        <select class="policy-list-selector">
-                            <option></option>
-                            {{#each policies}}
-                            <option value="{{_id}}">{{solution}}</option>
-                            {{/each}}
-                        </select><br><br>
-                    </div>
-
-                    <div class="ideology-type" style="display: none;">
-                        <b>Is the work, overall, lending support or criticizing the ideology?</b>
-                        <br>
-
-                        <form action="">
-                            <input type="radio" name="type" class="positive" value="positive"> Lending support<br>
-                            <input type="radio" name="type" class="critical" value="critical"> Criticizes
-                        </form>
-                        <br>
-                    </div>
-                    <div class="policy-type" style="display: none;">
-                        <b>Is the work giving information that, mainly, supports the policy or goes against it?</b>
-                        <br>
-
-                        <form action="">
-                            <input type="radio" name="type" class="for" value="for"> In support of<br>
-                            <input type="radio" name="type" class="against" value="against"> Weighs against
-                        </form>
-                        <br>
-                    </div>
                 </div>
-
-                <div class="item">
-                    <div class="right"><i>4/4</i></div>
-
-                    <b>Between 1-100, how good is the work:</b><br>
-                    <table>
-                        <tr>
-                            <td>Overall at making its case (showing how the ideology/policy would function; what it is
-                                and what its effects would be;
-                                being able to convince someone; being very important for the case; giving solid and
-                                complete
-                                arguments plus relevant background information) &nbsp;&nbsp;
-                            </td>
-                            <td><input type="number" class="convincing-score" maxlength="3" max="100" min="0"
-                                       style="width:40px" tabIndex="-1"></td>
-                        </tr>
-                        <tr>
-                            <td>Readability (presenting its case clearly and intelligently and easy to absorb, possibly
-                                even fun)
-                            </td>
-                            <td><input type="number" class="readability-score" max="100" min="0" maxlength="3"
-                                       style="width:40px" tabIndex="-1"></td>
-                        </tr>
-                    </table>
+                <div class="policy-type" style="display: none;">
+                    <b>Is the work giving information that, mainly, supports the policy or goes against it?</b>
                     <br>
 
-                    If you are not too sure, give a rough estimation, you can always give a more exact answer later.
-                    <br><br>
-
-                    <b>How familiar are you with this work</b><br>
-                    <select class="work-familiarity" style="width:270px" tabIndex="-1">
-                        <option></option>
-                        <option value="1">Briefly familiar</option>
-                        <option value="4">Read/watched it once</option>
-                        <option value="5">Read/watched it a few times</option>
-                        <option value="7">Know it by heart</option>
-                    </select><br><br>
-
-                    <b>Optional: Submit a link to a review or summary you've made on this work:</b><br>
-                    <input type="text" class="review" placeholder="URL to a review of the work" tabIndex="-1"
-                           style="width:400px;"/>
+                    <form action="">
+                        <input type="radio" name="type" class="for" value="for"> In support of<br>
+                        <input type="radio" name="type" class="against" value="against"> Weighs against
+                    </form>
+                    <br>
                 </div>
             </div>
 
-            <div class="right">
-                {{#if clickedNextOnce}}
-                <input class="previous btn btn" type="submit" value="Previous" style="width:80px"/>
-                {{/if}}
-                <input class="next btn btn" type="submit" value="Next" disabled style="width:80px"/>
-                <input class="finish btn btn-success" type="submit" value="Finish" disabled
-                       style="display: none; width: 80px"/>
+            <div class="item">
+                <div class="right"><i>4/4</i></div>
+
+                <b>Between 1-100, how good is the work:</b><br>
+                <table>
+                    <tr>
+                        <td>Overall at making its case (showing how the ideology/policy would function; what it is
+                            and what its effects would be;
+                            being able to convince someone; being very important for the case; giving solid and
+                            complete
+                            arguments plus relevant background information) &nbsp;&nbsp;
+                        </td>
+                        <td><input type="number" class="convincing-score" maxlength="3" max="100" min="0"
+                                   style="width:40px" tabIndex="-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Readability (presenting its case clearly and intelligently and easy to absorb, possibly
+                            even fun)
+                        </td>
+                        <td><input type="number" class="readability-score" max="100" min="0" maxlength="3"
+                                   style="width:40px" tabIndex="-1"></td>
+                    </tr>
+                </table>
+                <br>
+
+                If you are not too sure, give a rough estimation, you can always give a more exact answer later.
+                <br><br>
+
+                <b>How familiar are you with this work</b><br>
+                <select class="work-familiarity" style="width:270px" tabIndex="-1">
+                    <option></option>
+                    <option value="1">Briefly familiar</option>
+                    <option value="4">Read/watched it once</option>
+                    <option value="5">Read/watched it a few times</option>
+                    <option value="7">Know it by heart</option>
+                </select><br><br>
+
+                <b>Optional: Submit a link to a review or summary you've made on this work:</b><br>
+                <input type="text" class="review" placeholder="URL to a review of the work" tabIndex="-1"
+                       style="width:400px;"/>
             </div>
         </div>
 
-        <br>
+        <div class="right">
+            {{#if clickedNextOnce}}
+            <input class="previous btn btn" type="submit" value="Previous" style="width:80px"/>
+            {{/if}}
+            <input class="next btn btn" type="submit" value="Next" disabled style="width:80px"/>
+            <input class="finish btn btn-success" type="submit" value="Finish" disabled
+                   style="display: none; width: 80px"/>
+        </div>
     </div>
+
+    <br>
+</div>
 </template>
