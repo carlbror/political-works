@@ -20,7 +20,7 @@ Meteor.methods({
             url: attr.url,
             discussionUrl: attr.discussionUrl,
             type: attr.type,
-            dateAdded: new Date()
+            date: new Date()
         });
     }
 });

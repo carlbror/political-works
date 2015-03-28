@@ -11,7 +11,7 @@ producers_.createNewProducers = function(arrayOfProducerNames){
             } else {
                 producerIds.push(Producers.insert({
                     name: producerName,
-                    dateAdded: new Date()
+                    date: new Date()
                 }));
             }
         }

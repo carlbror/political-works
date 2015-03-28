@@ -21,7 +21,7 @@ Meteor.methods({
                 areaRaiser: user._id,
                 summary: attr.summary,
                 placeId: attr.placeId,
-                dateAdded: new Date()
+                date: new Date()
             });
         }
     },

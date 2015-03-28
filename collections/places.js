@@ -14,25 +14,25 @@ Meteor.methods({
         if(attr.universal) {
             var universalPlace = Places.findOne({universal: true});
             if(universalPlace) return universalPlace._id;
-            else return Places.insert({universal: true, dateAdded: new Date()});
+            else return Places.insert({universal: true, date: new Date()});
         }
 
         if(attr.customPlace){
             var customPlace = Places.findOne({customPlace: true, area: attr.area});
             if(customPlace) return customPlace._id;
-            else return Places.insert({customPlace: true, area: attr.area, dateAdded: new Date()});
+            else return Places.insert({customPlace: true, area: attr.area, date: new Date()});
         }
 
         if(attr.area){
             var areaPlace = Places.findOne({country: attr.country, area: attr.area});
             if(areaPlace) return areaPlace._id;
-            else return Places.insert({country: attr.country, area: attr.area, dateAdded: new Date()});
+            else return Places.insert({country: attr.country, area: attr.area, date: new Date()});
         }
 
         if(attr.country){
             var countryPlace = Places.findOne({country: attr.country, area: undefined});
             if(countryPlace) return countryPlace._id;
-            else return Places.insert({country: attr.country, dateAdded: new Date()});
+            else return Places.insert({country: attr.country, date: new Date()});
         }
     }
 });
