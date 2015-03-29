@@ -134,10 +134,17 @@ Router.map(function(){
             if(!Session.get('typeView')){
                 Session.set('typeView', 'all');
             }
+
+            if(!Session.get('familiarityView')){
+                Session.set('familiarityView', [familiarityReveresed[0].number, familiarityReveresed[1].number,
+                    familiarityReveresed[2].number,familiarityReveresed[3].number].toString());
+            }
+
             this.next();
         },
         data: function(){
-            var originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"));
+            var originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"),
+                Session.get('typeView'), Session.get('familiarityView'));
             if(originalPolicy){
                 var policyAreas = PolicyAreas.find({policyIds: originalPolicy._id}, {fields: {area: 1}}).fetch();
                 if(policyAreas.length > 0){
@@ -145,7 +152,7 @@ Router.map(function(){
                     originalPolicy.policyAreas = policyAreas;
                 }
                 originalPolicy.typeOfWork = typeOfWork;
-                originalPolicy.familiarity = familiarity
+                originalPolicy.familiarities = familiarityReveresed;
                 return originalPolicy;
             }
         }

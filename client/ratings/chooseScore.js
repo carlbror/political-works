@@ -63,6 +63,9 @@ Template.chooseScore.events({
                 Session.set('familiarityView', 'none');
             } else {
                 Session.set('familiarityView', whatFamiliaritiesAreChecked.toString());
+                if(whatFamiliaritiesAreChecked.length === familiarityReveresed.length){
+                    $('#any').prop('checked', true);
+                }
             }
         }
     }

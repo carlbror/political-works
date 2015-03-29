@@ -48,14 +48,36 @@ certainSortedRatings = function(ratings, scoreType){
     return valuableWorks;
 };
 
-putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType){
+putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork, familiarity){
     if(scoreType.indexOf('-')){
         var scoreTypeSplit = scoreType.split('-');
         scoreType = scoreTypeSplit[0] + "Score";
     }
     var policy = Policies.findOne(policyId);
     if(policy) {
-        var ratings = Ratings.find({policyId: policy._id}, {fields: {worksId: 1, scores: 1, ratingType: 1}}).fetch();
+        var ratings = Ratings.find({policyId: policy._id},
+            {fields: {worksId: 1, scores: 1, ratingType: 1, familiarity: 1}}).fetch();
+
+        if(typeOfWork !== "all"){
+            var arrayOfSelectedTypes = typeOfWork.split(',');
+
+            _.each(ratings, function(rating){
+                var work = Works.findOne(rating.worksId, {fields: {type:1}});
+                if(!_.contains(arrayOfSelectedTypes, work.type)){
+                    ratings = _.without(ratings, rating);
+                }
+            });
+        }
+
+        if(familiarity !== 'any'){
+            var arrayOfSelectedFamiliarities = familiarity.split(',');
+
+            _.each(ratings, function(rating){
+                if(!_.contains(arrayOfSelectedFamiliarities, rating.familiarity.toString())){
+                    ratings = _.without(ratings, rating);
+                }
+            });
+        }
 
         var positiveRatings = _.where(ratings, {ratingType: "for"}),
             criticalRatings = _.where(ratings, {ratingType: "against"});
