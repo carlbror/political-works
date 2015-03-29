@@ -6,15 +6,22 @@ Template.chooseScore.helpers({
         } else if(_.contains(arrayOfViews, 'any')){
             return "checked";
         }
+    },
+    scoreConvincingChecked: function(){
+        if(Session.get('scoreView') === 'convincing-score'){
+            return 'checked';
+        }
+    },
+    scoreReadabilityChecked: function(){
+        if(Session.get('scoreView') !== 'convincing-score'){
+            return 'checked';
+        }
     }
 });
 
 Template.chooseScore.events({
     'change .choose-score-checkbox': function (event) {
-        var score = event.currentTarget.id;
-
-        Session.set('scoreView', score);
-        uncheckScoreChoosersExceptOwn(score);
+        Session.set('scoreView', event.currentTarget.id);
     },
     'change .view-type': function(event){
         if(event.target.id === "all"){
@@ -70,11 +77,3 @@ Template.chooseScore.events({
         }
     }
 });
-
-
-uncheckScoreChoosersExceptOwn = function (scoreId) {
-    $('#convincing-score').prop('checked', false);
-    $('#readability-score').prop('checked', false);
-
-    $('#' + scoreId).prop('checked', true);
-};

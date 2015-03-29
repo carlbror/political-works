@@ -5,13 +5,15 @@
         </p>
 
         <p>
+        <form>
             <label for="convincing-score">
-                <input class="choose-score-checkbox" type="checkbox" id="convincing-score" checked>
+                <input class="choose-score-checkbox" name="score" type="radio" id="convincing-score" {{scoreConvincingChecked}}>
                 by how accurately, well, and convincingly they describe why the ideology/policy is good,</label>
 
             <label for="readability-score">
-                <input class="choose-score-checkbox" type="checkbox" id="readability-score"> by how easy they are
-                to read/watch/listen to.</label>
+                <input class="choose-score-checkbox" name="score" type="radio" id="readability-score" {{scoreReadabilityChecked}}>
+                by how easy they are to read/watch/listen to.</label>
+        </form>
         </p>
     </div>
 
