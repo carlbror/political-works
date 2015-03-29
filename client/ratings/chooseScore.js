@@ -1,3 +1,14 @@
+Template.chooseScore.helpers({
+    familiaritiesChecked: function(){
+        var arrayOfViews = Session.get('familiarityView').split(',');
+        if(_.contains(arrayOfViews, this.number.toString())){
+            return "checked";
+        } else if(_.contains(arrayOfViews, 'any')){
+            return "checked";
+        }
+    }
+});
+
 Template.chooseScore.events({
     'change .choose-score-checkbox': function (event) {
         var score = event.currentTarget.id;
@@ -6,7 +17,6 @@ Template.chooseScore.events({
         uncheckScoreChoosersExceptOwn(score);
     },
     'change .view-type': function(event){
-        Session.set('typeView', event.target.id);
         if(event.target.id === "all"){
             _.each(typeOfWork, function(type){
                 $('#' + type.htmlName).prop("checked", event.target.checked);
@@ -30,6 +40,29 @@ Template.chooseScore.events({
                 Session.set('typeView', 'none');
             } else {
                 Session.set('typeView', whatTypesAreChecked.toString());
+            }
+        }
+    },
+    'change .show-familiarity': function(event){
+        if(event.target.id === "any"){
+            _.each(familiarityReveresed, function(type){
+                $('#' + type.number).prop("checked", event.target.checked);
+            });
+        }
+
+        if( $('#any').prop('checked')){
+            Session.set('familiarityView', 'any');
+        } else {
+            var whatFamiliaritiesAreChecked = [];
+            _.each(familiarityReveresed, function(type){
+                if($('#' + type.number).prop('checked')){
+                    whatFamiliaritiesAreChecked.push(type.number);
+                }
+            });
+            if(whatFamiliaritiesAreChecked.length === 0){
+                Session.set('familiarityView', 'none');
+            } else {
+                Session.set('familiarityView', whatFamiliaritiesAreChecked.toString());
             }
         }
     }

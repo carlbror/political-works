@@ -72,13 +72,19 @@ Router.map(function(){
                 Session.set('typeView', 'all');
             }
 
+            if(!Session.get('familiarityView')){
+                Session.set('familiarityView', [familiarityReveresed[0].number, familiarityReveresed[1].number,
+                    familiarityReveresed[2].number,familiarityReveresed[3].number].toString());
+            }
+
             this.next();
         },
         data: function(){
             var data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
-                Session.get('typeView'));
+                Session.get('typeView'), Session.get('familiarityView'));
             if(data){
                 data.typeOfWork = typeOfWork;
+                data.familiarities = familiarityReveresed;
                 return data;
             }
         }
@@ -139,6 +145,7 @@ Router.map(function(){
                     originalPolicy.policyAreas = policyAreas;
                 }
                 originalPolicy.typeOfWork = typeOfWork;
+                originalPolicy.familiarity = familiarity
                 return originalPolicy;
             }
         }

@@ -28,4 +28,18 @@
             {{/each}}
         </p>
     </div>
+
+    <div class="show-familiarity">
+        <p style="text-align: center">
+            <b>Display ratings with enough familiarity</b>
+        </p>
+
+        <p>
+            {{#each familiarities}}
+            <label class="view-familiarity" for="{{number}}">
+                <input class="show-familiarity" type="checkbox" id="{{number}}" {{familiaritiesChecked}}> {{clientName}}</label>
+            {{/each}}
+            <label class="familiarity" for="any"><input class="show-type" type="checkbox" id="any"> Any</label>
+        </p>
+    </div>
 </template>

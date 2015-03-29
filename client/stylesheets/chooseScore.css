@@ -15,3 +15,15 @@
 .show-types input{
     vertical-align: text-bottom;
 }
+
+.show-familiarity p:first-child{
+    margin-bottom: 1px;
+}
+
+.show-familiarity label{
+    margin: 1px;
+}
+
+.show-familiarity input{
+    vertical-align: text-bottom;
+}
