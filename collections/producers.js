@@ -7,14 +7,5 @@ Producers.allow({
 });
 
 Meteor.methods({
-    createProducer: function(producerName){
-        var producer = Producers.findOne({name: producerName});
-
-        if(producer) return producer._id;
-        else return Producers.insert({
-            name: producerName,
-            date: new Date()
-        });
-    }
 });
 
