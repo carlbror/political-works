@@ -8,6 +8,8 @@ PolicyAreas.allow({
 
 Meteor.methods({
     'createPolicyAra': function(attr){
+        attr = o_.sanitizeObject(attr);
+
         var user = get_.userOrThrowError();
         attr.area = o_.capitaliseFirstLetter(attr.area);
 
@@ -26,6 +28,8 @@ Meteor.methods({
         }
     },
     'addPolicyToArea': function(attr){
+        attr = o_.sanitizeObject(attr);
+
         PolicyAreas.update(attr.policyAreaId, {$addToSet: {policyIds: attr.policyId}});
     }
 });

@@ -9,6 +9,7 @@ Places.allow({
 
 Meteor.methods({
     createPlace: function(attr){
+        attr = o_.sanitizeObject(attr);
         get_.userOrThrowError();
 
         if(attr.universal) {

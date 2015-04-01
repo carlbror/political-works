@@ -9,6 +9,7 @@ Policies.allow({
 
 Meteor.methods({
     createPolicy: function(attr){
+        attr = o_.sanitizeObject(attr);
         var user = get_.userOrThrowError();
         attr.solution = o_.capitaliseFirstLetter(attr.solution);
 

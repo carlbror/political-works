@@ -9,6 +9,8 @@ Ideologies.allow({
 
 Meteor.methods({
     stopSubscribingToIdeology: function(ideologyName){
+        ideologyName = o_.sanitizeString(ideologyName);
+
         var user = get_.userOrThrowError();
         var ideology = Ideologies.findOne({name: ideologyName});
 
@@ -17,6 +19,10 @@ Meteor.methods({
     },
 
     createIdeology: function(name){
+        console.log(name);
+        name = o_.sanitizeString(name);
+        console.log(name);
+
         var user = get_.userOrThrowError();
         name = o_.capitaliseFirstLetter(name);
 
@@ -33,6 +39,8 @@ Meteor.methods({
         }
     },
     addAdherent: function(ideologyId){
+        ideologyId = o_.sanitizeString(ideologyId)
+
         var user = get_.userOrThrowError();
         var ideology = get_.ideologyOrThrowError(ideologyId);
         o_.throwIfUserAlreadySubscribesToThisIdeology(user, ideology._id);
