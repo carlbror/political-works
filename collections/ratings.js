@@ -1,7 +1,7 @@
 Ratings = new Meteor.Collection('ratings');
 
 Ratings.allow({
-    insert: function(userId) {
+    insert: function(userId){
         return !!userId;
     }
 });
@@ -9,57 +9,60 @@ Ratings.allow({
 
 Meteor.methods({
     addNewRatingOrChangeOld: function(attr){
-        var user = get_.userOrThrowError();
+        var user = get_.userOrThrowError(),
+            sanitizedObj = o_.sanitizeObject(attr);
 
-        if(attr.ideologyId){
-            var rating = Ratings.findOne({userId: user._id, ideologyId: attr.ideologyId, ratingType: attr.ratingType, worksId: attr.worksId});
+
+        if(sanitizedObj.ideologyId){
+            var rating = Ratings.findOne({userId: user._id, ideologyId: sanitizedObj.ideologyId, ratingType: sanitizedObj.ratingType, worksId: sanitizedObj.worksId});
 
             if(rating){
-                Ratings.update({_id: rating._id}, {$set: {scores: attr.scores, familiarity: attr.familiarity,
+                Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
                     dateWhenRated: new Date()}});
-                if(attr.urlReview) Ratings.update(rating._id, {$set: {urlReview: attr.urlReview}});
+                if(sanitizedObj.urlReview) Ratings.update(rating._id, {$set: {urlReview: sanitizedObj.urlReview}});
             } else {
-                var ratingId = ratings_.createNewRating(attr, user._id);
-                if(attr.urlReview) Ratings.update(ratingId, {$set: {urlReview: attr.urlReview}});
+                var ratingId = ratings_.createNewRating(sanitizedObj, user._id);
+                if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
             }
-        } else if(attr.policyId){
-            var  rating = Ratings.findOne({
+        } else if(sanitizedObj.policyId){
+            var rating = Ratings.findOne({
                 userId: user._id,
-                policyId: attr.policyId,
-                ratingType: attr.ratingType,
-                worksId: attr.worksId
+                policyId: sanitizedObj.policyId,
+                ratingType: sanitizedObj.ratingType,
+                worksId: sanitizedObj.worksId
             });
 
             if(rating){
-                Ratings.update({_id: rating._id}, {$set: {scores: attr.scores, familiarity: attr.familiarity,
+                Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
                     dateWhenRated: new Date()}});
-                if(attr.urlReview) Ratings.update(rating._id, {$set: {urlReview: attr.urlReview}});
+                if(sanitizedObj.urlReview) Ratings.update(rating._id, {$set: {urlReview: sanitizedObj.urlReview}});
             } else {
-                var ratingId = ratings_.createNewPolicyRating(attr, user._id);
-                if(attr.urlReview) Ratings.update(rating._id, {$set: {urlReview: attr.urlReview}});
+                var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
+                if(sanitizedObj.urlReview) Ratings.update(rating._id, {$set: {urlReview: sanitizedObj.urlReview}});
             }
 
         }
     },
     'addNewPolicyRatingOrChangeOld': function(attr){
+        var sanitizedObj = o_.sanitizeObject(attr);
+
         var user = get_.userOrThrowError(),
             rating = Ratings.findOne({
-            userId: user._id,
-            policyId: attr.policyId,
-            ratingType: attr.ratingType,
-            worksId: attr.worksId
-        });
+                userId: user._id,
+                policyId: sanitizedObj.policyId,
+                ratingType: sanitizedObj.ratingType,
+                worksId: sanitizedObj.worksId
+            });
 
         if(rating){
-            Ratings.update({_id: rating._id}, {$set: {scores: attr.scores, familiarity: attr.familiarity,
+            Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
                 dateWhenRated: new Date()}});
         } else {
-            var ratingId = ratings_.createNewPolicyRating(attr, user._id);
+            var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
             Meteor.users.update({_id: user._id}, {$push: {"services.policyRatings": ratingId}});
         }
     }
 });
-
 
 
 ratings_.createNewRating = function(attr, userId){

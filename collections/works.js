@@ -8,18 +8,23 @@ Works.allow({
 
 Meteor.methods({
     'createWork': function(attr){
-        attr.title = o_.capitaliseFirstLetter(attr.title);
-        attr.producers = producers_.createNewProducers(attr.producers);
+        var sanitizedProducers = o_.sanitizeArray(attr.producers),
+            sanitizedObj = o_.sanitizeObject(_.omit(attr, 'producers'));
+        sanitizedObj.producers = sanitizedProducers;
 
-        var work = Works.findOne({title: attr.title, producers: attr.producers});
+
+        sanitizedObj.title = o_.capitaliseFirstLetter(sanitizedObj.title);
+        sanitizedObj.producers = producers_.createNewProducers(sanitizedObj.producers);
+
+        var work = Works.findOne({title: sanitizedObj.title, producers: sanitizedObj.producers});
         if(work) return work._id;
 
         return Works.insert({
-            title: attr.title,
-            producers: attr.producers,
-            url: attr.url,
-            discussionUrl: attr.discussionUrl,
-            type: attr.type,
+            title: sanitizedObj.title,
+            producers: sanitizedObj.producers,
+            url: sanitizedObj.url,
+            discussionUrl: sanitizedObj.discussionUrl,
+            type: sanitizedObj.type,
             date: new Date()
         });
     }

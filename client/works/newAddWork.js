@@ -147,7 +147,7 @@ Template.newAddWork.events({
         checkItContainsEverything(_.omit(attr, 'review'));
 
 
-        Meteor.call('createWork', attr, function(error, worksId){
+        Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
             if(error) throwError(error.reason);
             attr.worksId = worksId;
 
