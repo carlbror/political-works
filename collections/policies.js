@@ -1,4 +1,5 @@
 Policies = new Meteor.Collection('policies');
+Policies.attachSchema(Schemas.Policies);
 
 Policies.allow({
     insert: function(userId) {

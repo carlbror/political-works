@@ -1,4 +1,5 @@
 Places = new Meteor.Collection('places');
+Places.attachSchema(Schemas.Places);
 
 Places.allow({
     insert: function(userId) {

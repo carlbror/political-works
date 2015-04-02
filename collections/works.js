@@ -1,4 +1,5 @@
 Works = new Meteor.Collection('works');
+Works.attachSchema(Schemas.Works);
 
 Works.allow({
     insert: function (userId, doc) {

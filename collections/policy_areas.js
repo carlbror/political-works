@@ -1,4 +1,5 @@
 PolicyAreas = new Meteor.Collection('policy_areas');
+PolicyAreas.attachSchema(Schemas.PolicyAreas);
 
 PolicyAreas.allow({
     insert: function(userId) {

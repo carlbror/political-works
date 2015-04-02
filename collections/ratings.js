@@ -1,4 +1,5 @@
 Ratings = new Meteor.Collection('ratings');
+Ratings.attachSchema(Schemas.Ratings);
 
 Ratings.allow({
     insert: function(userId){
@@ -10,7 +11,8 @@ Ratings.allow({
 Meteor.methods({
     addNewRatingOrChangeOld: function(attr){
         var user = get_.userOrThrowError(),
-            sanitizedObj = o_.sanitizeObject(attr);
+            sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
+        sanitizedObj.scores = o_.sanitizeObject(attr.scores);
 
 
         if(sanitizedObj.ideologyId){
@@ -44,7 +46,8 @@ Meteor.methods({
         }
     },
     'addNewPolicyRatingOrChangeOld': function(attr){
-        var sanitizedObj = o_.sanitizeObject(attr);
+        var sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
+        sanitizedObj.scores = o_.sanitizeObject(attr.scores);
 
         var user = get_.userOrThrowError(),
             rating = Ratings.findOne({
@@ -66,6 +69,7 @@ Meteor.methods({
 
 
 ratings_.createNewRating = function(attr, userId){
+    console.log(attr);
     return Ratings.insert({
         ideologyId: attr.ideologyId,
         worksId: attr.worksId,
@@ -78,6 +82,7 @@ ratings_.createNewRating = function(attr, userId){
 };
 
 ratings_.createNewPolicyRating = function(attr, userId){
+    console.log(attr)
     return Ratings.insert({
         policyId: attr.policyId,
         worksId: attr.worksId,
