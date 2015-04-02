@@ -19,9 +19,7 @@ Meteor.methods({
     },
 
     createIdeology: function(name){
-        console.log(name);
         name = o_.sanitizeString(name);
-        console.log(name);
 
         var user = get_.userOrThrowError();
         name = o_.capitaliseFirstLetter(name);

@@ -1,3 +1,7 @@
+sanitizeHtml = function(string, object){
+    return string;
+};
+
 addSortedRatingsOnIdeology = function(ratings){
     var valuableWorks = [];
 
