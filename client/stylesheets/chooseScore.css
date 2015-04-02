@@ -1,15 +1,21 @@
 .choose-score {
-    padding-bottom: 2px;
     margin-bottom: 2px;
 }
 
+.choose-score label{
+    font-size: 0.875em;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
 
 .show-types p:first-child{
     margin-bottom: 1px;
 }
 
 .show-types label{
-    margin: 1px;
+    font-size: 0.875em;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .show-types input{
@@ -21,7 +27,9 @@
 }
 
 .show-familiarity label{
-    margin: 1px;
+    font-size: 0.875em;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .show-familiarity input{
