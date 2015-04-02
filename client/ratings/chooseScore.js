@@ -55,10 +55,18 @@ Template.chooseScore.events({
             _.each(familiarityReveresed, function(type){
                 $('#' + type.number).prop("checked", event.target.checked);
             });
+        } else {
+            if($('#any').prop('checked')){
+                $('#any').prop('checked', false);
+            }
         }
 
         if( $('#any').prop('checked')){
-            Session.set('familiarityView', 'any');
+            if(Router.current().route._path === "/user/:username"){
+                Session.set('familiarityView', "7,6,5,4,3,2,1");
+            } else {
+                Session.set('familiarityView', 'any');
+            }
         } else {
             var whatFamiliaritiesAreChecked = [];
             _.each(familiarityReveresed, function(type){

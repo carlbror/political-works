@@ -48,15 +48,9 @@
                             </ul>
                         </ul>
                     </div>
-
-                    <div class="sort-works-by">
-                        {{#if hasRatingsOn}}
-                        {{> chooseScore}}
-                        {{/if}}
-                    </div>
                 </div>
 
-                <div class="span9">
+                <div class="span6">
                     <div class="tab-content">
                         <div id="tab1" class="tab active">
                         </div>
@@ -120,6 +114,14 @@
                             {{/if}}
                         </div>
                         {{/each}}
+                    </div>
+                </div>
+
+                <div class="span2">
+                    <div class="sort-works-by">
+                        {{#if hasRatingsOn}}
+                        {{> chooseScore}}
+                        {{/if}}
                     </div>
                 </div>
             </div>

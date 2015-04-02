@@ -74,7 +74,7 @@ Router.map(function(){
 
             if(!Session.get('familiarityView')){
                 Session.set('familiarityView', [familiarityReveresed[0].number, familiarityReveresed[1].number,
-                    familiarityReveresed[2].number,familiarityReveresed[3].number].toString());
+                    familiarityReveresed[2].number, familiarityReveresed[3].number].toString());
             }
 
             this.next();
@@ -137,7 +137,7 @@ Router.map(function(){
 
             if(!Session.get('familiarityView')){
                 Session.set('familiarityView', [familiarityReveresed[0].number, familiarityReveresed[1].number,
-                    familiarityReveresed[2].number,familiarityReveresed[3].number].toString());
+                    familiarityReveresed[2].number, familiarityReveresed[3].number].toString());
             }
 
             this.next();
@@ -314,31 +314,39 @@ Router.map(function(){
     /* *** USER *** */
     this.route('userPage', {
         path: '/user/:username',
-        data: function(){
-
-            if(!jQuery.isEmptyObject(this.params.query)){
-                Session.set('query', this.params.query);
-            } else {
-                Session.set('query', false);
+        onBeforeAction: function(){
+            if(!Session.get('scoreView')){
+                Session.set('scoreView', 'convincing-score');
+            }
+            if(!Session.get('typeView')){
+                Session.set('typeView', 'all');
             }
 
+            if(!Session.get('familiarityView')){
+                Session.set('familiarityView', [familiarityReveresed[0].number, familiarityReveresed[1].number,
+                    familiarityReveresed[2].number, familiarityReveresed[3].number].toString());
+            }
+
+            this.next();
+        },
+        data: function(){
             var score = Session.get('scoreView'),
+                type = Session.get('typeView'),
+                familiarity = Session.get('familiarityView').split(',').map(Number),
                 userFromUsername = Meteor.users.findOne({username: this.params.username}),
                 userFromProfileName = Meteor.users.findOne({"profile.name": this.params.username}),
                 user = userFromUsername || userFromProfileName;
 
-            if(!score){
-                Session.set('scoreView', 'convincing-score');
-                score = 'convincing-score';
-            }
-
+            var databaseScore = score.split('-')[0] + o_.capitaliseFirstLetter(score.split('-')[1]);
 
             if(user){
-                var ratings = Ratings.find({userId: user._id}).fetch();
-                if(ratings && ratings.length > 0){
-                    user = utils_.putPositiveAndCriticalIdeologyRatingsOnUser(user, ratings, score);
-                    user.userRatings = ratings;
+                user.userRatings = Ratings.find({userId: user._id}).fetch();
+                if(user.userRatings.length === 1){
+                    user.userHasMadeOneRating = true;
+                }
 
+                var ratings = Ratings.find({userId: user._id, familiarity: {$in: familiarity}}).fetch();
+                if(ratings && ratings.length > 0){
                     user.ratingsOnIdeologies = _.filter(ratings, function(rating){
                         return rating.ideologyId;
                     });
@@ -368,6 +376,19 @@ Router.map(function(){
                             }
                         }
                     });
+                    _.each(user.ratingsByIdeology, function(ratingsOnIdeology){
+                        if(ratingsOnIdeology.supportiveRatings){
+                            ratingsOnIdeology.supportiveRatings.sort(function(a, b){
+                                return b.scores[databaseScore] - a.scores.convincingScore;
+                            });
+                        }
+
+                        if(ratingsOnIdeology.underminingRatings){
+                            ratingsOnIdeology.underminingRatings.sort(function(a, b){
+                                return b.scores[databaseScore] - a.scores.convincingScore;
+                            });
+                        }
+                    });
 
                     var listOfPoliciesAlreadyAdded = [];
                     _.each(user.ratingsOnPolicies, function(rating){
@@ -382,24 +403,33 @@ Router.map(function(){
                                 delete user.ratingsByPolicy[user.ratingsByPolicy.length - 1].supportiveRatings;
                             }
                             if(user.ratingsByPolicy[user.ratingsByPolicy.length - 1].underminingRatings.length === 0){
+
                                 delete user.ratingsByPolicy[user.ratingsByPolicy.length - 1].underminingRatings;
                             }
                         }
                     });
+                    _.each(user.ratingsByPolicy, function(ratingsOnPolicy){
+                        if(ratingsOnPolicy.supportiveRatings){
+                            ratingsOnPolicy.supportiveRatings.sort(function(a, b){
+                                return b.scores[databaseScore] - a.scores.convincingScore;
+                            });
+                        }
 
-                    if(user.userRatings.length === 1){
-                        user.userHasMadeOneRating = true;
-                    }
+                        if(ratingsOnPolicy.underminingRatings){
+                            ratingsOnPolicy.underminingRatings.sort(function(a, b){
+                                return b.scores[databaseScore] - a.scores.convincingScore;
+                            });
+                        }
+                    });
                 }
-                user.hasDuplicate = Session.get('hasDuplicate');
-                user.percentOfEverythingExperienced = utils_.howManyPercentageOfAllTheWorksHasThisUserRated(user._id);
-//                user.badgesForReviewedIdeologies = get_.badgesForReviewedIdeologies(user._id);
-                if(user._id == Meteor.userId()){
-                    user.currentUserIsSameAsVisitingUser = true;
-                }
+
                 if(user.ideologies && user.ideologies.length === 1){
                     user.userSubscribesToOneIdeology = true;
                 }
+
+                user.typeOfWork = typeOfWork;
+                user.familiarities = familiarityReveresed;
+
                 return user;
             }
         }

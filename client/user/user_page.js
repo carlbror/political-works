@@ -1,28 +1,4 @@
 Template.userPage.helpers({
-    'checkIfHasDuplicate': function(){
-        if(this.profile && !this.profile.mergedWithFacebook){
-            var currentUser = Meteor.user(),
-                visitedUser;
-            if(this.username){
-                visitedUser = Meteor.users.findOne({username: this.username});
-            } else {
-                visitedUser = Meteor.users.findOne({"profile.name": this.profile.name});
-            }
-
-            if(currentUser && visitedUser){
-                Meteor.call('isSameUser', currentUser._id, visitedUser._id, function(err, result){
-                    if(result){
-                        Session.set('hasDuplicate', true);
-                        Session.set('visitedUserId', visitedUser._id);
-                    } else {
-                        Session.set('hasDuplicate', false);
-                        Session.set('visitedUserId', false);
-                    }
-                    return "";
-                });
-            }
-        }
-    },
     ideologyFromId: function(){
         return Ideologies.findOne(this.toString(), {fields: {name: 1}});
     },
@@ -59,13 +35,6 @@ Template.userPage.helpers({
 });
 
 Template.userPage.events({
-    'click .merge-accounts': function(){
-        Meteor.call('mergeAccounts', Meteor.userId(), Session.get('visitedUserId'), function(err){
-            if(err) throwError(err.reason);
-            Session.set('hasDuplicate', false);
-            Session.set('visitedUserId', false);
-        });
-    },
     "click .link": function(event){
         var currentAttrValue = event.currentTarget.hash;
         $(currentAttrValue).show().siblings().hide();
