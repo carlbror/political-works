@@ -1,4 +1,5 @@
 Ideologies = new Meteor.Collection('ideologies');
+Ideologies.attachSchema(Schemas.Ideologies);
 
 Ideologies.allow({
     insert: function (userId) {
