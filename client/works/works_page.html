@@ -4,15 +4,33 @@
     <script src="../scripts/assets/owl-carousel/owl.carousel.js"></script>
 
     <div class="works-page main">
-        <h1>{{title}}</h1>
+        <h1>{{title}} {{#if ifMe}}<a class="configure" href="#"><i class="fa fa-cog"></i></a>{{/if}}</h1>
         <hr>
 
         <h4>By {{#each markedProducers}}{{#with producer}}{{name}}{{/with}}{{#unless last}},
             {{/unless}}{{/each}}</h4>
-        <a href="{{url}}">obtain the work</a> | <a href="{{discussionUrl}}">discussion of the work</a> <i
-            class="fa fa-cog"></i>
+        <a href="{{url}}">obtain the work</a> | <a href="{{discussionUrl}}">discussion of the work</a>
         <br><br>
 
+        <div class="configure-div" id="configure-box" style="display: none;">
+            <p>Change the title
+            <input type="text" class="title">
+            </p>
+
+            <p>Change the producers
+            <input type="text" class="producers">
+            </p>
+
+            <p>Change the source-link
+            <input type="text" class="source-url">
+            </p>
+
+            <p>Change the discussion-link
+                <input type="text" class="discussion-url">
+            </p>
+
+            <button class="change btn btn-success">Change!</button>
+        </div>
 
         {{#if ratings}}
         You have reviewed this work for:<br>

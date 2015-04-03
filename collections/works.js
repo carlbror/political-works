@@ -28,5 +28,27 @@ Meteor.methods({
             type: sanitizedObj.type,
             date: new Date()
         });
+    },
+    changeWorks: function(attr){
+        var user = get_.userOrThrowError();
+        if(user._id !== "dib2n7TByrgDmxvQL") throwError("Only admin can change this");
+        attr = o_.sanitizeObject(attr);
+
+        if(attr.producers){
+            Works.update(attr.worksId, {$set: {producers: producers_.createNewProducers(attr.producers.split(','))}});
+        }
+
+        if(attr.url){
+            Works.update(attr.worksId, {$set: {url: attr.url}});
+        }
+
+        if(attr.discussionUrl){
+            Works.update(attr.worksId, {$set: {discussionUrl: attr.discussionUrl}});
+        }
+
+        if(attr.title){
+            Works.update(attr.worksId, {$set: {title: attr.title}});
+            return attr.title;
+        }
     }
 });

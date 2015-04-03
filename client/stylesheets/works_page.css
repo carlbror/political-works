@@ -1,0 +1,37 @@
+.works-page .fa-cog{
+    float: right;
+    font-size: 0.5em;
+}
+
+.works-page {
+    z-index: 10;
+}
+
+.configure-div{
+    position: absolute;
+    z-index:100;
+    width:230px;
+    height: 325px;
+    background-color: white;
+
+    border-radius: 5px;
+
+    box-shadow: -3px 0 8px 1px #888888;
+}
+
+.configure-div p:first-child{
+    margin-top: 5px;
+}
+
+.configure-div input{
+    width: 180px;
+}
+
+.configure-div p{
+    margin-left: 5px;
+}
+
+.configure-div button{
+    margin-left: 5px;
+}
+
