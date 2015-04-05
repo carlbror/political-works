@@ -69,7 +69,6 @@ Meteor.methods({
 
 
 ratings_.createNewRating = function(attr, userId){
-    console.log(attr);
     return Ratings.insert({
         ideologyId: attr.ideologyId,
         worksId: attr.worksId,
@@ -82,7 +81,6 @@ ratings_.createNewRating = function(attr, userId){
 };
 
 ratings_.createNewPolicyRating = function(attr, userId){
-    console.log(attr)
     return Ratings.insert({
         policyId: attr.policyId,
         worksId: attr.worksId,
