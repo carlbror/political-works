@@ -1,6 +1,7 @@
 var entireOwl,
     commandOwl,
-    availableTags = [];
+    availableTags = [],
+    urlRegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
 Template.newAddWork.rendered = function(){
     entireOwl = $('.owl');
@@ -100,6 +101,9 @@ Template.newAddWork.events({
         if(commandOwl.currentItem === 1){
             if($('.producer').val() === "" || $('.url').val() === "" ||
                 $('.discussion-url').val() === "" || $('.type-of-work').val() === "") throwError('You need to fill in all fields');
+            if(!$('.url').val().match(urlRegExp) || !$('.discussion-url').val().match(urlRegExp)){
+                throwError('Url need to be of type ftp://..., http://..., or https://...');
+            }
         }
         if(commandOwl.currentItem === 2){
             var policyListSelector = $('.policy-list-selector'),
@@ -145,6 +149,9 @@ Template.newAddWork.events({
         var attr = getValuesFromNewAddWork();
         throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
         checkItContainsEverything(_.omit(attr, 'review'));
+        if(attr.urlReview && !attr.urlReview.match(urlRegExp)){
+            throwError("The Url for the review need to be of type ftp://..., http://..., or https://...")
+        }
 
 
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
@@ -164,21 +171,28 @@ Template.newAddWork.events({
             }
         });
     },
-    'keypress .title, paste .title': function(event){
-        var next = $('.next');
-        next.prop('disabled', false);
+    'keypress .title, paste .title': function(){
+        $('.next').prop('disabled', false);
     },
     'keypress .producer, paste .producer': function(){
         changedProducers = true;
         ifSecondSectionAreFilledInEnableNext();
     },
-    'keypress .url, paste .url': function(){
-        changedUrl = true;
-        ifSecondSectionAreFilledInEnableNext();
+    'keypress .url, paste .url': function(event){
+        setTimeout( function() {
+            if(!!$('.url').val().match(urlRegExp)){
+                changedUrl = true;
+                ifSecondSectionAreFilledInEnableNext();
+            }
+        }, 100);
     },
     'keypress .discussion-url, paste .discussion-url': function(){
-        changedDiscussionUrl = true;
-        ifSecondSectionAreFilledInEnableNext();
+        setTimeout( function() {
+            if(!!$('.discussion-url').val().match(urlRegExp)){
+                changedDiscussionUrl = true;
+                ifSecondSectionAreFilledInEnableNext();
+            }
+        }, 100);
     },
     'change .type-of-work': function(){
         changedTypeOfWork = true;
