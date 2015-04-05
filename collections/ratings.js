@@ -14,6 +14,10 @@ Meteor.methods({
             sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
         sanitizedObj.scores = o_.sanitizeObject(attr.scores);
 
+        if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
+            throw new Meteor.Error('Url needs to be of type ftp://..., http://..., or https://...');
+        }
+
 
         if(sanitizedObj.ideologyId){
             var rating = Ratings.findOne({userId: user._id, ideologyId: sanitizedObj.ideologyId, ratingType: sanitizedObj.ratingType, worksId: sanitizedObj.worksId});

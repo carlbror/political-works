@@ -1,7 +1,6 @@
 var entireOwl,
     commandOwl,
-    availableTags = [],
-    urlRegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    availableTags = [];
 
 Template.newAddWork.rendered = function(){
     entireOwl = $('.owl');
