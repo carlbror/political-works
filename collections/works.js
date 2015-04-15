@@ -31,7 +31,7 @@ Meteor.methods({
     },
     changeWorks: function(attr){
         var user = get_.userOrThrowError();
-        if(user._id !== "dib2n7TByrgDmxvQL") throwError("Only admin can change this");
+        if(user._id !== "dib2n7TByrgDmxvQL" && user._id !== "5LgPbnMYcT8zGB367") throwError("Only admin can change this");
         attr = o_.sanitizeObject(attr);
 
         if(attr.producers){

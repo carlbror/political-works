@@ -34,7 +34,7 @@ Template.worksPage.rendered = function(){
 
 Template.worksPage.helpers({
     ifMe: function(){
-        if(Meteor.userId() ==="dib2n7TByrgDmxvQL"){
+        if(Meteor.userId() ==="dib2n7TByrgDmxvQL" || Meteor.userId() === "5LgPbnMYcT8zGB367"){
             return true;
         }
     },
@@ -349,4 +349,26 @@ makeElementsAtWorksPageCorrectlyTabbable = function(currentItem){
             makeFourthSectionElementsTabbableOrNot(0);
             break;
     }
+};
+
+createMillionIdeologies = function(){
+    console.log("beginning");
+    var randomIdeology = "aa" + Math.random();
+    console.log("works");
+
+    Meteor.loginWithPassword("Calle", "aaaaaa", function(){
+        console.log("logged in");
+
+        for(x = 0; x < 10; x++){
+            randomIdeology = "aa" + Math.random();
+
+                setTimeout( function() {
+                    console.log(x);
+                    Meteor.call('createIdeology', randomIdeology, function(err, res){
+                        if(err) showError(err.reason);
+                        console.log(res);
+                    });
+                }, 100);
+        }
+    });
 };

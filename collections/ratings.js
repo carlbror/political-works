@@ -15,7 +15,8 @@ Meteor.methods({
         sanitizedObj.scores = o_.sanitizeObject(attr.scores);
 
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
-            throw new Meteor.Error('Url needs to be of type ftp://..., http://..., or https://...');
+            throw new Meteor.Error(
+                'Url needs to be of type ftp://..., http://..., or https://...');
         }
 
 
