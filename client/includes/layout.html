@@ -20,6 +20,7 @@
                         <li><a href="{{pathFor 'policyList'}}">Policies</a></li>
                         {{#with currentUser}}
                         <li><a href="{{pathFor 'userPage'}}">Your page</a></li>
+                        <li><a class="updates" href="#"><i class="fa fa-cog"></i></a></li>
                         {{/with}}
                         <li>{{>loginButtons align="right"}}</li>
                     </ul>
@@ -55,5 +56,9 @@
                 {{/unless}}
             </div>
         </header>
+    </div>
+
+    <div class="updates-div" id="updates-box" style="display: none;">
+        <p>sf</p>
     </div>
 </template>

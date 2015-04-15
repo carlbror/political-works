@@ -118,7 +118,7 @@ Template.worksPage.events({
         });
     },
     'click .configure': function(event){
-        var obj = getOffset($('.fa-cog')[0]),
+        var obj = getOffset($('.config')[0]),
             configureDiv = $('.configure-div');
 
 
