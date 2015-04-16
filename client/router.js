@@ -255,7 +255,13 @@ Router.map(function(){
     this.route('worksPage', {
         path: '/works/:title',
         data: function(){
-            return Works.findOne({title: this.params.title});
+            var works = Works.findOne({title: this.params.title});
+            if(works){
+                var ratings = Ratings.find({worksId: works._id}).fetch();
+                if(ratings){
+                    return {works: works, ratings: ratings};
+                }
+            }
         }
     });
 

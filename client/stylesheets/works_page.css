@@ -35,3 +35,10 @@
     margin-left: 5px;
 }
 
+.works-page .basics{
+    margin-bottom: 20px;
+}
+
+.works-page .all-ratings-on-work span{
+    float: right;
+}

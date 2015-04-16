@@ -3,64 +3,49 @@
     <link rel="stylesheet" href="../scripts/owl-carousel/owl.theme.css">
     <script src="../scripts/assets/owl-carousel/owl.carousel.js"></script>
 
-    <div class="works-page main">
-        <h1>{{title}} {{#if ifMe}}<a class="configure" href="#"><i class="fa fa-cog config"></i></a>{{/if}}</h1>
-        <hr>
+    <div class="works-page">
+        <div class="basics">
+            <h1>{{works.title}} {{#if ifMe}}<a class="configure" href="#"><i class="fa fa-cog config"></i></a>{{/if}}
+            </h1>
+            <hr>                {{> configureDiv}}
 
-        <h4>By {{#each markedProducers}}{{#with producer}}{{name}}{{/with}}{{#unless last}},
-            {{/unless}}{{/each}}</h4>
-        <a href="{{url}}">obtain the work</a> | <a href="{{discussionUrl}}">discussion of the work</a>
-        <br><br>
-
-        <div class="configure-div" id="configure-box" style="display: none;">
-            <p>Change the title
-            <input type="text" class="title">
-            </p>
-
-            <p>Change the producers
-            <input type="text" class="producers">
-            </p>
-
-            <p>Change the source-link
-            <input type="text" class="source-url">
-            </p>
-
-            <p>Change the discussion-link
-                <input type="text" class="discussion-url">
-            </p>
-
-            <button class="change btn btn-success">Change!</button>
+            <h4>By {{#each markedProducers}}{{#with producer}}{{name}}{{/with}}{{#unless last}},
+                {{/unless}}{{/each}}</h4>
+            <a href="{{works.url}}">obtain the work</a> | <a href="{{works.discussionUrl}}">discussion of the work</a>
         </div>
 
-        {{#if ratings}}
-        You have reviewed this work for:<br>
-
-        <p>
-            {{#each ratings}}
-            {{#if ideologyId}}
-
-        <p style="padding-left: 30px;">
-            {{#with ideology}}<a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{/with}} <a href=""
-                                                                                            class="show-review"
-                                                                                            id="click-{{_id}}">
-            &#8659;</a></p>
-        {{> reviewBox}}
-        {{/if}}
-
-        {{#if policyId}}
-        <p style="padding-left: 30px;">
-            {{#with policy}}<a href="{{pathFor 'policyPage'}}">{{solution}}</a>{{/with}} <a href=""
-                                                                                            class="show-review"
-                                                                                            id="click-{{_id}}">
-            &#8659;</a></p>
-        {{> reviewBox}}
-        {{/if}}
-        {{/each}}
-        </p>
-        {{/if}}
 
 
-        <br>
+
+        <div class="all-ratings-on-work special-table">
+            <h3>Reviews</h3>
+
+            <table>
+                <tr>
+                    <th>Subject of work</th>
+                    <th>Convincing</th>
+                    <th>Readable</th>
+                    <th>Familiarity</th>
+                    <th>Online review</th>
+                    <th>Reviewer</th>
+                </tr>
+                {{#each ratings}}
+                <tr>
+                    <td>{{#with ideologyOrPolicyFromId}}{{#if solution}}
+                        <a href="{{pathFor 'policyPage'}}">{{solution}}</a>&nbsp;&nbsp;&nbsp;
+                        <span>({{ratingType}})</span>{{else}}
+                        <a href="{{pathFor 'ideologyPage'}}">{{name}}</a> &nbsp;&nbsp;&nbsp;
+                        <span>({{ratingType}})</span>{{/if}}{{/with}}
+                    </td>
+                    <td>{{scores.convincingScore}}</td>
+                    <td>{{scores.readabilityScore}}</td>
+                    <td>{{getFamiliarity}}</td>
+                    <td>{{#if urlReview}}{{urlReview}}{{else}}---{{/if}}</td>
+                    <td>{{#with userFromId}}<a href="{{pathFor 'userPage'}}">{{username}}</a>{{/with}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
 
 
         <div class="fiveHundredPixels">
@@ -111,7 +96,7 @@
                         <br>
 
                         <form action="">
-                            <input type="radio" name="type" class="positive" value="positive">  Lending support<br>
+                            <input type="radio" name="type" class="positive" value="positive"> Lending support<br>
                             <input type="radio" name="type" class="critical" value="critical"> Criticizes
                         </form>
                         <br>
@@ -179,3 +164,25 @@
         </div>
     </div>
 </template>
+
+        <template name="configureDiv">
+            <div class="configure-div" id="configure-box" style="display: none;">
+                <p>Change the title
+                    <input type="text" class="title">
+                </p>
+
+                <p>Change the producers
+                    <input type="text" class="producers">
+                </p>
+
+                <p>Change the source-link
+                    <input type="text" class="source-url">
+                </p>
+
+                <p>Change the discussion-link
+                    <input type="text" class="discussion-url">
+                </p>
+
+                <button class="change btn btn-success">Change!</button>
+            </div>
+        </template>

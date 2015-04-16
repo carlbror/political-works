@@ -22,11 +22,11 @@ Template.worksPage.rendered = function(){
     $(".owl-dots").remove();
     commandOwl = entireOwl.data('owlCarousel');
 
-    $(".configure-div").offset(getOffset($('.fa-cog')[0]));
+    $(".configure-div").offset(getOffset($('.config')[0]));
 
     $(window).resize(function(){
         if($('.configure-div')[0]){
-            $(".configure-div").offset(getOffset($('.fa-cog')[0]));
+            $(".configure-div").offset(getOffset($('.config')[0]));
         }
     });
 };
@@ -39,13 +39,36 @@ Template.worksPage.helpers({
         }
     },
     'markedProducers': function(){
-        if(this.producers){
+        if(this.works && this.works.producers){
             var markedProducers = [];
-            _.each(this.producers, function(producerId){
+            _.each(this.works.producers, function(producerId){
                 markedProducers.push({producerId: producerId, last: producerId == _.last(this)});
-            }, this.producers);
+            }, this.works.producers);
             return markedProducers;
         }
+    },
+    getFamiliarity: function(){
+        switch(this.familiarity){
+            case 1:
+                return "Briefly familiar";
+            case 4:
+                return "Read/watched it once";
+            case 5:
+                return "Read/watched it a few times";
+            case 7:
+                return "Know it by heart";
+        }
+    },
+    ideologyOrPolicyFromId: function(){
+        if(this.policyId){
+            return _.extend(Policies.findOne(this.policyId, {fields: {solution:1}}), {ratingType: this.ratingType});
+        } else if(this.ideologyId){
+            return _.extend(Ideologies.findOne(this.ideologyId, {fields: {name:1}}),
+                {ratingType: this.ratingType});
+        }
+    },
+    userFromId: function(){
+        return Meteor.users.findOne(this.userId);
     },
     'producer': function(){
         return Producers.findOne(this.producerId);
@@ -56,7 +79,7 @@ Template.worksPage.helpers({
     policies: function(){
         return Policies.find({}, {fields: {solution: 1}});
     },
-    ratings: function(){
+    ratings2: function(){
         return Ratings.find({worksId: this._id, userId: Meteor.userId()}).fetch();
     },
     ideology: function(){
@@ -214,7 +237,7 @@ Template.worksPage.events({
     },
     'click .finish': function(){
         var attr = {
-            worksId: this._id,
+            worksId: this.works._id,
             ratingType: o_.lowerFirstLetter($('.positive-or-critical').val()),
             scores: {
                 convincingScore: parseInt($('.convincing-score').val()),
@@ -352,21 +375,16 @@ makeElementsAtWorksPageCorrectlyTabbable = function(currentItem){
 };
 
 createMillionIdeologies = function(){
-    console.log("beginning");
     var randomIdeology = "aa" + Math.random();
-    console.log("works");
 
     Meteor.loginWithPassword("Calle", "aaaaaa", function(){
-        console.log("logged in");
 
         for(x = 0; x < 10; x++){
             randomIdeology = "aa" + Math.random();
 
                 setTimeout( function() {
-                    console.log(x);
                     Meteor.call('createIdeology', randomIdeology, function(err, res){
                         if(err) showError(err.reason);
-                        console.log(res);
                     });
                 }, 100);
         }

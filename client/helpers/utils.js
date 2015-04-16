@@ -177,7 +177,9 @@ putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, ty
 
 checkItContainsEverything = function (attr) {
     _.each(attr, function (property) {
-        if (!property || property.length < 1) throwError("You must fill in all fields");
+        if (!property || property.length < 1) throwError("Error occurred. Might be because you haven't filled in all " +
+            "fields or because there's something wrong with the code. If the error persists, would you inform me on the " +
+            "front page, please?");
 
         if(_.isArray(property) && !property[0]) throwError("You must fill in all fields");
     });
