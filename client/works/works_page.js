@@ -22,6 +22,8 @@ Template.worksPage.rendered = function(){
     $(".owl-dots").remove();
     commandOwl = entireOwl.data('owlCarousel');
 
+
+    if(Meteor.userId() ==="dib2n7TByrgDmxvQL" || Meteor.userId() === "5LgPbnMYcT8zGB367"){
     $(".configure-div").offset(getOffset($('.config')[0]));
 
     $(window).resize(function(){
@@ -29,6 +31,7 @@ Template.worksPage.rendered = function(){
             $(".configure-div").offset(getOffset($('.config')[0]));
         }
     });
+    }
 };
 
 
@@ -48,7 +51,7 @@ Template.worksPage.helpers({
         }
     },
     getFamiliarity: function(){
-        switch(this.familiarity){
+        switch(parseInt(this.familiarity)){
             case 1:
                 return "Briefly familiar";
             case 4:
@@ -61,10 +64,15 @@ Template.worksPage.helpers({
     },
     ideologyOrPolicyFromId: function(){
         if(this.policyId){
-            return _.extend(Policies.findOne(this.policyId, {fields: {solution:1}}), {ratingType: this.ratingType});
+            var policy = Policies.findOne(this.policyId, {fields: {solution:1}});
+            if(policy){
+                return _.extend(policy, {ratingType: this.ratingType});
+            }
         } else if(this.ideologyId){
-            return _.extend(Ideologies.findOne(this.ideologyId, {fields: {name:1}}),
-                {ratingType: this.ratingType});
+            var ideology = Ideologies.findOne(this.ideologyId, {fields: {name:1}});
+            if(ideology){
+                return _.extend(ideology, {ratingType: this.ratingType});
+            }
         }
     },
     userFromId: function(){

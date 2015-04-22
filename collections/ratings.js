@@ -13,6 +13,8 @@ Meteor.methods({
         var user = get_.userOrThrowError(),
             sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
         sanitizedObj.scores = o_.sanitizeObject(attr.scores);
+        sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
+        sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
 
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
             throw new Meteor.Error(

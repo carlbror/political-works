@@ -257,7 +257,8 @@ Router.map(function(){
         data: function(){
             var works = Works.findOne({title: this.params.title});
             if(works){
-                var ratings = Ratings.find({worksId: works._id}).fetch();
+                var ratings = Ratings.find({worksId: works._id},
+                    {sort: {ideologyId: -1, policyId: -1, ratingType: 1, convincingScore: -1, readabilityScore: -1}}).fetch();
                 if(ratings){
                     return {works: works, ratings: ratings};
                 }
