@@ -1,7 +1,5 @@
 Template.layout.events({
     'click .updates': function(){
-        console.log("hj");
-        console.log(getOffset($('.updates')[0]));
 
         var obj = getOffset($('.updates')[0]),
             updatesDiv = $('.updates-div');
@@ -24,3 +22,13 @@ function getOffset(el){
         left: el.left + window.scrollX - 230
     }
 }
+
+Template.trueHeader.helpers({
+    updates: function(){
+        console.log("jk");
+        Meteor.call('getFiveUpdates', function(err, fiveRatings){
+            console.log(fiveRatings);
+            return fiveRatings;
+        });
+    }
+});

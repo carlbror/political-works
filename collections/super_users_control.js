@@ -1,11 +1,12 @@
 Meteor.methods({
-    getUpdates: function(){
+    getFiveUpdates: function(){
         if(Meteor.isServer){
             var user = get_.userOrThrowError();
             if(!user.updates){
                 user.updates = {};
-                user.updates.lastChecked = new Date(2010, 1, 1);
+                user.updates.lastChecked = new Date(2014, 3, 16);
             }
+            var fiveRatings = [];
 
             var ideologies = Ideologies.find({proponents: user._id}, {fields: {_id: 1}}).fetch();
             if(ideologies.length > 0){
@@ -14,11 +15,12 @@ Meteor.methods({
                     date: {$gte: user.updates.lastChecked}},  {sort: {date: -1}}).fetch();
 
                     if(ratings.length > 0){
-                        console.log(ratings);
-                        return ratings;
+                        fiveRatings = fiveRatings.concat(ratings.slice(0,4));
                     }
                 });
             }
+
+            return fiveRatings.slice(0,4);
         }
     }
 });
