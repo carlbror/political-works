@@ -20,7 +20,15 @@ Meteor.methods({
                 });
             }
 
-            return fiveRatings.slice(0,4);
+            fiveRatings = fiveRatings.slice(0,4);
+
+            _.each(fiveRatings, function(rating){
+                if(_.indexOf(user.updates.checkedRatings, rating._id) !== -1){
+                    rating.checked = true;
+                }
+            });
+
+            return fiveRatings;
         }
     }
 });

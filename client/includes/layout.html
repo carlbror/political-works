@@ -1,9 +1,9 @@
 <template name="layout">
     <body>
-        {{>trueHeader}}
-        {{> errors}}
+    {{>trueHeader}}
+    {{> errors}}
 
-        <div class="main-place">{{>yield}}</div>
+    <div class="main-place">{{>yield}}</div>
     </body>
 </template>
 
@@ -59,8 +59,20 @@
     </div>
 
     <div class="updates-div" id="updates-box" style="display: none;">
-        {{#each updates}}
-        <p>sf</p>
+        {{#each updates}}{{checked}}
+        {{#unless checked}}
+        <a href="{{pathFor 'worksPage' _id=this.worksId }}" id="{{worksId}}">
+            <div class="checked-update-box">
+                <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
+            </div>
+        </a>
+        {{else}}
+        <a href="{{pathFor 'worksPage' _id=this.worksId }}" id="{{worksId}}">
+            <div class="update-box">
+                <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
+            </div>
+        </a>
+        {{/unless}}
 
         {{/each}}
     </div>

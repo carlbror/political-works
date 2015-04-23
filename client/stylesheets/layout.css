@@ -1,11 +1,26 @@
 .updates-div{
     position: absolute;
     z-index:100;
-    width:230px;
+    width:290px;
     height: 325px;
     background-color: white;
 
     border-radius: 5px;
 
     box-shadow: -3px 0 8px 1px #888888;
+}
+
+.updates-div a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.checked-update-box {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top: 1px green solid;
+}
+
+.checked-update-box:hover{
+    background-color: gainsboro;
 }

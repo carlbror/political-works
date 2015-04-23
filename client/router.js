@@ -252,9 +252,9 @@ Router.map(function(){
     });
 
     this.route('worksPage', {
-        path: '/works/:title',
+        path: '/works/:_id',
         data: function(){
-            var works = Works.findOne({title: this.params.title});
+            var works = Works.findOne({_id: this.params._id});
             if(works){
                 var ratings = Ratings.find({worksId: works._id},
                     {sort: {ideologyId: -1, policyId: -1, ratingType: 1, convincingScore: -1, readabilityScore: -1}}).fetch();

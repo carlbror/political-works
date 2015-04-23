@@ -19,16 +19,21 @@ function getOffset(el){
     el = el.getBoundingClientRect();
     return {
         top: el.bottom + window.scrollY,
-        left: el.left + window.scrollX - 230
+        left: el.left + window.scrollX - 290
     }
 }
 
 Template.trueHeader.helpers({
     updates: function(){
-        console.log("jk");
-        Meteor.call('getFiveUpdates', function(err, fiveRatings){
-            console.log(fiveRatings);
-            return fiveRatings;
-        });
+        return ReactiveMethod.call("getFiveUpdates");
+    },
+    usernameFromId: function(){
+        return Meteor.users.findOne(this.userId, {fields: {username: 1}}).username;
+    },
+    ideologyNameFromId: function(){
+        return Ideologies.findOne(this.ideologyId, {fields: {name: 1}}).name;
+    },
+    workFromId: function(){
+        return Works.findOne(this.worksId, {fields: {_id:1}});
     }
 });
