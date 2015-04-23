@@ -1,15 +1,23 @@
 Meteor.methods({
-    'setDiscussionUrl': function(password, url, title){
+    getUpdates: function(){
         if(Meteor.isServer){
-            if(password === secrets.discussionUrlPassword){
-                Works.update({title: title}, {$set: {discussionUrl: url}});
+            var user = get_.userOrThrowError();
+            if(!user.updates){
+                user.updates = {};
+                user.updates.lastChecked = new Date(2010, 1, 1);
             }
-        }
-    },
-    'setUrl': function(password, url, title){
-        if(Meteor.isServer){
-            if(password === secrets.discussionUrlPassword){
-                Works.update({title: title}, {$set: {url: url}});
+
+            var ideologies = Ideologies.find({proponents: user._id}, {fields: {_id: 1}}).fetch();
+            if(ideologies.length > 0){
+                _.each(ideologies, function(ideology){
+                    var ratings = Ratings.find({ideologyId: ideology._id, userId: {$ne: user._id},
+                    date: {$gte: user.updates.lastChecked}},  {sort: {date: -1}}).fetch();
+
+                    if(ratings.length > 0){
+                        console.log(ratings);
+                        return ratings;
+                    }
+                });
             }
         }
     }

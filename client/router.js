@@ -247,7 +247,6 @@ Router.map(function(){
                 if(a.title > b.title) return 1;
             });
 
-
             return {works: works};
         }
     });
