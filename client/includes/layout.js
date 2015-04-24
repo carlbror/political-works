@@ -20,7 +20,7 @@ Template.layout.events({
 function getOffset(el){
     el = el.getBoundingClientRect();
     return {
-        top: el.bottom + window.scrollY,
+        top: el.bottom + window.scrollY + 19,
         left: el.left + window.scrollX - 290
     }
 }
