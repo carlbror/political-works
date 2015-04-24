@@ -1,6 +1,6 @@
 Meteor.methods({
     getFiveUpdates: function(non){
-        if(non = "none") return {none: "none"};
+        if(non === "none") return {none: "none"};
         if(Meteor.isServer){
             var user = get_.userOrThrowError();
             if(!user.updates){
@@ -31,7 +31,7 @@ Meteor.methods({
                 }
             });
 
-            console.log(fiveRatings);
+            console.log("ficeRatings: " + fiveRatings);
 
             return fiveRatings;
         }
