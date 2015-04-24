@@ -59,6 +59,7 @@
     </div>
 
     <div class="updates-div" id="updates-box" style="display: none;">
+
         {{#if currentUser}}{{#each updates}}
         {{#if checked}}
         <a class="update-link" href="{{pathFor 'worksPage' _id=this.worksId }}">
