@@ -1,6 +1,6 @@
 Meteor.methods({
     getFiveUpdates: function(non){
-        if(non === "none") return {none: "none"};
+        if(non === "none") return [];
         if(Meteor.isServer){
             var user = get_.userOrThrowError();
             if(!user.updates){

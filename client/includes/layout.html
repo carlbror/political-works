@@ -59,22 +59,18 @@
     </div>
 
     <div class="updates-div" id="updates-box" style="display: none;">
+        <p class="updates-related updates-intro">
+            <b class="updates-related">Updates</b>
+        </p>
 
 
         {{#if currentUser}}{{#each updates}}
-        {{#if checked}}
         <a class="update-link" href="{{pathFor 'worksPage' _id=this.worksId }}">
-            <div class="checked-update-box" id="{{_id}}">
+            <div class="checked-update-box-{{checked}}" id="{{_id}}">
                 <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
+                <span class="updates-date">{{understandableDate}}</span>
             </div>
         </a>
-        {{else}}
-        <a class="update-link" href="{{pathFor 'worksPage' _id=this.worksId }}">
-            <div class="unchecked-update-box" id="{{_id}}">
-                <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
-            </div>
-        </a>
-        {{/if}}
 
         {{/each}}{{/if}}
     </div>

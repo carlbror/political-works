@@ -2,10 +2,16 @@
     position: absolute;
     z-index:100;
     width:290px;
-    height: 325px;
+    height: 250px;
     background-color: white;
 
     box-shadow: -3px 5px 3px 1px #888888;
+}
+
+.updates-div .updates-intro{
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .updates-div a {
@@ -13,23 +19,32 @@
     text-decoration: inherit;
 }
 
-.checked-update-box {
+.checked-update-box-true{
+    padding-top: 5px;
+    padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
     border-top: 1px green solid;
 }
 
-.checked-update-box:hover{
+.checked-update-box-true:hover{
     background-color: #C2F0C2;
 }
 
-.unchecked-update-box{
+.checked-update-box-{
+    padding-top: 5px;
+    padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
     border-top: 1px green solid;
     background-color: #99E699;
 }
 
-.unchecked-update-box:hover{
+.checked-update-box-:hover{
     background-color: #C2F0C2;
+}
+
+.updates-date{
+    font-size: 0.8em;
+    float: right;
 }

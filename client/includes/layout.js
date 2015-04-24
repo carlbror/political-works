@@ -1,5 +1,6 @@
 Template.layout.events({
     'click .updates': function(){
+        Session.set('updates', !Session.get('updates'));
         var obj = getUpdatesOffset($('.updates')[0]),
             updatesDiv = $('.updates-div');
 
@@ -38,6 +39,11 @@ Template.trueHeader.helpers({
     },
     workFromId: function(){
         return Works.findOne(this.worksId, {fields: {_id: 1}});
+    },
+    understandableDate: function(){
+        var date = this.date.toUTCString();
+
+        return date.substring(17, 22) + " - " + date.substring(0, 14);
     }
 });
 
@@ -61,7 +67,8 @@ Template.layout.rendered = function(){
 
     $('body').on('click', function(e){
         if(e.target.className !== "updates-div" && e.target.className !== "updates"
-            && e.target.className !== "updates-cog fa fa-cog"){
+            && e.target.className !== "updates-cog fa fa-cog" && e.target.className !== "updates-related updates-intro"
+            && e.target.className !== "updates-related"){
             $('.updates-div').hide();
         }
     });
