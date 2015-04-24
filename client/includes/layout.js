@@ -41,9 +41,54 @@ Template.trueHeader.helpers({
         return Works.findOne(this.worksId, {fields: {_id: 1}});
     },
     understandableDate: function(){
-        var date = this.date.toUTCString();
+        var differenceInTime = new Date().getTime() - this.date.getTime();
 
-        return date.substring(17, 22) + " - " + date.substring(0, 14);
+        switch(true){
+            case differenceInTime < 60000:
+                return "A few seconds ago";
+                break;
+            case 60000 <= differenceInTime && differenceInTime < 120000:
+                return "One minute ago";
+                break;
+            case 120000 <= differenceInTime && differenceInTime < 180000:
+                return "Two minutes ago";
+                break;
+            case 180000 <= differenceInTime && differenceInTime < 240000:
+                return "Three minutes ago";
+                break;
+            case 240000 <= differenceInTime && differenceInTime < 300000:
+                return "Four minutes ago";
+                break;
+            case 300000 <= differenceInTime && differenceInTime < 360000:
+                return "Five minutes ago";
+                break;
+            case 360000 <= differenceInTime && differenceInTime < 420000:
+                return "Six minutes ago";
+                break;
+            case 420000 <= differenceInTime && differenceInTime < 480000:
+                return "Seven minutes ago";
+                break;
+            case 480000 <= differenceInTime && differenceInTime < 540000:
+                return "Eight minutes ago";
+                break;
+            case 540000 <= differenceInTime && differenceInTime < 600000:
+                return "Nine minutes ago";
+                break;
+            case 600000 <= differenceInTime && differenceInTime < 660000:
+                return "Ten minutes ago";
+                break;
+            case 660000 <= differenceInTime && differenceInTime < 3600000:
+                return Math.round(differenceInTime/60000) + " minutes ago";
+                break;
+            case 3600000 <= differenceInTime && differenceInTime < 86400000:
+                return Math.round(differenceInTime/3600000) + " hours ago";
+                break;
+            case 86400000 <= differenceInTime:
+                var date = this.date.toUTCString();
+
+                return date.substring(0,11) + ", " + date.substring(16,22);
+        }
+
     }
 });
 
@@ -74,7 +119,7 @@ Template.layout.rendered = function(){
     });
 
     $(window).resize(function(){
-        if(Meteor.userId()){
+        if(Meteor.userId() && $('.updates-div').is(":visible")){
             var obj = getUpdatesOffset($('.updates')[0]),
                 updatesDiv = $('.updates-div');
 
