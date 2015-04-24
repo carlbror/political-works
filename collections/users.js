@@ -42,8 +42,6 @@ Meteor.methods({
     addCheckedRatingToUser: function(ratingId){
         var user = get_.userOrThrowError();
 
-        console.log(ratingId);
-
         Meteor.users.update(user._id, {$addToSet: {"updates.checked": ratingId}});
     }
 });

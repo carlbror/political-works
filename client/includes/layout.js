@@ -1,6 +1,5 @@
 Template.layout.events({
     'click .updates': function(){
-
         var obj = getOffset($('.updates')[0]),
             updatesDiv = $('.updates-div');
 
@@ -18,8 +17,6 @@ Template.layout.events({
     }
 });
 
-// "login-button" id="login-buttons-logout"
-
 function getOffset(el){
     el = el.getBoundingClientRect();
     return {
@@ -31,7 +28,6 @@ function getOffset(el){
 Template.trueHeader.helpers({
     updates: function(){
         var sessionUpdates = Session.get('updates');
-        console.log(sessionUpdates);
         return ReactiveMethod.call("getFiveUpdates", sessionUpdates);
     },
     usernameFromId: function(){
@@ -55,3 +51,18 @@ Template.trueHeader.events({
         }
     }
 });
+
+Template.layout.rendered = function(){
+    $('body').on('keydown', function(e){
+        if(e.which === 27){
+            $('.updates-div').hide();
+        }
+    });
+
+    $('body').on('click', function(e){
+        if(e.target.className !== "updates-div" && e.target.className !== "updates"
+            && e.target.className !== "updates-cog fa fa-cog"){
+            $('.updates-div').hide();
+        }
+    });
+}

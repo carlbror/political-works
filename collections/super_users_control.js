@@ -31,8 +31,6 @@ Meteor.methods({
                 }
             });
 
-            console.log("ficeRatings: " + fiveRatings);
-
             return fiveRatings;
         }
     }

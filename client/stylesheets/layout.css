@@ -1,3 +1,14 @@
+#updates-overlay{
+    display: none;
+    opacity: .8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
 .updates-div{
     position: absolute;
     z-index:100;
