@@ -1,15 +1,15 @@
 Template.layout.events({
     'click .updates': function(){
-        var obj = getOffset($('.updates')[0]),
+        var obj = getUpdatesOffset($('.updates')[0]),
             updatesDiv = $('.updates-div');
 
 
         if(updatesDiv.is(":visible")){
             updatesDiv.hide();
         } else {
-            updatesDiv.offset({ top: obj.top, left: obj.left});
+            updatesDiv.offset(obj);
             updatesDiv.show();
-            updatesDiv.offset({ top: obj.top, left: obj.left});
+            updatesDiv.offset(obj);
         }
     },
     "click #login-buttons-logout": function(event){
@@ -17,11 +17,11 @@ Template.layout.events({
     }
 });
 
-function getOffset(el){
+function getUpdatesOffset(el){
     el = el.getBoundingClientRect();
     return {
         top: el.bottom + window.scrollY + 19,
-        left: el.left + window.scrollX - 290
+        left: el.right + window.scrollX - 290
     }
 }
 
@@ -63,6 +63,17 @@ Template.layout.rendered = function(){
         if(e.target.className !== "updates-div" && e.target.className !== "updates"
             && e.target.className !== "updates-cog fa fa-cog"){
             $('.updates-div').hide();
+        }
+    });
+
+    $(window).resize(function(){
+        if(Meteor.userId()){
+            var obj = getUpdatesOffset($('.updates')[0]),
+                updatesDiv = $('.updates-div');
+
+                updatesDiv.offset(obj);
+                updatesDiv.show();
+                updatesDiv.offset(obj);
         }
     });
 }
