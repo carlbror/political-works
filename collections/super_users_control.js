@@ -1,9 +1,12 @@
 Meteor.methods({
-    getFiveUpdates: function(){
+    getFiveUpdates: function(non){
+        if(non = "none") return {none: "none"};
         if(Meteor.isServer){
             var user = get_.userOrThrowError();
             if(!user.updates){
                 user.updates = {};
+            }
+            if(!user.updates.lastChecked){
                 user.updates.lastChecked = new Date(2014, 3, 16);
             }
             var fiveRatings = [];
@@ -23,10 +26,12 @@ Meteor.methods({
             fiveRatings = fiveRatings.slice(0,4);
 
             _.each(fiveRatings, function(rating){
-                if(_.indexOf(user.updates.checkedRatings, rating._id) !== -1){
+                if(_.indexOf(user.updates.checked, rating._id) !== -1){
                     rating.checked = true;
                 }
             });
+
+            console.log(fiveRatings);
 
             return fiveRatings;
         }

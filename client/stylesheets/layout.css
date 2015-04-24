@@ -22,5 +22,16 @@
 }
 
 .checked-update-box:hover{
-    background-color: gainsboro;
+    background-color: #C2F0C2;
+}
+
+.unchecked-update-box{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top: 1px green solid;
+    background-color: #99E699;
+}
+
+.unchecked-update-box:hover{
+    background-color: #C2F0C2;
 }

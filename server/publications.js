@@ -37,7 +37,8 @@ Meteor.publish("userData", function () {
             criticalWorks: 1,
             "services.ratings": 1,
             "profile.name": 1,
-            "profile.mergedWithFacebook": 1
+            "profile.mergedWithFacebook": 1,
+            "updates.checked": 1
         }});
 });
 

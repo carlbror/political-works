@@ -59,21 +59,21 @@
     </div>
 
     <div class="updates-div" id="updates-box" style="display: none;">
-        {{#each updates}}{{checked}}
-        {{#unless checked}}
-        <a href="{{pathFor 'worksPage' _id=this.worksId }}" id="{{worksId}}">
-            <div class="checked-update-box">
+        {{#if updates}}{{#each updates}}
+        {{#if checked}}
+        <a class="update-link" href="{{pathFor 'worksPage' _id=this.worksId }}">
+            <div class="checked-update-box" id="{{_id}}">
                 <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
             </div>
         </a>
         {{else}}
-        <a href="{{pathFor 'worksPage' _id=this.worksId }}" id="{{worksId}}">
-            <div class="update-box">
+        <a class="update-link" href="{{pathFor 'worksPage' _id=this.worksId }}">
+            <div class="unchecked-update-box" id="{{_id}}">
                 <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
             </div>
         </a>
-        {{/unless}}
+        {{/if}}
 
-        {{/each}}
+        {{/each}}{{/if}}
     </div>
 </template>
