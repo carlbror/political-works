@@ -13,12 +13,12 @@
     position: fixed;
     background: #FFF;
     border-radius: 7px;
-    width: 550px;
+    width: 600px;
     z-index: 10;
     padding: 7px;
 }
 #dialogbox > div{ background:#FFF;}
-#dialogbox > div > #dialogboxhead{font-size:19px; padding:15px; color:#bbb;}
+#dialogbox > div > #dialogboxhead{font-size:19px; padding:10px; color:#bbb;}
 #dialogbox > div > #dialogboxbody{padding:15px; color:#CCC; }
 #dialogbox > div > #dialogboxfoot{text-align:right; }
 

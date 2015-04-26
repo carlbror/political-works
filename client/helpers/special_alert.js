@@ -25,6 +25,89 @@ Template.specialAlert.events({
     'click .start-custom-alert': function(){
         Alert.render("no truth");
     },
+    'keydown .title': function(event){
+        $(".title").autocomplete({
+            source: this.titles
+        });
+    },
+    'keydown .producer': function(event){
+        if(this.producers && this.producers.length > 0){
+            availableTags = this.producers;
+
+            if(event.keyCode === $.ui.keyCode.TAB &&
+                $(this).autocomplete("instance").menu.active){
+                event.preventDefault();
+            }
+
+
+            $('.producer').autocomplete({
+                minLength: 0,
+                source: function(request, response){
+                    response($.ui.autocomplete.filter(
+                        availableTags, extractLast(request.term)));
+                },
+                focus: function(){
+                    return false;
+                },
+                select: function(event, ui){
+                    var terms = split(this.value);
+                    terms.pop();
+                    terms.push(ui.item.value);
+                    terms.push("");
+                    this.value = terms.join(", ");
+                    return false;
+                }
+            });
+        }
+    },
+    'click .add-work-to-ideology': function(event){
+        var attr = {
+            title: $('.title').val(),
+            url: $('.url').val(),
+            discussionUrl: $('.discussion-url').val(),
+            scores: {
+                convincingScore: parseInt($('.convincing-score').val()),
+                readabilityScore: parseInt($('.readability-score').val())
+            },
+            familiarity: parseInt($('.work-familiarity').val()),
+            type: $('.type-of-work').val(),
+            ideologyId: this._id,
+            producers: []
+        };
+
+        var producers = $('.producer').val();
+        if(producers.indexOf(',')){
+            producers = producers.split(',');
+            _.each(producers, function(producer){
+                attr.producers.push(producer.trim());
+            });
+        } else {
+            attr.producers.push(producers.trim());
+        }
+
+        if($('.positive').prop('checked')){
+            attr.ratingType = "positive";
+        } else if($('.critical').prop('checked')){
+            attr.ratingType = "critical";
+        }
+
+        var urlReview = $('.review').val();
+        if(urlReview !== "") attr.urlReview = urlReview;
+
+
+        throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
+        checkItContainsEverything(_.omit(attr, 'review'));
+
+        Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
+            if(error) throwError(error.reason);
+            attr.worksId = worksId;
+
+            Meteor.call('addNewRatingOrChangeOld', attr, function(error){
+                if(error) throwError(error.reason);
+                location.reload();
+            });
+        });
+    },
     'click .close-custom-alert': function(){
         Alert.close();
     }
@@ -49,3 +132,11 @@ Template.specialAlert.helpers({
         return familiarity;
     }
 });
+
+function split(val){
+    return val.split(/,\s*/);
+}
+
+function extractLast(term){
+    return split(term).pop();
+}

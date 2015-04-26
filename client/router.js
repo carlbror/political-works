@@ -81,10 +81,15 @@ Router.map(function(){
         },
         data: function(){
             var data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
-                Session.get('typeView'), Session.get('familiarityView'));
-            if(data){
+                Session.get('typeView'), Session.get('familiarityView')),
+                producers = Producers.find({}, {fields: {name: 1}}).fetch(),
+                works = Works.find({}, {fields: {title: 1}}).fetch();
+
+            if(data && producers && works){
                 data.typeOfWork = typeOfWork;
                 data.familiarities = familiarityReveresed;
+                data.producers = _.pluck(producers, 'name');
+                data.titles = _.pluck(works, 'title');
                 return data;
             }
         }
@@ -454,7 +459,7 @@ Deps.autorun(function(){
 
 
 Router.onAfterAction(function(){
-    setDocumentTitle(this.route._path);
+    setDocumentTitle(this.location.get().path);
 });
 
 
