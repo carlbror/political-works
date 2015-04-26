@@ -62,3 +62,9 @@ Template.listItemForIdeologyPage.helpers({
         return totalRatingString.substring(0,2);
     }
 });
+
+Template.ideologyPage.events({
+    'click .addWork': function(){
+        Alert.render(this.name);
+    }
+});

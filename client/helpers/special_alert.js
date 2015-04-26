@@ -9,9 +9,9 @@ function SpecialAlert(){
         dialogoverlay.style.height = windowHeight + "px";
 
         dialogbox.style.left = (windowWidth / 2) - (550 * 0.5) + "px";
-        dialogbox.style.top = "100px";
+        dialogbox.style.top = "30px";
         dialogbox.style.display = "block";
-        document.getElementById('dialogboxhead').innerHTML = "Acknowledge This Message";
+        document.getElementById('dialogboxhead').innerHTML = "Review work for " + dialog;
     }
     this.close = function(){
         document.getElementById('dialogbox').style.display = "none";
@@ -19,7 +19,7 @@ function SpecialAlert(){
 
     }
 };
-var Alert = new SpecialAlert();
+Alert = new SpecialAlert();
 
 Template.specialAlert.events({
     'click .start-custom-alert': function(){
@@ -42,4 +42,10 @@ Template.specialAlert.rendered = function(){
             Alert.close();
         }
     });
-}
+};
+
+Template.specialAlert.helpers({
+    familiarity: function(){
+        return familiarity;
+    }
+});

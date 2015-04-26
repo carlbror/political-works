@@ -3,12 +3,76 @@
     <div id="dialogbox">
         <div>
             <div id="dialogboxhead"></div>
-            <div id="dialogboxbody"></div>
+            <div id="dialogboxbody">
+
+                <label>
+                    <span>Title of the work :</span>
+                    <input class="title" style="width:200px;"/>
+                </label>
+
+                <label>
+                    <span>Producers :</span>
+                    <input class="producer" style="width:200px;"/>
+                </label>
+
+                <label>
+                    <span>URL to work :</span>
+                    <input class="url" style="width:200px;"/>
+                </label>
+
+                <label>
+                    <span>URL to discussion of work :</span>
+                    <input class="discussion-url" style="width: 200px;"/>
+                </label>
+
+                <label>
+                    <span>Type of work :</span>
+                    <select class="type-of-work">
+                        <option></option>
+                        {{#each typeOfWork}}
+                        <option>{{clientName}}</option>
+                        {{/each}}
+                    </select>
+                </label>
+
+                <hr>
+
+                <form>
+                    <span>Work's relationship to ideology : </span>
+                    <input type="radio" name="type" class="positive" value="positive"> Lends support
+                    <input type="radio" name="type" class="critical" value="critical"> Criticizes
+                </form>
+
+                <label>
+                    <span>How well it makes its case :</span>
+                    <input type="number" class="convincing-score" maxlength="3" max="100" min="0" style="width:40px">
+                </label>
+
+                <label>
+                    <span>How enjoyable it is to read/watch :</span>
+                    <input type="number" class="readability-score" max="100" min="0" maxlength="3" style="width:40px">
+                </label>
+
+                <label>
+                    <span>Your familiarity with the work :</span>
+                    <select class="work-familiarity">
+                        <option></option>
+                        {{#each familiarity}}
+                        <option value="{{number}}">{{clientName}}</option>
+                        {{/each}}
+                    </select>
+                </label>
+
+                <label>
+                    <span>URL to your review of this work (optional) : </span>
+                    <input class="review" style="width:200px;"/>
+                </label>
+
+            </div>
             <div id="dialogboxfoot">
                 <button class="btn close-custom-alert">Cancel</button>
                 <button class="btn btn-primary close-custom-alert">OK</button>
             </div>
         </div>
     </div>
-    <button class="start-custom-alert">Custom Alert</button>
 </template>
