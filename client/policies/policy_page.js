@@ -21,3 +21,9 @@ Template.policyPage.helpers({
         return Places.findOne(this.placeId);
     }
 });
+
+Template.policyPage.events({
+    'click .addWork': function(){
+        Alert.render(this.solution);
+    }
+});

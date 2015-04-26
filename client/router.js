@@ -149,7 +149,10 @@ Router.map(function(){
         },
         data: function(){
             var originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"),
-                Session.get('typeView'), Session.get('familiarityView'));
+                Session.get('typeView'), Session.get('familiarityView')),
+                producers = Producers.find({}, {fields: {name: 1}}).fetch(),
+                works = Works.find({}, {fields: {title: 1}}).fetch();
+
             if(originalPolicy){
                 var policyAreas = PolicyAreas.find({policyIds: originalPolicy._id}, {fields: {area: 1}}).fetch();
                 if(policyAreas.length > 0){
@@ -158,6 +161,8 @@ Router.map(function(){
                 }
                 originalPolicy.typeOfWork = typeOfWork;
                 originalPolicy.familiarities = familiarityReveresed;
+                originalPolicy.titles = _.pluck(works, 'title');
+                originalPolicy.producers = _.pluck(producers, 'name');
                 return originalPolicy;
             }
         }

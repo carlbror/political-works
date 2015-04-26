@@ -6,12 +6,12 @@
         <hr>
 
 
-        <div class="supporting-underminig-works">
+        <div class="supporting-undermining-works">
             <div class="container">
                 <div class="row">
                     <div class="span10">
                         {{#if summary}}<b>Summary of the policy:</b> {{{summary}}} {{/if}}
-                        {{#if policyAreas}}Proposed as a solution to the area(s) of {{#each policyAreas}}
+                        {{#if policyAreas}}<br>Proposed as a solution to the area(s) of {{#each policyAreas}}
                         <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{#unless last}}, {{/unless}}{{/each}}.{{/if}}<br><br>
 
                         <h3>Why the policy proposal should be pursued</h3>
@@ -38,7 +38,9 @@
 
                         {{#if currentUser}}
                         <br><br>
-                        <a class="btn btn-success" href="{{pathFor 'newAddWork'}}">Add a work for this policy</a>
+                        {{> specialAlert}}
+                        <button type="button" class="addWork btn btn-success" style="width: 200px">Add a work to this policy
+                        </button>
                         {{/if}}
                     </div>
 

@@ -71,9 +71,24 @@ Template.specialAlert.events({
             },
             familiarity: parseInt($('.work-familiarity').val()),
             type: $('.type-of-work').val(),
-            ideologyId: this._id,
             producers: []
         };
+
+        if(this.name){
+            attr.ideologyId = this._id;
+            if($('.positive').prop('checked')){
+                attr.ratingType = "positive";
+            } else if($('.critical').prop('checked')){
+                attr.ratingType = "critical";
+            }
+        } else {
+            attr.policyId = this._id;
+            if($('.positive').prop('checked')){
+                attr.ratingType = "for";
+            } else if($('.critical').prop('checked')){
+                attr.ratingType = "against";
+            }
+        }
 
         var producers = $('.producer').val();
         if(producers.indexOf(',')){
@@ -85,11 +100,7 @@ Template.specialAlert.events({
             attr.producers.push(producers.trim());
         }
 
-        if($('.positive').prop('checked')){
-            attr.ratingType = "positive";
-        } else if($('.critical').prop('checked')){
-            attr.ratingType = "critical";
-        }
+
 
         var urlReview = $('.review').val();
         if(urlReview !== "") attr.urlReview = urlReview;
@@ -102,10 +113,17 @@ Template.specialAlert.events({
             if(error) throwError(error.reason);
             attr.worksId = worksId;
 
+            if(this.name){
             Meteor.call('addNewRatingOrChangeOld', attr, function(error){
                 if(error) throwError(error.reason);
                 location.reload();
             });
+            } else {
+                Meteor.call('addNewPolicyRatingOrChangeOld', attr, function(error){
+                    if(error) throwError(error.reason);
+                    location.reload();
+                });
+            }
         });
     },
     'click .close-custom-alert': function(){
