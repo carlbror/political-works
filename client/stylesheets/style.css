@@ -277,6 +277,19 @@ h1.center{
     display: inline-block;
     color: #aaaaaa;
 }
+
+.post .post-content span a{
+    color: #aaaaaa;
+}
+
+.post .post-content span:last-child{
+    position: relative;
+    top: 4px;
+    float: right;
+    color: #aaaaaa;
+}
+
+
 .post .post-content p { margin: 0 }
 
 .dropdown-menu span {

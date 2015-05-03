@@ -3,7 +3,8 @@
     {{#each works}}
         <div class="post">
             <div class="post-content">
-                <h3><a href="{{pathFor 'worksPage'}}">{{title}}</a><span>{{producerNames}}</span></h3>
+                <h3><a href="{{pathFor 'worksPage'}}">{{title}}</a><span>{{producerNames}}</span>
+                <span><a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span></h3>
             </div>
         </div>
     {{/each}}

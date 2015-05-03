@@ -1,7 +1,9 @@
 <template name="ideologyItem">
     <div class="post">
         <div class="post-content">
-            <h3><a href="{{pathFor 'ideologyPage'}}">{{name}}</a><span>{{bestWork}}</span></h3>
+            <h3><a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{#with bestWork}}<span>{{title}}, {{producerNames}}
+            </span><span>
+                <a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span>{{/with}}</h3>
         </div>
     </div>
 </template>

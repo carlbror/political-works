@@ -250,14 +250,7 @@ Router.map(function(){
     this.route('worksList', {
         path: '/works',
         data: function(){
-            var works = Works.find().fetch();
-
-            works.sort(function(a, b){
-                if(a.title < b.title) return -1;
-                if(a.title > b.title) return 1;
-            });
-
-            return {works: works};
+            return {works: Works.find({}, {sort: {title: 1}}, {fields: {title:1, url:1}}).fetch()};
         }
     });
 
