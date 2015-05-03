@@ -280,6 +280,13 @@ h1.center{
 
 .post .post-content span a{
     color: #aaaaaa;
+    border-bottom: 1px dotted #aaaaaa;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.post .post-content span a:hover{
+    text-decoration: none;
 }
 
 .post .post-content span:last-child{
