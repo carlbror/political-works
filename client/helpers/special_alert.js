@@ -74,6 +74,8 @@ Template.specialAlert.events({
             producers: []
         };
 
+        console.log(this);
+
         if(this.name){
             attr.ideologyId = this._id;
             if($('.positive').prop('checked')){
@@ -107,13 +109,26 @@ Template.specialAlert.events({
 
 
         throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
-        checkItContainsEverything(_.omit(attr, 'review'));
+
+        if(attr === undefined) throwError("Error code: 601");
+        if(attr.title === undefined) throwError("Error code: 602");
+        if(attr.url === undefined) throwError("Error code: 603");
+        if(attr.discussionUrl === undefined) throwError("Error code: 604");
+        if(attr.scores.readabilityScore === undefined) throwError("Error code: 605");
+        if(attr.scores.convincingScore === undefined) throwError("Error code: 606");
+        if(attr.familiarity === undefined) throwError("Error code: 607");
+        if(attr.type === undefined) throwError("Error code: 608");
+        if(attr.producers === undefined) throwError("Error code: 609");
+        if(attr.ideologyId === undefined && attr.policyId === undefined) throwError("Error code: 610");
+        if(attr.ratingType === undefined) throwError("Error code: 611");
+
+
 
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
             if(error) throwError(error.reason);
             attr.worksId = worksId;
 
-            if(this.name){
+            if(attr.ideologyId){
             Meteor.call('addNewRatingOrChangeOld', attr, function(error){
                 if(error) throwError(error.reason);
                 location.reload();

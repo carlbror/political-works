@@ -40,7 +40,7 @@
                     <td>{{scores.convincingScore}}</td>
                     <td>{{scores.readabilityScore}}</td>
                     <td>{{getFamiliarity}}</td>
-                    <td>{{#if urlReview}}{{urlReview}}{{else}}---{{/if}}</td>
+                    <td>{{#if urlReview}}<a href="{{urlReview}}"><i class="fa fa-external-link"></i></a>{{else}}---{{/if}}</td>
                     <td>{{#with userFromId}}<a href="{{pathFor 'userPage'}}">{{username}}</a>{{/with}}</td>
                 </tr>
                 {{/each}}

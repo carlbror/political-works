@@ -17,3 +17,4 @@ djedi:sanitize-html
 aldeed:collection2
 browser-policy
 simple:reactive-method
+gadicohen:phantomjs
