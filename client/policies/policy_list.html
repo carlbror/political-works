@@ -4,7 +4,9 @@
         {{#each policies}}
         <div class="post">
             <div class="post-content">
-                    <h3><a href="{{pathFor 'policyPage'}}">{{solution}}</a><span>{{bestWork}}</span></h3>
+                    <h3><a href="{{pathFor 'policyPage'}}">{{solution}}</a><span>{{#with bestWork}}
+                        <a href="{{url}}">{{title}}</a>,
+                        {{producerNames}}{{/with}}</span> <span></span></h3>
             </div>
         </div>
         {{/each}}

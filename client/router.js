@@ -112,18 +112,17 @@ Router.map(function(){
     this.route('policyList', {
         path: '/policies',
         data: function(){
-            var policies = Policies.find().fetch();
+            var policies = Policies.find({}, {sort: {solution: 1}}).fetch();
             if(policies.length > 0){
+                for(x=0; x<policies.length;x++){
+                    var ratings = Ratings.find({policyId: policies[x]._id, ratingType: "for"},
+                        {fields: {worksId: 1, scores: 1, ratingType: 1}}).fetch();
 
-                policies.sort(function(a, b){
-                    if(a.solution < b.solution) return -1;
-                    if(a.solution > b.solution) return 1;
-                    return 0;
-                });
-
-                _.each(policies, function(policy){
-                    utils_.putPositiveReviewsOnAPolicy(policy);
-                });
+                        if(ratings.length>0){
+                            policies[x].bestWork = Works.findOne(highestRatedWork(ratings, "for")[0].worksId,
+                                {fields: {producers:1, title: 1, url: 1}});
+                        }
+                }
 
                 return {policies: policies};
             }

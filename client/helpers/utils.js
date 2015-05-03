@@ -24,30 +24,27 @@ addSortedRatingsOnIdeology = function(ratings){
     return valuableWorks;
 };
 
-certainSortedRatings = function(ratings, scoreType){
+highestRatedWork = function(ratings, scoreType){
     var valuableWorks = [];
 
     for(var x = 0; x < ratings.length; x++){
-        var valuableWork = ratings[x].worksId;
-        var possibleWorksId = _.where(valuableWorks, {worksId: valuableWork});
+        var possibleWorksId = _.where(valuableWorks, {worksId: ratings[x].worksId});
         if(possibleWorksId[0]){
 
         } else {
-            var allRatings = _.where(ratings, {worksId: valuableWork});
-            var temp = _.pluck(allRatings, 'scores');
-            var scoresOfOneWorksId = _.pluck(temp, scoreType);
+            var scoresOnAWork = _.pluck(_.pluck(_.where(ratings, {worksId: ratings[x].worksId}), 'scores'), scoreType);
             var newTotalRating = 0;
-            _.each(scoresOfOneWorksId, function(score){
+            _.each(scoresOnAWork, function(score){
                 newTotalRating += parseInt(score);
             });
-            var totalRating = newTotalRating / scoresOfOneWorksId.length;
-            valuableWorks.push({worksId: valuableWork, totalRating: totalRating});
+            var totalRating = newTotalRating / scoresOnAWork.length;
+            valuableWorks.push({worksId: ratings[x].worksId, totalRating: totalRating});
         }
     }
+
     valuableWorks.sort(function (a, b) {
         return b.totalRating - a.totalRating;
     });
-
 
     return valuableWorks;
 };
@@ -87,19 +84,8 @@ putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork
             criticalRatings = _.where(ratings, {ratingType: "against"});
 
 
-        policy.positiveWorks = certainSortedRatings(positiveRatings, scoreType);
-        policy.criticalWorks = certainSortedRatings(criticalRatings, scoreType);
-        return policy;
-    }
-};
-
-utils_.putPositiveReviewsOnAPolicy = function(policy, scoreType){
-    if(policy) {
-        var ratings = Ratings.find({policyId: policy._id}, {fields: {worksId: 1, scores: 1, ratingType: 1}}).fetch();
-
-        var positiveRatings = _.where(ratings, {ratingType: "for"});
-
-        policy.positiveWorks = certainSortedRatings(positiveRatings, scoreType);
+        policy.positiveWorks = highestRatedWork(positiveRatings, scoreType);
+        policy.criticalWorks = highestRatedWork(criticalRatings, scoreType);
         return policy;
     }
 };
@@ -166,10 +152,10 @@ putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, ty
         }, ideology.proponents);
 
 
-        ideology.proponentsPositiveWorks = certainSortedRatings(proponentsPositiveRatings, scoreType);
-        ideology.othersPositiveWorks = certainSortedRatings(othersPositiveRatings, scoreType);
-        ideology.proponentsCriticalWorks = certainSortedRatings(proponentsCriticalRatings, scoreType);
-        ideology.othersCriticalWorks = certainSortedRatings(othersCriticalRatings, scoreType);
+        ideology.proponentsPositiveWorks = highestRatedWork(proponentsPositiveRatings, scoreType);
+        ideology.othersPositiveWorks = highestRatedWork(othersPositiveRatings, scoreType);
+        ideology.proponentsCriticalWorks = highestRatedWork(proponentsCriticalRatings, scoreType);
+        ideology.othersCriticalWorks = highestRatedWork(othersCriticalRatings, scoreType);
 
         return ideology;
     }
