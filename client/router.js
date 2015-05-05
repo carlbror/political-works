@@ -188,13 +188,23 @@ Router.map(function(){
     this.route('policyAreasList', {
         path: '/policy-areas',
         data: function(){
-            var policyAreas = PolicyAreas.find().fetch();
+            var policyAreas = PolicyAreas.find({}, {sort: {area: 1}}).fetch();
 
-            policyAreas.sort(function(a, b){
-                if(a.area < b.area) return -1;
-                if(a.area > b.area) return 1;
-                return 0;
-            });
+            for(var x=0; x<policyAreas.length; x++){
+                var ratings = Ratings.find({policyAreaId: policyAreas[x]._id}, {fields: {"scores.enlighteningScore": 1,
+                worksId: 1}}).fetch()
+
+                if(ratings.length > 0){
+                    console.log("23");
+                    policyAreas[x].bestWork = Works.findOne(calculateTotalScoreForRatingsAndSort(ratings,
+                        "enlighteningScore")[0].worksId, {fields: {producers: 1, title: 1, url: 1}});
+                    console.log(calculateTotalScoreForRatingsAndSort(ratings,
+                        "enlighteningScore")[0]);
+                    console.log("s");
+                }
+            }
+
+
 
             return {policyAreas: policyAreas};
         }

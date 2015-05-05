@@ -4,7 +4,9 @@
         {{#each policyAreas}}
         <div class="post">
             <div class="post-content">
-                <h3><a href="{{pathFor 'policyAreaPage'}}">{{area}}</a><span></span></h3>
+                <h3><a href="{{pathFor 'policyAreaPage'}}">{{area}}</a><span>{{#with bestWork}}
+                        <a target="_blank" href="{{url}}">{{title}}</a>, {{producerNames}}{{/with}}</span>
+                    <span></span></h3>
             </div>
         </div>
         {{/each}}
