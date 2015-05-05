@@ -47,6 +47,9 @@ Template.policyAreaPageMenu.events({
                 Session.set('typeView', 'none');
             } else {
                 Session.set('typeView', whatTypesAreChecked.toString());
+                if(whatTypesAreChecked.length === typeOfWork.length){
+                    $('#all').prop('checked', true);
+                }
             }
         }
     },

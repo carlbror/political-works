@@ -8,6 +8,10 @@
     padding-bottom: 0;
 }
 
+.choose-score input{
+    vertical-align: text-bottom;
+}
+
 .show-types p:first-child{
     margin-bottom: 1px;
 }
