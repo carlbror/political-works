@@ -119,7 +119,8 @@ Router.map(function(){
                         {fields: {worksId: 1, scores: 1, ratingType: 1}}).fetch();
 
                         if(ratings.length>0){
-                            policies[x].bestWork = Works.findOne(highestRatedWork(ratings, "for")[0].worksId,
+                            policies[x].bestWork = Works.findOne(calculateTotalScoreForRatingsAndSort(ratings,
+                                "convincingScore")[0].worksId,
                                 {fields: {producers:1, title: 1, url: 1}});
                         }
                 }
@@ -205,7 +206,7 @@ Router.map(function(){
             var policyArea = PolicyAreas.findOne(this.params._id),
                 works = Works.find({}, {fields: {title: 1}}).fetch(),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                ratingsOnArea = Ratings.find({policyAreaId: this.params._id}).fetch();
+                ratingsOnArea = Ratings.find({policyAreaId: this.params._id},  {fields: {worksId: 1, scores: 1}}).fetch();
 
             if(policyArea && works.length > 0 && producers.length > 0){
                 policyArea.policies = [];
@@ -213,6 +214,10 @@ Router.map(function(){
                 _.each(policyArea.policyIds, function(policyId){
                     policyArea.policies.push(Policies.findOne(policyId, {fields: {solution: 1}}));
                 });
+
+                if(ratingsOnArea.length>0){
+                    policyArea.sortedRatings = calculateTotalScoreForRatingsAndSort(ratingsOnArea, "enlighteningScore");
+                }
 
                 policyArea.titles = _.pluck(works, "title");
                 policyArea.producers = _.pluck(producers, 'name');

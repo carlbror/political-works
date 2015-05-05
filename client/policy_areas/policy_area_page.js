@@ -6,3 +6,11 @@ Template.policyAreaPage.events({
         AreaAlert.render(this.area);
     }
 });
+
+Template.policyAreaPage.helpers({
+    workFromWorksId: function(){
+        if(this.worksId){
+            return Works.findOne(this.worksId, {fields: {title: 1}});
+        }
+    }
+})

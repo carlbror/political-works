@@ -1,8 +1,20 @@
 <template name="policyAreaPage">
-    <div class="main">
         <h1>{{area}}</h1>
         <hr>
         {{{summary}}}<br><br>
+
+
+        {{#if sortedRatings}}
+        <h3>Suggested works</h3>
+        <ol>
+            {{#each sortedRatings}}
+
+            <li>{{#with workFromWorksId}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}} {{totalRating}}%</li>
+
+
+            {{/each}}
+        </ol>
+        {{/if}}
 
 
         {{#if policies}}
@@ -14,14 +26,15 @@
 
         <br><br>
         {{#if currentUser}}
-            {{> policyAreaAlert}}
-            <p>
-                <input type="submit" value="Suggest a work that sheds light on this problem" class="btn add-work-on-area btn-success">
-            </p>
-            <p>
-                <input type="submit" value="Add a solution to this problem" class="btn add-policy-for-an-area btn-primary">
-            </p>
+        {{> policyAreaAlert}}
+        <p>
+            <input type="submit" value="Suggest a work that sheds light on this problem"
+                   class="btn add-work-on-area btn-success">
+        </p>
+
+        <p>
+            <input type="submit" value="Add a solution to this problem" class="btn add-policy-for-an-area btn-primary">
+        </p>
         {{/if}}
 
-    </div>
 </template>

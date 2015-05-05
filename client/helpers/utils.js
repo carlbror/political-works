@@ -24,7 +24,7 @@ addSortedRatingsOnIdeology = function(ratings){
     return valuableWorks;
 };
 
-highestRatedWork = function(ratings, scoreType){
+calculateTotalScoreForRatingsAndSort = function(ratings, scoreType){
     var valuableWorks = [];
 
     for(var x = 0; x < ratings.length; x++){
@@ -84,8 +84,8 @@ putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork
             criticalRatings = _.where(ratings, {ratingType: "against"});
 
 
-        policy.positiveWorks = highestRatedWork(positiveRatings, scoreType);
-        policy.criticalWorks = highestRatedWork(criticalRatings, scoreType);
+        policy.positiveWorks = calculateTotalScoreForRatingsAndSort(positiveRatings, scoreType);
+        policy.criticalWorks = calculateTotalScoreForRatingsAndSort(criticalRatings, scoreType);
         return policy;
     }
 };
@@ -152,10 +152,10 @@ putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, ty
         }, ideology.proponents);
 
 
-        ideology.proponentsPositiveWorks = highestRatedWork(proponentsPositiveRatings, scoreType);
-        ideology.othersPositiveWorks = highestRatedWork(othersPositiveRatings, scoreType);
-        ideology.proponentsCriticalWorks = highestRatedWork(proponentsCriticalRatings, scoreType);
-        ideology.othersCriticalWorks = highestRatedWork(othersCriticalRatings, scoreType);
+        ideology.proponentsPositiveWorks = calculateTotalScoreForRatingsAndSort(proponentsPositiveRatings, scoreType);
+        ideology.othersPositiveWorks = calculateTotalScoreForRatingsAndSort(othersPositiveRatings, scoreType);
+        ideology.proponentsCriticalWorks = calculateTotalScoreForRatingsAndSort(proponentsCriticalRatings, scoreType);
+        ideology.othersCriticalWorks = calculateTotalScoreForRatingsAndSort(othersCriticalRatings, scoreType);
 
         return ideology;
     }
