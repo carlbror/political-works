@@ -80,25 +80,6 @@ Meteor.methods({
         } else {
             var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
         }
-    },
-    'addNewPolicyRatingOrChangeOld': function(attr){
-        var sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
-        sanitizedObj.scores = o_.sanitizeObject(attr.scores);
-
-        var user = get_.userOrThrowError(),
-            rating = Ratings.findOne({
-                userId: user._id,
-                policyId: sanitizedObj.policyId,
-                ratingType: sanitizedObj.ratingType,
-                worksId: sanitizedObj.worksId
-            });
-
-        if(rating){
-            Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
-                dateWhenRated: new Date()}});
-        } else {
-            var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
-        }
     }
 });
 

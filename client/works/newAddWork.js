@@ -157,17 +157,10 @@ Template.newAddWork.events({
             if(error) throwError(error.reason);
             attr.worksId = worksId;
 
-            if(attr.ideologyId){
-                Meteor.call('addNewRatingOrChangeOld', attr, function(error){
-                    if(error) throwError(error.reason);
-                    location.reload();
-                });
-            } else if(attr.policyId){
-                Meteor.call('addNewPolicyRatingOrChangeOld', attr, function(error){
-                    if(error) throwError(error.reason);
-                    location.reload();
-                });
-            }
+            Meteor.call('addNewRatingOrChangeOld', attr, function(error){
+                if(error) throwError(error.reason);
+                location.reload();
+            });
         });
     },
     'keypress .title, paste .title': function(){
@@ -178,7 +171,7 @@ Template.newAddWork.events({
         ifSecondSectionAreFilledInEnableNext();
     },
     'keypress .url, paste .url': function(event){
-        setTimeout( function() {
+        setTimeout(function(){
             if(!!$('.url').val().match(urlRegExp)){
                 changedUrl = true;
                 ifSecondSectionAreFilledInEnableNext();
@@ -186,7 +179,7 @@ Template.newAddWork.events({
         }, 100);
     },
     'keypress .discussion-url, paste .discussion-url': function(){
-        setTimeout( function() {
+        setTimeout(function(){
             if(!!$('.discussion-url').val().match(urlRegExp)){
                 changedDiscussionUrl = true;
                 ifSecondSectionAreFilledInEnableNext();

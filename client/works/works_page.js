@@ -23,21 +23,21 @@ Template.worksPage.rendered = function(){
     commandOwl = entireOwl.data('owlCarousel');
 
 
-    if(Meteor.userId() ==="dib2n7TByrgDmxvQL" || Meteor.userId() === "5LgPbnMYcT8zGB367"){
-    $(".configure-div").offset(getOffset($('.config')[0]));
+    if(Meteor.userId() === "dib2n7TByrgDmxvQL" || Meteor.userId() === "5LgPbnMYcT8zGB367"){
+        $(".configure-div").offset(getOffset($('.config')[0]));
 
-    $(window).resize(function(){
-        if($('.configure-div')[0]){
-            $(".configure-div").offset(getOffset($('.config')[0]));
-        }
-    });
+        $(window).resize(function(){
+            if($('.configure-div')[0]){
+                $(".configure-div").offset(getOffset($('.config')[0]));
+            }
+        });
     }
 };
 
 
 Template.worksPage.helpers({
     ifMe: function(){
-        if(Meteor.userId() ==="dib2n7TByrgDmxvQL" || Meteor.userId() === "5LgPbnMYcT8zGB367"){
+        if(Meteor.userId() === "dib2n7TByrgDmxvQL" || Meteor.userId() === "5LgPbnMYcT8zGB367"){
             return true;
         }
     },
@@ -64,12 +64,12 @@ Template.worksPage.helpers({
     },
     ideologyOrPolicyFromId: function(){
         if(this.policyId){
-            var policy = Policies.findOne(this.policyId, {fields: {solution:1}});
+            var policy = Policies.findOne(this.policyId, {fields: {solution: 1}});
             if(policy){
                 return _.extend(policy, {ratingType: this.ratingType});
             }
         } else if(this.ideologyId){
-            var ideology = Ideologies.findOne(this.ideologyId, {fields: {name:1}});
+            var ideology = Ideologies.findOne(this.ideologyId, {fields: {name: 1}});
             if(ideology){
                 return _.extend(ideology, {ratingType: this.ratingType});
             }
@@ -280,17 +280,10 @@ Template.worksPage.events({
         throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
         checkItContainsEverything(_.omit(attr, "introduction"));
 
-        if(attr.ideologyId){
-            Meteor.call('addNewRatingOrChangeOld', attr, function(error){
-                if(error) throwError(error.reason);
-                location.reload();
-            });
-        } else if(attr.policyId){
-            Meteor.call('addNewPolicyRatingOrChangeOld', attr, function(error){
-                if(error) throwError(error.reason);
-                location.reload();
-            });
-        }
+        Meteor.call('addNewRatingOrChangeOld', attr, function(error){
+            if(error) throwError(error.reason);
+            location.reload();
+        });
     },
 
     'change #add-rating-checkbox': function(event){
@@ -397,11 +390,11 @@ createMillionIdeologies = function(){
         for(x = 0; x < 10; x++){
             randomIdeology = "aa" + Math.random();
 
-                setTimeout( function() {
-                    Meteor.call('createIdeology', randomIdeology, function(err, res){
-                        if(err) showError(err.reason);
-                    });
-                }, 100);
+            setTimeout(function(){
+                Meteor.call('createIdeology', randomIdeology, function(err, res){
+                    if(err) showError(err.reason);
+                });
+            }, 100);
         }
     });
 };
