@@ -81,7 +81,7 @@ Router.map(function(){
         },
         data: function(){
             var data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
-                Session.get('typeView'), Session.get('familiarityView')),
+                    Session.get('typeView'), Session.get('familiarityView')),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
                 works = Works.find({}, {fields: {title: 1}}).fetch();
 
@@ -114,15 +114,15 @@ Router.map(function(){
         data: function(){
             var policies = Policies.find({}, {sort: {solution: 1}}).fetch();
             if(policies.length > 0){
-                for(x=0; x<policies.length;x++){
+                for(x = 0; x < policies.length; x++){
                     var ratings = Ratings.find({policyId: policies[x]._id, ratingType: "for"},
                         {fields: {worksId: 1, scores: 1, ratingType: 1}}).fetch();
 
-                        if(ratings.length>0){
-                            policies[x].bestWork = Works.findOne(calculateTotalScoreForRatingsAndSort(ratings,
-                                "convincingScore")[0].worksId,
-                                {fields: {producers:1, title: 1, url: 1}});
-                        }
+                    if(ratings.length > 0){
+                        policies[x].bestWork = Works.findOne(calculateTotalScoreForRatingsAndSort(ratings,
+                            "convincingScore")[0].worksId,
+                            {fields: {producers: 1, title: 1, url: 1}});
+                    }
                 }
 
                 return {policies: policies};
@@ -149,7 +149,7 @@ Router.map(function(){
         },
         data: function(){
             var originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"),
-                Session.get('typeView'), Session.get('familiarityView')),
+                    Session.get('typeView'), Session.get('familiarityView')),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
                 works = Works.find({}, {fields: {title: 1}}).fetch();
 
@@ -202,11 +202,29 @@ Router.map(function(){
 
     this.route('policyAreaPage', {
         path: 'policy-area/:area/:_id',
+        onBeforeAction: function(){
+            if(!Session.get('scoreView')){
+                Session.set('scoreView', 'enlighteningScore');
+            }
+            if(!Session.get('typeView')){
+                Session.set('typeView', 'all');
+            }
+
+            if(!Session.get('familiarityView')){
+                Session.set('familiarityView', [familiarityReveresed[0].number, familiarityReveresed[1].number,
+                    familiarityReveresed[2].number, familiarityReveresed[3].number].toString());
+            }
+
+            this.next();
+        },
         data: function(){
             var policyArea = PolicyAreas.findOne(this.params._id),
-                works = Works.find({}, {fields: {title: 1}}).fetch(),
+                works = Works.find({}, {fields: {title: 1, type: 1}}).fetch(),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                ratingsOnArea = Ratings.find({policyAreaId: this.params._id},  {fields: {worksId: 1, scores: 1}}).fetch();
+                ratingsOnArea = Ratings.find(
+                    {policyAreaId: this.params._id, familiarity: {$in: Session.get('familiarityView').split(',')}},
+                    {fields: {worksId: 1, scores: 1}}).fetch(),
+                type = Session.get('typeView').split(',');
 
             if(policyArea && works.length > 0 && producers.length > 0){
                 policyArea.policies = [];
@@ -215,13 +233,28 @@ Router.map(function(){
                     policyArea.policies.push(Policies.findOne(policyId, {fields: {solution: 1}}));
                 });
 
-                if(ratingsOnArea.length>0){
-                    policyArea.sortedRatings = calculateTotalScoreForRatingsAndSort(ratingsOnArea, "enlighteningScore");
+                if(type[0] !== 'all'){
+                    if(type[0] === 'none'){
+                        ratingsOnArea = null;
+                    } else {
+                        var worksInRatings = _.filter(works, function(work){
+                            return _.contains(type, work.type);
+                        });
+
+                        ratingsOnArea = _.filter(ratingsOnArea, function(rating){
+                            return _.contains(_.pluck(worksInRatings, '_id'), rating.worksId);
+                        });
+                    }
+                }
+                if(ratingsOnArea && ratingsOnArea.length > 0){
+                    policyArea.sortedRatings = calculateTotalScoreForRatingsAndSort(ratingsOnArea, Session.get('scoreView'));
                 }
 
                 policyArea.titles = _.pluck(works, "title");
                 policyArea.producers = _.pluck(producers, 'name');
                 policyArea.ratingsOnArea = ratingsOnArea;
+                policyArea.typeOfWork = typeOfWork;
+                policyArea.familiarities = familiarityReveresed;
 
                 return policyArea;
             }
@@ -262,7 +295,7 @@ Router.map(function(){
     this.route('worksList', {
         path: '/works',
         data: function(){
-            return {works: Works.find({}, {sort: {title: 1}}, {fields: {title:1, url:1}}).fetch()};
+            return {works: Works.find({}, {sort: {title: 1}}, {fields: {title: 1, url: 1}}).fetch()};
         }
     });
 

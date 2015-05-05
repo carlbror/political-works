@@ -1,0 +1,47 @@
+<template name="policyAreaPageMenu">
+    <div class="choose-score">
+        <p style="text-align: center">
+            <b>Sort works</b>
+        </p>
+
+        <p>
+        <form>
+            <label for="enlighteningScore">
+                <input class="choose-score-checkbox" name="score" type="radio" id="enlighteningScore" {{scoreEnlighteningChecked}}>
+                by how much insight they give on the subject,</label>
+
+            <label for="readabilityScore">
+                <input class="choose-score-checkbox" name="score" type="radio" id="readabilityScore" {{scoreReadabilityChecked}}>
+                by how easy they are to read/watch/listen to.</label>
+        </form>
+        </p>
+    </div>
+
+    <div class="show-types">
+        <p style="text-align: center;">
+            <b>Show media types</b>
+        </p>
+
+        <p>
+            <label class="view-type" for="all"><input class="show-type" type="checkbox" id="all" checked> All</label>
+            {{#each typeOfWork}}
+            <label class="view-type" for="{{htmlName}}">
+                <input class="show-type" type="checkbox" id="{{htmlName}}" checked> {{clientName}} </label>
+            {{/each}}
+        </p>
+    </div>
+
+    <div class="show-familiarity">
+        <p style="text-align: center">
+            <b>Display ratings with enough familiarity</b>
+        </p>
+
+        <p>
+            {{#each familiarities}}
+            <label class="view-familiarity" for="{{number}}">
+                <input class="show-familiarity" type="checkbox" id="{{number}}" {{familiaritiesChecked}}> {{clientName}}</label>
+            {{/each}}
+            <label class="familiarity" for="any"><input class="show-type" type="checkbox" id="any"> Any</label>
+        </p>
+    </div>
+</template>

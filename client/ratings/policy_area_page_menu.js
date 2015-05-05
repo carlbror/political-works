@@ -1,4 +1,4 @@
-Template.chooseScore.helpers({
+Template.policyAreaPageMenu.helpers({
     familiaritiesChecked: function(){
         var arrayOfViews = Session.get('familiarityView').split(',');
         if(_.contains(arrayOfViews, this.number.toString())){
@@ -7,19 +7,19 @@ Template.chooseScore.helpers({
             return "checked";
         }
     },
-    scoreConvincingChecked: function(){
-        if(Session.get('scoreView') === 'convincing-score'){
+    scoreEnlighteningChecked: function(){
+        if(Session.get('scoreView') === 'enlighteningScore'){
             return 'checked';
         }
     },
     scoreReadabilityChecked: function(){
-        if(Session.get('scoreView') === 'readability-score'){
+        if(Session.get('scoreView') === 'readabilityScore'){
             return 'checked';
         }
     }
 });
 
-Template.chooseScore.events({
+Template.policyAreaPageMenu.events({
     'change .choose-score-checkbox': function (event) {
         Session.set('scoreView', event.currentTarget.id);
     },
@@ -62,11 +62,7 @@ Template.chooseScore.events({
         }
 
         if( $('#any').prop('checked')){
-            if(Router.current().route._path === "/user/:username"){
                 Session.set('familiarityView', "7,6,5,4,3,2,1");
-            } else {
-                Session.set('familiarityView', 'any');
-            }
         } else {
             var whatFamiliaritiesAreChecked = [];
             _.each(familiarityReveresed, function(type){
