@@ -23,6 +23,7 @@
             <table>
                 <tr>
                     <th>Subject of work</th>
+                    <th>Enlightening</th>
                     <th>Convincing</th>
                     <th>Readable</th>
                     <th>Familiarity</th>
@@ -37,7 +38,8 @@
                         <a href="{{pathFor 'ideologyPage'}}">{{name}}</a> &nbsp;&nbsp;&nbsp;
                         <span>({{ratingType}})</span>{{/if}}{{/with}}
                     </td>
-                    <td>{{scores.convincingScore}}</td>
+                    <td>{{#if scores.enlighteningScore}}{{scores.enlighteningScore}}{{else}}---{{/if}}</td>
+                    <td>{{#if scores.convincingScore}}{{scores.convincingScore}}{{else}}---{{/if}}</td>
                     <td>{{scores.readabilityScore}}</td>
                     <td>{{getFamiliarity}}</td>
                     <td>{{#if urlReview}}<a href="{{urlReview}}"><i class="fa fa-external-link"></i></a>{{else}}---{{/if}}</td>
