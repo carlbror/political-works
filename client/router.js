@@ -202,13 +202,19 @@ Router.map(function(){
     this.route('policyAreaPage', {
         path: 'policy-area/:area/:_id',
         data: function(){
-            var policyArea = PolicyAreas.findOne(this.params._id);
-            if(policyArea){
+            var policyArea = PolicyAreas.findOne(this.params._id),
+                works = Works.find({}, {fields: {title: 1}}).fetch(),
+                producers = Producers.find({}, {fields: {name: 1}}).fetch();
+
+            if(policyArea && works.length > 0 && producers.length > 0){
                 policyArea.policies = [];
 
                 _.each(policyArea.policyIds, function(policyId){
                     policyArea.policies.push(Policies.findOne(policyId, {fields: {solution: 1}}));
                 });
+
+                policyArea.titles = _.pluck(works, "title");
+                policyArea.producers = _.pluck(producers, 'name');
 
                 return policyArea;
             }
