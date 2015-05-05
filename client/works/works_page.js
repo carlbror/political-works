@@ -280,10 +280,17 @@ Template.worksPage.events({
         throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
         checkItContainsEverything(_.omit(attr, "introduction"));
 
-        Meteor.call('addNewRatingOrChangeOld', attr, function(err){
-            if(err) throwError(err.reason);
-            else location.reload();
-        });
+        if(attr.ideologyId){
+            Meteor.call('addNewRatingOrChangeOld', attr, function(error){
+                if(error) throwError(error.reason);
+                location.reload();
+            });
+        } else if(attr.policyId){
+            Meteor.call('addNewPolicyRatingOrChangeOld', attr, function(error){
+                if(error) throwError(error.reason);
+                location.reload();
+            });
+        }
     },
 
     'change #add-rating-checkbox': function(event){

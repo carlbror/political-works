@@ -15,41 +15,42 @@ Meteor.methods({
         sanitizedObj.scores = o_.sanitizeObject(attr.scores);
         sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
         sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
-
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
             throw new Meteor.Error(
                 'Url needs to be of type ftp://..., http://..., or https://...');
         }
 
+        var rating = Ratings.findOne({
+            userId: user._id,
+            ideologyId: sanitizedObj.ideologyId,
+            ratingType: sanitizedObj.ratingType,
+            worksId: sanitizedObj.worksId
+        });
 
-        if(sanitizedObj.ideologyId){
-            var rating = Ratings.findOne({userId: user._id, ideologyId: sanitizedObj.ideologyId, ratingType: sanitizedObj.ratingType, worksId: sanitizedObj.worksId});
+        if(rating){
+            ratings_.updateOldReview(rating, sanitizedObj);
+        } else {
+            var ratingId = ratings_.createNewIdeologyRating(sanitizedObj, user._id);
+            if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
+        }
+    },
+    'addNewAreaRatingOrChangeOld': function(attr){
+        console.log(attr);
+        var sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
+        sanitizedObj.scores = o_.sanitizeObject(attr.scores);
 
-            if(rating){
-                Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
-                    dateWhenRated: new Date()}});
-                if(sanitizedObj.urlReview) Ratings.update(rating._id, {$set: {urlReview: sanitizedObj.urlReview}});
-            } else {
-                var ratingId = ratings_.createNewRating(sanitizedObj, user._id);
-                if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
-            }
-        } else if(sanitizedObj.policyId){
-            var rating = Ratings.findOne({
+        var user = get_.userOrThrowError(),
+            rating = Ratings.findOne({
                 userId: user._id,
-                policyId: sanitizedObj.policyId,
-                ratingType: sanitizedObj.ratingType,
+                policyAreaId: sanitizedObj.policyAreaId,
                 worksId: sanitizedObj.worksId
             });
 
-            if(rating){
-                Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
-                    dateWhenRated: new Date()}});
-                if(sanitizedObj.urlReview) Ratings.update(rating._id, {$set: {urlReview: sanitizedObj.urlReview}});
-            } else {
-                var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
-                if(sanitizedObj.urlReview) Ratings.update(rating._id, {$set: {urlReview: sanitizedObj.urlReview}});
-            }
-
+        if(rating){
+            Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
+                dateWhenRated: new Date()}});
+        } else {
+            var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
         }
     },
     'addNewPolicyRatingOrChangeOld': function(attr){
@@ -69,13 +70,12 @@ Meteor.methods({
                 dateWhenRated: new Date()}});
         } else {
             var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
-            Meteor.users.update({_id: user._id}, {$push: {"services.policyRatings": ratingId}});
         }
     }
 });
 
 
-ratings_.createNewRating = function(attr, userId){
+ratings_.createNewIdeologyRating = function(attr, userId){
     return Ratings.insert({
         ideologyId: attr.ideologyId,
         worksId: attr.worksId,
@@ -97,4 +97,28 @@ ratings_.createNewPolicyRating = function(attr, userId){
         ratingType: attr.ratingType,
         date: new Date()
     });
+};
+
+ratings_.updateOldReview = function(rating, sanitizedObj){
+    Ratings.update({_id: rating._id}, {
+        $set: {
+            scores: sanitizedObj.scores,
+            familiarity: sanitizedObj.familiarity,
+            date: new Date()
+        },
+        $addToSet: {
+            oldReviews: {
+                date: rating.date,
+                scores: rating.scores}
+        }
+    });
+
+
+    if(sanitizedObj.urlReview){
+        Ratings.update(rating._id, {
+            $set: {
+                urlReview: sanitizedObj.urlReview
+            }
+        });
+    }
 };
