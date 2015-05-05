@@ -1,9 +1,8 @@
 .module {
     margin: 10px;
-    width: 230px;
-    height: 150px;
-    float: left;
-    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/shoes.jpg);
+    width: 1400px;
+    height: 400px;
+    background: url("book_porn.jpg");
     background-size: cover;
     position: relative;
 }
