@@ -1,9 +1,9 @@
-function SpecialAlert(){
-    this.render = function(dialog, isArea){
+function PolicyAreaAlert(){
+    this.render = function(dialog){
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
-        var dialogoverlay = document.getElementById('dialogoverlay');
-        var dialogbox = document.getElementById('dialogbox');
+        var dialogoverlay = document.getElementById('areaDialogoverlay');
+        var dialogbox = document.getElementById('areaDialogbox');
 
         dialogoverlay.style.display = "block";
         dialogoverlay.style.height = windowHeight + "px";
@@ -11,15 +11,15 @@ function SpecialAlert(){
         dialogbox.style.left = (windowWidth / 2) - (550 * 0.5) + "px";
         dialogbox.style.top = "30px";
         dialogbox.style.display = "block";
-        document.getElementById('dialogboxhead').innerHTML = "Review work for " + dialog;
+        document.getElementById('areaDialogboxhead').innerHTML = "Add an enlightening work on " + dialog;
     }
     this.close = function(){
-        document.getElementById('dialogbox').style.display = "none";
-        document.getElementById('dialogoverlay').style.display = "none";
+        document.getElementById('areaDialogbox').style.display = "none";
+        document.getElementById('areaDialogoverlay').style.display = "none";
 
     }
 };
-Alert = new SpecialAlert();
+AreaAlert = new PolicyAreaAlert();
 
 function split(val){
     return val.split(/,\s*/);
@@ -29,10 +29,10 @@ function extractLast(term){
     return split(term).pop();
 }
 
-Template.specialAlert.events({
-    'click .start-custom-alert': function(){
-        Alert.render("no truth");
-    },
+
+
+
+Template.policyAreaAlert.events({
     'keydown .title': function(event){
         $(".title").autocomplete({
             source: this.titles
@@ -68,7 +68,7 @@ Template.specialAlert.events({
             });
         }
     },
-    'click .add-work-to-ideology': function(event){
+    'click .add-work-to-area': function(event){
         var attr = {
             title: $('.title').val(),
             url: $('.url').val(),
@@ -137,10 +137,10 @@ Template.specialAlert.events({
             attr.worksId = worksId;
 
             if(attr.ideologyId){
-            Meteor.call('addNewRatingOrChangeOld', attr, function(error){
-                if(error) throwError(error.reason);
-                location.reload();
-            });
+                Meteor.call('addNewRatingOrChangeOld', attr, function(error){
+                    if(error) throwError(error.reason);
+                    location.reload();
+                });
             } else {
                 Meteor.call('addNewPolicyRatingOrChangeOld', attr, function(error){
                     if(error) throwError(error.reason);
@@ -154,21 +154,21 @@ Template.specialAlert.events({
     }
 });
 
-Template.specialAlert.rendered = function(){
+Template.policyAreaAlert.rendered = function(){
     $('body').on('keydown', function(e){
         if(e.which === 27){
-            Alert.close();
+            AreaAlert.close();
         }
     });
 
     $('body').on('click', function(e){
-        if(e.target.id === "dialogoverlay"){
-            Alert.close();
+        if(e.target.id === "areaDialogoverlay"){
+            AreaAlert.close();
         }
     });
 };
 
-Template.specialAlert.helpers({
+Template.policyAreaAlert.helpers({
     familiarity: function(){
         return familiarity;
     }

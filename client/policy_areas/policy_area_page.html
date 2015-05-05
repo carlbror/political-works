@@ -5,15 +5,21 @@
         {{{summary}}}<br><br>
 
         {{#if policies}}
-            <b>Proposed solutions:</b><br>
-            {{#each policies}}
-                <a href="{{pathFor 'policyPage'}}">{{solution}}</a><br>
-            {{/each}}
+        <b>Proposed solutions:</b><br>
+        {{#each policies}}
+        <a href="{{pathFor 'policyPage'}}">{{solution}}</a><br>
+        {{/each}}
         {{/if}}
 
         <br><br>
         {{#if currentUser}}
-            <input type="submit" value="Add a solution to this problem" class="btn add-policy-for-an-area btn-primary">
+            {{> policyAreaAlert}}
+            <p>
+                <input type="submit" value="Suggest a work that sheds light on this problem" class="btn add-work-on-area btn-success">
+            </p>
+            <p>
+                <input type="submit" value="Add a solution to this problem" class="btn add-policy-for-an-area btn-primary">
+            </p>
         {{/if}}
 
     </div>

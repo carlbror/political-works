@@ -2,7 +2,14 @@ var scoresSchema = new SimpleSchema({
     convincingScore: {
         type: Number,
         min: 0,
-        max: 100
+        max: 100,
+        optional: true
+    },
+    enlighteningScore: {
+        type: Number,
+        min: 0,
+        max: 100,
+        optional: true
     },
     readabilityScore: {
         type: Number,
@@ -25,7 +32,8 @@ Schemas.Ratings = new SimpleSchema({
         type: String
     },
     ratingType: {
-        type: String
+        type: String,
+        optional: true
     },
     date: {
         type: Date
@@ -35,6 +43,10 @@ Schemas.Ratings = new SimpleSchema({
         optional: true
     },
     ideologyId: {
+        type: String,
+        optional: true
+    },
+    policyAreaId: {
         type: String,
         optional: true
     },
