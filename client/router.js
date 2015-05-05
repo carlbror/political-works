@@ -204,7 +204,8 @@ Router.map(function(){
         data: function(){
             var policyArea = PolicyAreas.findOne(this.params._id),
                 works = Works.find({}, {fields: {title: 1}}).fetch(),
-                producers = Producers.find({}, {fields: {name: 1}}).fetch();
+                producers = Producers.find({}, {fields: {name: 1}}).fetch(),
+                ratingsOnArea = Ratings.find({policyAreaId: this.params._id}).fetch();
 
             if(policyArea && works.length > 0 && producers.length > 0){
                 policyArea.policies = [];
@@ -215,6 +216,7 @@ Router.map(function(){
 
                 policyArea.titles = _.pluck(works, "title");
                 policyArea.producers = _.pluck(producers, 'name');
+                policyArea.ratingsOnArea = ratingsOnArea;
 
                 return policyArea;
             }

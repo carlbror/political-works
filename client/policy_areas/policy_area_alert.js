@@ -114,7 +114,7 @@ Template.policyAreaAlert.events({
             if(error) throwError(error.reason);
             attr.worksId = worksId;
 
-            Meteor.call('addNewAreaRatingOrChangeOld', attr, function(error){
+            Meteor.call('addNewRatingOrChangeOld', attr, function(error){
                 if(error) throwError(error.reason);
 
 

@@ -14,13 +14,15 @@ Meteor.methods({
             sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
 
         sanitizedObj.scores = o_.sanitizeObject(attr.scores);
-        sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
+        if(sanitizedObj.scores.convincingScore) sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
+        if(sanitizedObj.scores.enlighteningScore) sanitizedObj.scores.enlighteningScore = parseInt(sanitizedObj.scores.enlighteningScore);
         sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
 
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
             throw new Meteor.Error(
                 'Url needs to be of type ftp://..., http://..., or https://...');
         }
+
 
         if(sanitizedObj.ideologyId){
             var rating = Ratings.findOne({
@@ -61,25 +63,6 @@ Meteor.methods({
                 if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
             }
         }
-    },
-    'addNewAreaRatingOrChangeOld': function(attr){
-        console.log(attr);
-        var sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
-        sanitizedObj.scores = o_.sanitizeObject(attr.scores);
-
-        var user = get_.userOrThrowError(),
-            rating = Ratings.findOne({
-                userId: user._id,
-                policyAreaId: sanitizedObj.policyAreaId,
-                worksId: sanitizedObj.worksId
-            });
-
-        if(rating){
-            Ratings.update({_id: rating._id}, {$set: {scores: sanitizedObj.scores, familiarity: sanitizedObj.familiarity,
-                dateWhenRated: new Date()}});
-        } else {
-            var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
-        }
     }
 });
 
@@ -110,7 +93,7 @@ ratings_.createNewPolicyRating = function(attr, userId){
 
 ratings_.createNewAreaRating = function(attr, userId){
     return Ratings.insert({
-        policyArea: attr.policyAreaId,
+        policyAreaId: attr.policyAreaId,
         worksId: attr.worksId,
         userId: userId,
         scores: attr.scores,
