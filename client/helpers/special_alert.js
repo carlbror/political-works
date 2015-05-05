@@ -136,17 +136,10 @@ Template.specialAlert.events({
             if(error) throwError(error.reason);
             attr.worksId = worksId;
 
-            if(attr.ideologyId){
             Meteor.call('addNewRatingOrChangeOld', attr, function(error){
                 if(error) throwError(error.reason);
                 location.reload();
             });
-            } else {
-                Meteor.call('addNewPolicyRatingOrChangeOld', attr, function(error){
-                    if(error) throwError(error.reason);
-                    location.reload();
-                });
-            }
         });
     },
     'click .close-custom-alert': function(){

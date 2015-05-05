@@ -12,26 +12,54 @@ Meteor.methods({
     addNewRatingOrChangeOld: function(attr){
         var user = get_.userOrThrowError(),
             sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
+
         sanitizedObj.scores = o_.sanitizeObject(attr.scores);
         sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
         sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
+
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
             throw new Meteor.Error(
                 'Url needs to be of type ftp://..., http://..., or https://...');
         }
 
-        var rating = Ratings.findOne({
-            userId: user._id,
-            ideologyId: sanitizedObj.ideologyId,
-            ratingType: sanitizedObj.ratingType,
-            worksId: sanitizedObj.worksId
-        });
-
-        if(rating){
-            ratings_.updateOldReview(rating, sanitizedObj);
-        } else {
-            var ratingId = ratings_.createNewIdeologyRating(sanitizedObj, user._id);
-            if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
+        if(sanitizedObj.ideologyId){
+            var rating = Ratings.findOne({
+                userId: user._id,
+                ideologyId: sanitizedObj.ideologyId,
+                ratingType: sanitizedObj.ratingType,
+                worksId: sanitizedObj.worksId
+            });
+            if(rating){
+                ratings_.updateOldReview(rating, sanitizedObj);
+            } else {
+                var ratingId = ratings_.createNewIdeologyRating(sanitizedObj, user._id);
+                if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
+            }
+        } else if(sanitizedObj.policyId){
+            var rating = Ratings.findOne({
+                userId: user._id,
+                policyId: sanitizedObj.policyId,
+                ratingType: sanitizedObj.ratingType,
+                worksId: sanitizedObj.worksId
+            });
+            if(rating){
+                ratings_.updateOldReview(rating, sanitizedObj);
+            } else {
+                var ratingId = ratings_.createNewPolicyRating(sanitizedObj, user._id);
+                if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
+            }
+        } else if(sanitizedObj.policyAreaId){
+            var rating = Ratings.findOne({
+                userId: user._id,
+                policyAreaId: sanitizedObj.policyAreaId,
+                worksId: sanitizedObj.worksId
+            });
+            if(rating){
+                ratings_.updateOldReview(rating, sanitizedObj);
+            } else {
+                var ratingId = ratings_.createNewAreaRating(sanitizedObj, user._id);
+                if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
+            }
         }
     },
     'addNewAreaRatingOrChangeOld': function(attr){
@@ -99,6 +127,17 @@ ratings_.createNewPolicyRating = function(attr, userId){
     });
 };
 
+ratings_.createNewAreaRating = function(attr, userId){
+    return Ratings.insert({
+        policyArea: attr.policyAreaId,
+        worksId: attr.worksId,
+        userId: userId,
+        scores: attr.scores,
+        familiarity: attr.familiarity,
+        date: new Date()
+    });
+}
+
 ratings_.updateOldReview = function(rating, sanitizedObj){
     Ratings.update({_id: rating._id}, {
         $set: {
@@ -112,7 +151,6 @@ ratings_.updateOldReview = function(rating, sanitizedObj){
                 scores: rating.scores}
         }
     });
-
 
     if(sanitizedObj.urlReview){
         Ratings.update(rating._id, {
