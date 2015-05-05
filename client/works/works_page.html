@@ -24,23 +24,29 @@
                 <tr>
                     <th>Subject of work</th>
                     <th>Enlightening</th>
-                    <th>Convincing</th>
                     <th>Readable</th>
+                    <th>Convincing</th>
                     <th>Familiarity</th>
                     <th>Online review</th>
                     <th>Reviewer</th>
                 </tr>
                 {{#each ratings}}
                 <tr>
-                    <td>{{#with ideologyOrPolicyFromId}}{{#if solution}}
+                    <td>{{#with ideologyOrPolicyFromId}}
+                        {{#if solution}}
                         <a href="{{pathFor 'policyPage'}}">{{solution}}</a>&nbsp;&nbsp;&nbsp;
-                        <span>({{ratingType}})</span>{{else}}
+                        <span>({{ratingType}})</span>{{/if}}
+                        {{#if name}}
                         <a href="{{pathFor 'ideologyPage'}}">{{name}}</a> &nbsp;&nbsp;&nbsp;
-                        <span>({{ratingType}})</span>{{/if}}{{/with}}
+                        <span>({{ratingType}})</span>{{else}}
+                        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a> &nbsp;&nbsp;&nbsp;
+                        {{/if}}
+
+                        {{/with}}
                     </td>
                     <td>{{#if scores.enlighteningScore}}{{scores.enlighteningScore}}{{else}}---{{/if}}</td>
-                    <td>{{#if scores.convincingScore}}{{scores.convincingScore}}{{else}}---{{/if}}</td>
                     <td>{{scores.readabilityScore}}</td>
+                    <td>{{#if scores.convincingScore}}{{scores.convincingScore}}{{else}}---{{/if}}</td>
                     <td>{{getFamiliarity}}</td>
                     <td>{{#if urlReview}}<a href="{{urlReview}}"><i class="fa fa-external-link"></i></a>{{else}}---{{/if}}</td>
                     <td>{{#with userFromId}}<a href="{{pathFor 'userPage'}}">{{username}}</a>{{/with}}</td>

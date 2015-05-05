@@ -73,6 +73,11 @@ Template.worksPage.helpers({
             if(ideology){
                 return _.extend(ideology, {ratingType: this.ratingType});
             }
+        } else if(this.policyAreaId){
+            var policyArea = PolicyAreas.findOne(this.policyAreaId, {fields: {area: 1}});
+            if(policyArea){
+                return policyArea;
+            }
         }
     },
     userFromId: function(){
