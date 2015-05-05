@@ -195,12 +195,8 @@ Router.map(function(){
                 worksId: 1}}).fetch()
 
                 if(ratings.length > 0){
-                    console.log("23");
                     policyAreas[x].bestWork = Works.findOne(calculateTotalScoreForRatingsAndSort(ratings,
                         "enlighteningScore")[0].worksId, {fields: {producers: 1, title: 1, url: 1}});
-                    console.log(calculateTotalScoreForRatingsAndSort(ratings,
-                        "enlighteningScore")[0]);
-                    console.log("s");
                 }
             }
 

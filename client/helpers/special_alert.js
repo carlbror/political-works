@@ -82,8 +82,6 @@ Template.specialAlert.events({
             producers: []
         };
 
-        console.log(this);
-
         if(this.name){
             attr.ideologyId = this._id;
             if($('.positive').prop('checked')){
