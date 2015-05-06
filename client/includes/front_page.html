@@ -1,13 +1,49 @@
 <template name="frontPage">
-    <div style="text-align: justify;">
-
-        <div class="module opp">
-            <h2>Running Shoes and Water</h2>
-        </div>
+    <div style="text-align: justify;" class="frontpage">
 
         <div class="centered module">
-            <h2>Title here</h2>
+            <blockquote>
+                <p>The more that you read, the more things you will know. The more that you learn, the more places
+                    you'll go.</p>
+                <footer>
+                    <span>&mdash;</span>Theodor "Dr." Seuss Geisel
+                </footer>
+            </blockquote>
         </div>
+
+        <div class="centered module2">
+            <blockquote>
+                <p>Change is the end result of all true learning.</p>
+                <footer>
+                    <span>&mdash;</span>Felice Leonardo "Leo" Buscaglia
+                </footer>
+            </blockquote>
+        </div>
+
+        <div class="centered module3">
+            <blockquote>
+                <p>I think you should learn, of course, and some days you must learn a great deal. But you should also
+                    have days when you allow what is already in you to swell up inside of you until it touches
+                    everything. And you can feel it inside of you. If you never take time out to let that happen, then
+                    you accumulate facts, and they begin to rattle around inside of you. You can make noise with them,
+                    but never really feel anything with them. It's hollow.</p>
+                <footer>
+                    <span>&mdash;</span>E. L. Konigsburg
+                </footer>
+            </blockquote>
+        </div>
+
+
+        <div class="centered module4">
+            <blockquote>
+                <p>Learn everything you can, anytime you can, from anyone you can, there will always come a time when
+                    you will be grateful you did.</p>
+                <footer>
+                    <span>&mdash;</span>Sarah Caldwell
+                </footer>
+            </blockquote>
+        </div>
+
         <br>
 
         <!--"Book Porn" by Alan Bell, some rights reserved https://creativecommons.org/licenses/by-nc-nd/2.0/ -->
@@ -52,7 +88,7 @@
             </li>
             <li>
                 {{#if currentUser}}<a href="{{pathFor 'chooseIdeology'}}">Show</a>{{else}}
-                    Show{{/if}} which ideology you find most appealing (if you want to).
+                Show{{/if}} which ideology you find most appealing (if you want to).
             </li>
         </ul>
         <br>
@@ -105,7 +141,7 @@
         var disqus_shortname = 'thebestpoliticalworks'; // required: replace example with your forum shortname
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function () {
+        (function(){
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript';
             dsq.async = true;
