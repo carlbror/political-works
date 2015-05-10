@@ -1,6 +1,5 @@
 .module{
     margin: 10px;
-    width: 1400px;
     height: 500px;
     background-size: cover;
     position: relative;
@@ -10,7 +9,6 @@
 
 .module2{
     margin: 10px;
-    width: 1400px;
     height: 500px;
     background-size: cover;
     position: relative;
@@ -19,7 +17,6 @@
 
 .module3{
     margin: 10px;
-    width: 1400px;
     height: 500px;
     background-size: cover;
     position: relative;
@@ -28,7 +25,6 @@
 
 .module4{
     margin: 10px;
-    width: 1400px;
     height: 500px;
     background-size: cover;
     position: relative;

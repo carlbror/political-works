@@ -4,7 +4,21 @@
     body {
     }
 
-    .main-place{
+    .frontpage blockquote {
+        padding: 16px 8px;
+        color: white;
+        max-width: 220px;
+    }
+
+    .frontpage blockquote p {
+        font-size: 1em;
+    }
+
+    .frontpage blockquote footer {
+        font-size: 0.8em;
+    }
+
+    .main-place {
         max-width: 1152px;
         margin-left: -40px;
         margin-right: -40px;
@@ -17,40 +31,56 @@
         position: relative;
     }
 
-    .navbar{
+    .navbar {
         margin-right: -40px;
         margin-left: -40px;
     }
 
-    h1{
+    h1 {
         font-size: medium;
     }
-    
-    .big-header{
+
+    .big-header {
         font-size: 150%;
     }
 
-    .showOnlyWhenLarge{
+    .showOnlyWhenLarge {
         display: none;
     }
 
-    .showOnlyWhenSmall{
+    .showOnlyWhenSmall {
         display: block;
     }
 
-    .fiveHundredPixels{
-        position:relative;
+    .fiveHundredPixels {
+        position: relative;
         width: 100%;
     }
 
-    .minimizeButtonWhenSmall{
+    .minimizeButtonWhenSmall {
         width: 40px;
     }
 }
 
+@media screen and (min-width: 501px) and (max-width: 600px) {
+    .frontpage blockquote {
+        padding: 16px 8px;
+        color: white;
+        max-width: 300px;
+    }
+
+    .frontpage blockquote p {
+        font-size: 1em;
+    }
+
+    .frontpage blockquote footer {
+        font-size: 0.8em;
+    }
+}
 
 @media screen and (min-width: 501px) and (max-width: 767px) {
-    .main-place{
+
+    .main-place {
         max-width: 1152px;
         margin-left: -40px;
         margin-right: -40px;
@@ -63,23 +93,22 @@
         position: relative;
     }
 
-    .navbar{
+    .navbar {
         margin-right: -40px;
         margin-left: -40px;
     }
 
-    .showOnlyWhenLarge{
+    .showOnlyWhenLarge {
         display: none;
     }
 
-    .showOnlyWhenSmall{
+    .showOnlyWhenSmall {
         display: block;
     }
 }
 
-
 @media screen and (min-width: 768px) and (max-width: 900px) {
-    .main-place{
+    .main-place {
         padding-top: 10px;
         padding-bottom: 10px;
         padding-left: 10px;
@@ -88,41 +117,36 @@
         position: relative;
     }
 
-    .navbar{
+    .navbar {
     }
 
-    .showOnlyWhenLarge{
+    .showOnlyWhenLarge {
         display: none;
     }
 
-    .showOnlyWhenSmall{
+    .showOnlyWhenSmall {
         display: block;
     }
 }
 
-
-
 /* BIG SCREENS !!! */
 @media screen and (min-width: 901px) and (max-width: 4096px) {
-    .header
-    {
-        height:53px;
+    .header {
+        height: 53px;
         position: relative;
         background: #ffffff;
     }
 
-
-    .content
-    {
-        position:absolute;
+    .content {
+        position: absolute;
         top: 53px;
-        left:0px;
-        right:0px;
-        bottom:0px;
-        overflow-y:scroll;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        overflow-y: scroll;
     }
 
-    .main-place{
+    .main-place {
         max-width: 1152px;
 
         margin-left: auto;
@@ -135,29 +159,26 @@
         position: relative;
     }
 
-    .showOnlyWhenLarge{
+    .showOnlyWhenLarge {
         display: block;
     }
 
-    .showOnlyWhenSmall{
+    .showOnlyWhenSmall {
         display: none;
     }
 
-    .showOnlyWhenSmall{
+    .showOnlyWhenSmall {
         display: none;
     }
 
-    .fiveHundredPixels{
-        position:relative;
+    .fiveHundredPixels {
+        position: relative;
         width: 500px;
     }
 
-    .minimizeButtonWhenSmall{
+    .minimizeButtonWhenSmall {
         width: 80px;
     }
 }
-
-
-
 
 /* IPADS? */
