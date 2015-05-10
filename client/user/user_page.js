@@ -2,6 +2,9 @@ Template.userPage.helpers({
     ideologyFromId: function(){
         return Ideologies.findOne(this.toString(), {fields: {name: 1}});
     },
+    policyAreaFromPolicyAreaId: function(){
+        return PolicyAreas.findOne(this.policyAreaId, {fields: {area:1}});
+    },
     ideologyFromIdeologyId: function(){
         return Ideologies.findOne(this.ideologyId, {fields: {name: 1}});
     },
@@ -18,6 +21,9 @@ Template.userPage.helpers({
     },
     hasRatingsOn: function(){
         return Session.get('hasRatingsOn');
+    },
+    hasPolicyAreaRatingsOn: function(){
+        return Session.get('hasPolicyAreaRatingsOn');
     },
     percentEngaged: function(){
         if(this._id){
@@ -45,10 +51,22 @@ Template.userPage.events({
 
         if(currentAttrValue === "#statistics"){
             Session.set('hasRatingsOn', false);
+            Session.set('hasPolicyAreaRatingsOn', false);
+        } else if($(event.target).attr('class') === 'link policyArea'){
+            Session.set('hasRatingsOn', false);
+            Session.set('hasPolicyAreaRatingsOn', true);
+            if(!Session.get('scoreView') || Session.get('scoreView') === "convincingScore"){
+                Session.set('scoreView', 'enlighteningScore');
+            }
         } else if(currentAttrValue !== "#ideologies"){
+            Session.set('hasPolicyAreaRatingsOn', false);
             Session.set('hasRatingsOn', true);
+            if(!Session.get('scoreView') || Session.get('scoreView') === "enlighteningScore"){
+                Session.set('scoreView', 'convincingScore');
+            }
         } else {
             Session.set('hasRatingsOn', false);
+            Session.set('hasPolicyAreaRatingsOn', false);
         }
 
         event.preventDefault();

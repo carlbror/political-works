@@ -263,7 +263,6 @@ Router.map(function(){
                 policyArea.typeOfWork = typeOfWork;
                 policyArea.familiarities = familiarityReveresed;
 
-                console.log(policyArea);
                 return policyArea;
             }
         }
@@ -407,18 +406,29 @@ Router.map(function(){
 
                 var ratings = Ratings.find({userId: user._id, familiarity: {$in: familiarity}}).fetch();
                 if(ratings && ratings.length > 0){
-                    user.ratingsOnIdeologies = _.filter(ratings, function(rating){
-                        return rating.ideologyId;
-                    });
-                    user.ratingsOnPolicies = _.filter(ratings, function(rating){
-                        return rating.policyId;
-                    });
+                    user.ratingsOnPolicyAreas = _.filter(ratings, function(rating){return rating.policyAreaId});
+                    user.ratingsOnIdeologies = _.filter(ratings, function(rating){return rating.ideologyId;});
+                    user.ratingsOnPolicies = _.filter(ratings, function(rating){return rating.policyId;});
 
-//                    user.ratingsByPolicyArea = Ratings.find({userId: user._id, familiarity: {$in: familiarity},
-//                        ratingType: undefined}).fetch();
-
+                    user.ratingsByPolicyArea = [];
                     user.ratingsByIdeology = [];
                     user.ratingsByPolicy = [];
+
+                    var listOfPolicyAreasAlreadyAdded = [];
+                    _.each(user.ratingsOnPolicyAreas, function(rating){
+                        if(_.indexOf(listOfPolicyAreasAlreadyAdded, rating.policyAreaId) === -1){
+                            user.ratingsByPolicyArea.push({
+                                policyAreaId: rating.policyAreaId,
+                                ratings: _.where(user.ratingsOnPolicyAreas, {policyAreaId: rating.policyAreaId})
+                            });
+                            listOfPolicyAreasAlreadyAdded.push(rating.policyAreaId);
+                        }
+                    });
+                    _.each(user.ratingsByPolicyArea, function(ratingOnPolicyArea){
+                        ratingOnPolicyArea.ratings.sort(function(a, b){
+                                return b.scores[score] - a.scores[score];
+                            });
+                    });
 
                     var listOfIdeologiesAlreadyAdded = [];
                     _.each(user.ratingsOnIdeologies, function(rating){
@@ -442,13 +452,13 @@ Router.map(function(){
                     _.each(user.ratingsByIdeology, function(ratingsOnIdeology){
                         if(ratingsOnIdeology.supportiveRatings){
                             ratingsOnIdeology.supportiveRatings.sort(function(a, b){
-                                return b.scores[score] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores[score];
                             });
                         }
 
                         if(ratingsOnIdeology.underminingRatings){
                             ratingsOnIdeology.underminingRatings.sort(function(a, b){
-                                return b.scores[score] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores[score];
                             });
                         }
                     });
@@ -474,13 +484,13 @@ Router.map(function(){
                     _.each(user.ratingsByPolicy, function(ratingsOnPolicy){
                         if(ratingsOnPolicy.supportiveRatings){
                             ratingsOnPolicy.supportiveRatings.sort(function(a, b){
-                                return b.scores[score] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores[score];
                             });
                         }
 
                         if(ratingsOnPolicy.underminingRatings){
                             ratingsOnPolicy.underminingRatings.sort(function(a, b){
-                                return b.scores[score] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores[score];
                             });
                         }
                     });

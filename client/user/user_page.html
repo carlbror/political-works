@@ -16,8 +16,8 @@
                             <ul>
                                 {{#each ratingsByPolicyArea}}
                                 <p style="margin: 0;">
-                                    <adsf></adsf>
-                                    {{#with policyArea}} asdf  {{/with}}
+                                    {{#with policyAreaFromPolicyAreaId}}<a href="#{{_id}}" class="link policyArea">
+                                    {{area}}</a>{{/with}}
                                 </p>
                                 {{/each}}
                             </ul>
@@ -67,10 +67,25 @@
                             {{/each}}
                         </div>
 
+                        {{#each ratingsByPolicyArea}}
+                        <div id="{{policyAreaId}}" class="tab">
+                            <h4>Reviews of works casting a light on {{#with policyAreaFromPolicyAreaId}}
+                                <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{/with}}
+                                </h4>
+
+                            <ol>
+                                {{#each ratings}}
+                                    {{>workItemForUserPage}}
+                                {{/each}}
+                            </ol>
+                        </div>
+                        {{/each}}
+
                         {{#each ratingsByIdeology}}
                         <div id="{{ideologyId}}" class="tab">
                             {{#if supportiveRatings}}
-                            <h4>Reviews on works that support {{#with ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
+                            <h4>Reviews of works that support {{#with ideologyFromIdeologyId}}
+                                <a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{/with}}</h4>
 
                             <ol>
                                 {{#each supportiveRatings}}
@@ -80,7 +95,7 @@
                             {{/if}}
 
                             {{#if underminingRatings}}
-                            <h4>Reviews on works that argue against {{#with
+                            <h4>Reviews of works that argue against {{#with
                                 ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
 
                             <ol>
@@ -96,8 +111,9 @@
                         {{#each ratingsByPolicy}}
                         <div id="{{policyId}}" class="tab">
                             {{#if supportiveRatings}}
-                            <h4>Reviews on works that support the policy to {{#with
-                                policyFromPolicyId}}{{solution}}{{/with}}</h4>
+                            <h4>Reviews of works that support the policy to {{#with
+                                policyFromPolicyId}}
+                                <a href="{{pathFor 'policyPage'}}">{{solution}}</a>{{/with}}</h4>
 
                             <ol>
                                 {{#each supportiveRatings}}
@@ -107,7 +123,7 @@
                             {{/if}}
 
                             {{#if underminingRatings}}
-                            <h4>Reviews on works that argue against the policy to {{#with
+                            <h4>Reviews of works that argue against the policy to {{#with
                                 policyFromPolicyId}}{{solution}}{{/with}}</h4>
 
                             <ol>
@@ -141,6 +157,10 @@
                     <div class="sort-works-by">
                         {{#if hasRatingsOn}}
                         {{> chooseScore}}
+                        {{/if}}
+
+                        {{#if hasPolicyAreaRatingsOn}}
+                            {{> policyAreaPageMenu}}
                         {{/if}}
                     </div>
                 </div>
