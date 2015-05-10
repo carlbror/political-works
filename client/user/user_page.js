@@ -18,6 +18,23 @@ Template.userPage.helpers({
     },
     hasRatingsOn: function(){
         return Session.get('hasRatingsOn');
+    },
+    percentEngaged: function(){
+        if(this._id){
+            var allWorks = Works.find({}, {fields: {_id: 1}}).fetch(),
+                allReviewsAtLeastPartakenOnce = Ratings.find({userId: this._id, familiarity: {$gte: 4}},
+                    {fields: {worksId: 1}}).fetch();
+
+            if(allWorks.length > 0 && allReviewsAtLeastPartakenOnce.length > 0){
+                var arrayOfAllWorksIds = _.pluck(allWorks, "_id"),
+                    arrayOfAllReviews = _.uniq(_.pluck(allReviewsAtLeastPartakenOnce, 'worksId'));
+
+                return Math.round((arrayOfAllReviews.length / arrayOfAllWorksIds.length) * 100);
+            } else {
+                return "zero ";
+            }
+        }
+
     }
 });
 
