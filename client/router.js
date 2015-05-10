@@ -228,7 +228,7 @@ Router.map(function(){
                 works = Works.find({}, {fields: {title: 1, type: 1}}).fetch(),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
                 ratingsOnArea = Ratings.find(
-                    {policyAreaId: this.params._id, familiarity: {$in: Session.get('familiarityView').split(',')}},
+                    {policyAreaId: this.params._id, familiarity: {$in: Session.get('familiarityView').split(',').map(Number)}},
                     {fields: {worksId: 1, scores: 1}}).fetch(),
                 type = Session.get('typeView').split(',');
 
@@ -238,6 +238,7 @@ Router.map(function(){
                 _.each(policyArea.policyIds, function(policyId){
                     policyArea.policies.push(Policies.findOne(policyId, {fields: {solution: 1}}));
                 });
+
 
                 if(type[0] !== 'all'){
                     if(type[0] === 'none'){
@@ -262,6 +263,7 @@ Router.map(function(){
                 policyArea.typeOfWork = typeOfWork;
                 policyArea.familiarities = familiarityReveresed;
 
+                console.log(policyArea);
                 return policyArea;
             }
         }
@@ -411,6 +413,9 @@ Router.map(function(){
                     user.ratingsOnPolicies = _.filter(ratings, function(rating){
                         return rating.policyId;
                     });
+
+//                    user.ratingsByPolicyArea = Ratings.find({userId: user._id, familiarity: {$in: familiarity},
+//                        ratingType: undefined}).fetch();
 
                     user.ratingsByIdeology = [];
                     user.ratingsByPolicy = [];

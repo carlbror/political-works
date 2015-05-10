@@ -17,6 +17,7 @@ Meteor.methods({
         if(sanitizedObj.scores.convincingScore) sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
         if(sanitizedObj.scores.enlighteningScore) sanitizedObj.scores.enlighteningScore = parseInt(sanitizedObj.scores.enlighteningScore);
         sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
+        sanitizedObj.familiarity = parseInt(sanitizedObj.familiarity);
 
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
             throw new Meteor.Error(
