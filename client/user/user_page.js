@@ -8,9 +8,6 @@ Template.userPage.helpers({
     policyFromPolicyId: function(){
         return Policies.findOne(this.policyId, {fields: {solution: 1}});
     },
-    workFromWorksId: function(){
-        return Works.findOne(this.worksId, {fields: {title: 1}});
-    },
     ideology: function(){
         if(this.ideologies){
             return Ideologies.findOne(this.ideologies[0]);
@@ -18,16 +15,6 @@ Template.userPage.helpers({
     },
     oneIdeology: function(){
         if(this.ideologies.length == 1) return true;
-    },
-    score: function(){
-        switch(Session.get('scoreView')){
-            case "convincing-score":
-                return this.scores.convincingScore;
-                break;
-            case "readability-score":
-                return this.scores.readabilityScore;
-                break;
-        }
     },
     hasRatingsOn: function(){
         return Session.get('hasRatingsOn');
@@ -39,12 +26,23 @@ Template.userPage.events({
         var currentAttrValue = event.currentTarget.hash;
         $(currentAttrValue).show().siblings().hide();
 
-        if(currentAttrValue !== "#ideologies"){
+        if(currentAttrValue === "#statistics"){
+            Session.set('hasRatingsOn', false);
+        } else if(currentAttrValue !== "#ideologies"){
             Session.set('hasRatingsOn', true);
         } else {
             Session.set('hasRatingsOn', false);
         }
 
         event.preventDefault();
+    }
+});
+
+Template.workItemForUserPage.helpers({
+    score: function(){
+        return this.scores[Session.get('scoreView')];
+    },
+    workFromWorksId: function(){
+        return Works.findOne(this.worksId, {fields: {title: 1}});
     }
 });

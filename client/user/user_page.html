@@ -18,35 +18,31 @@
                             ideology.{{else}} ideologies.{{/if}}{{else}}no ideology.{{/if}}
                         </p>
 
-                        <p style="margin: 0;">
-                            <a href="#ideologies" class="link">Ideologies</a>
-                        </p>
+                        <a href="#ideologies" class="link">Ideologies</a>
                         <ul>
                             {{#each ideologies}}
-                            <p style="margin: 0;">{{#with ideologyFromId}}{{name}}{{/with}}</p>
+                                {{#with ideologyFromId}}{{name}}{{/with}}
                             {{/each}}
                         </ul>
 
-                        <p style="margin: 0;">
-                            Reviews
-                        </p>
+                        Reviews
                         <ul>
                             on ideologies
                             <ul>
                                 {{#each ratingsByIdeology}}
-                                <p style="margin: 0;">{{#with ideologyFromIdeologyId}}
-                                    <a href="#{{_id}}" class="link">{{name}}</a>{{/with}}</p>
+                                    {{#with ideologyFromIdeologyId}}<a href="#{{_id}}" class="link">{{name}}</a>{{/with}}
                                 {{/each}}
                             </ul>
 
                             on policies
                             <ul>
                                 {{#each ratingsByPolicy}}
-                                <p style="margin: 0;">{{#with policyFromPolicyId}}
-                                    <a href="#{{_id}}" class="link">{{solution}}</a>{{/with}}</p>
+                                    {{#with policyFromPolicyId}}<a href="#{{_id}}" class="link">{{solution}}</a>{{/with}}
                                 {{/each}}
                             </ul>
                         </ul>
+
+                        <a href="#statistics" class="link">Statistics</a>
                     </div>
                 </div>
 
@@ -68,22 +64,22 @@
                             {{#if supportiveRatings}}
                             <h4>Reviews on works that support {{#with ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
 
-                            <ul>
+                            <ol>
                                 {{#each supportiveRatings}}
-                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                    {{> workItemForUserPage}}
                                 {{/each}}
-                            </ul>
+                            </ol>
                             {{/if}}
 
                             {{#if underminingRatings}}
                             <h4>Reviews on works that argue against {{#with
                                 ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
 
-                            <ul>
+                            <ol>
                                 {{#each underminingRatings}}
-                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                    {{> workItemForUserPage}}
                                 {{/each}}
-                            </ul>
+                            </ol>
                             {{/if}}
                         </div>
                         {{/each}}
@@ -95,25 +91,31 @@
                             <h4>Reviews on works that support the policy to {{#with
                                 policyFromPolicyId}}{{solution}}{{/with}}</h4>
 
-                            <ul>
+                            <ol>
                                 {{#each supportiveRatings}}
-                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                    {{> workItemForUserPage}}
                                 {{/each}}
-                            </ul>
+                            </ol>
                             {{/if}}
 
                             {{#if underminingRatings}}
                             <h4>Reviews on works that argue against the policy to {{#with
                                 policyFromPolicyId}}{{solution}}{{/with}}</h4>
 
-                            <ul>
+                            <ol>
                                 {{#each underminingRatings}}
-                                <p>{{#with workFromWorksId}}{{title}}{{/with}} - {{score}}%</p>
+                                    {{> workItemForUserPage}}
                                 {{/each}}
-                            </ul>
+                            </ol>
                             {{/if}}
                         </div>
                         {{/each}}
+
+
+                        <div id="statistics" class="tab">
+                            hello
+                        </div>
+
                     </div>
                 </div>
 
@@ -155,4 +157,9 @@
         <div class="span2"></div>
         <div class="span2"></div>
     </div>
+</template>
+
+<template name="workItemForUserPage">
+    <li>{{#with workFromWorksId}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
+        - {{score}}%</li>
 </template>

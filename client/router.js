@@ -376,7 +376,7 @@ Router.map(function(){
         path: '/user/:username',
         onBeforeAction: function(){
             if(!Session.get('scoreView')){
-                Session.set('scoreView', 'convincing-score');
+                Session.set('scoreView', 'convincingScore');
             }
             if(!Session.get('typeView')){
                 Session.set('typeView', 'all');
@@ -396,8 +396,6 @@ Router.map(function(){
                 userFromUsername = Meteor.users.findOne({username: this.params.username}),
                 userFromProfileName = Meteor.users.findOne({"profile.name": this.params.username}),
                 user = userFromUsername || userFromProfileName;
-
-            var databaseScore = score.split('-')[0] + o_.capitaliseFirstLetter(score.split('-')[1]);
 
             if(user){
                 user.userRatings = Ratings.find({userId: user._id}).fetch();
@@ -439,13 +437,13 @@ Router.map(function(){
                     _.each(user.ratingsByIdeology, function(ratingsOnIdeology){
                         if(ratingsOnIdeology.supportiveRatings){
                             ratingsOnIdeology.supportiveRatings.sort(function(a, b){
-                                return b.scores[databaseScore] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores.convincingScore;
                             });
                         }
 
                         if(ratingsOnIdeology.underminingRatings){
                             ratingsOnIdeology.underminingRatings.sort(function(a, b){
-                                return b.scores[databaseScore] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores.convincingScore;
                             });
                         }
                     });
@@ -471,13 +469,13 @@ Router.map(function(){
                     _.each(user.ratingsByPolicy, function(ratingsOnPolicy){
                         if(ratingsOnPolicy.supportiveRatings){
                             ratingsOnPolicy.supportiveRatings.sort(function(a, b){
-                                return b.scores[databaseScore] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores.convincingScore;
                             });
                         }
 
                         if(ratingsOnPolicy.underminingRatings){
                             ratingsOnPolicy.underminingRatings.sort(function(a, b){
-                                return b.scores[databaseScore] - a.scores.convincingScore;
+                                return b.scores[score] - a.scores.convincingScore;
                             });
                         }
                     });
