@@ -8,12 +8,12 @@ Template.chooseScore.helpers({
         }
     },
     scoreConvincingChecked: function(){
-        if(Session.get('scoreView') === 'convincing-score'){
+        if(Session.get('scoreView') === 'convincingScore'){
             return 'checked';
         }
     },
     scoreReadabilityChecked: function(){
-        if(Session.get('scoreView') === 'readability-score'){
+        if(Session.get('scoreView') === 'readabilityScore'){
             return 'checked';
         }
     }

@@ -50,10 +50,6 @@ calculateTotalScoreForRatingsAndSort = function(ratings, scoreType){
 };
 
 putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork, familiarity){
-    if(scoreType.indexOf('-')){
-        var scoreTypeSplit = scoreType.split('-');
-        scoreType = scoreTypeSplit[0] + "Score";
-    }
     var policy = Policies.findOne(policyId);
     if(policy) {
         var ratings = Ratings.find({policyId: policy._id},
@@ -95,11 +91,6 @@ putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork
 
 
 putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, typeOfWork, familiarity){
-    if(scoreType.indexOf('-')){
-        var scoreTypeSplit = scoreType.split('-');
-        scoreType = scoreTypeSplit[0] + "Score";
-    }
-
     var ideology = Ideologies.findOne({name: ideologyName});
     if(ideology) {
         var ratings = Ratings.find({ideologyId: ideology._id},

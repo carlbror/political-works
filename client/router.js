@@ -65,8 +65,8 @@ Router.map(function(){
     this.route('ideologyPage', {
         path: '/ideology/:name',
         onBeforeAction: function(){
-            if(!Session.get('scoreView')){
-                Session.set('scoreView', 'convincing-score');
+            if(!Session.get('scoreView') || Session.get('scoreView') === 'enlighteningScore'){
+                Session.set('scoreView', 'convincingScore');
             }
             if(!Session.get('typeView')){
                 Session.set('typeView', 'all');
@@ -133,8 +133,8 @@ Router.map(function(){
     this.route('policyPage', {
         path: '/policy/:solution/:_id',
         onBeforeAction: function(){
-            if(!Session.get('scoreView')){
-                Session.set('scoreView', 'convincing-score');
+            if(!Session.get('scoreView') || Session.get('scoreView') === 'enlighteningScore'){
+                Session.set('scoreView', 'convincingScore');
             }
             if(!Session.get('typeView')){
                 Session.set('typeView', 'all');
@@ -209,7 +209,7 @@ Router.map(function(){
     this.route('policyAreaPage', {
         path: 'policy-area/:area/:_id',
         onBeforeAction: function(){
-            if(!Session.get('scoreView')){
+            if(!Session.get('scoreView') || Session.get('scoreView') === "convincingScore"){
                 Session.set('scoreView', 'enlighteningScore');
             }
             if(!Session.get('typeView')){
