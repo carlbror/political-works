@@ -339,7 +339,8 @@ Router.map(function(){
                 return 0;
             });
 
-            return {ideologies: ideologies, policies: policies, producers: _.pluck(producers, 'name')};
+            return {ideologies: ideologies, policies: policies, producers: _.pluck(producers, 'name'),
+                    typeOfWork: typeOfWork};
         }
     });
 

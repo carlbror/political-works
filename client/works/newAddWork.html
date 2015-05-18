@@ -35,18 +35,9 @@
                 <b>What kind of work is it?</b><br>
                 <select class="type-of-work" tabIndex="-1">
                     <option></option>
-                    <option>Article</option>
-                    <option>Series of articles</option>
-                    <option>Peer reviewed article</option>
-                    <option>Pamphlet</option>
-                    <option>Book</option>
-                    <option>Book chapter</option>
-                    <option>Documentary</option>
-                    <option>Picture</option>
-                    <option>Lecture</option>
-                    <option>Movie</option>
-                    <option>Short film</option>
-                    <option>Other</option>
+                    {{#each typeOfWork}}
+                    <option>{{clientName}}</option>
+                    {{/each}}
                 </select>
             </div>
 
