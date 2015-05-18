@@ -390,7 +390,21 @@ Router.map(function(){
     this.route('sciencePage', {
         path: '/sciences/:_id',
         data: function(){
-            return Sciences.findOne(this.params._id);
+            var works = Works.find().fetch(),
+                producers = Producers.find({}, {fields: {name: 1}}).fetch(),
+                ratings = Ratings.find({scienceId: this.params._id}, {fields: {worksId: 1, scores: 1}}).fetch(),
+                science = Sciences.findOne(this.params._id);
+
+            if(science && works.length > 0 && producers.length > 0){
+                science.titles = _.pluck(works, "title");
+                science.producers = _.pluck(producers, 'name');
+                science.typeOfWork = typeOfWork;
+                science.familiarities = familiarityReveresed;
+                science.works = works;
+                science.producers = producers;
+
+                return science;
+            }
         }
     });
 

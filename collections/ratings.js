@@ -16,7 +16,7 @@ Meteor.methods({
         sanitizedObj.scores = o_.sanitizeObject(attr.scores);
         if(sanitizedObj.scores.convincingScore) sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
         if(sanitizedObj.scores.enlighteningScore) sanitizedObj.scores.enlighteningScore = parseInt(sanitizedObj.scores.enlighteningScore);
-        sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
+        if(sanitizedObj.scores.readabilityScore) sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
         sanitizedObj.familiarity = parseInt(sanitizedObj.familiarity);
 
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
@@ -55,6 +55,18 @@ Meteor.methods({
             var rating = Ratings.findOne({
                 userId: user._id,
                 policyAreaId: sanitizedObj.policyAreaId,
+                worksId: sanitizedObj.worksId
+            });
+            if(rating){
+                ratings_.updateOldReview(rating, sanitizedObj);
+            } else {
+                var ratingId = ratings_.createNewAreaRating(sanitizedObj, user._id);
+                if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
+            }
+        } else if(sanitizedObj.scienceId){
+            var rating = Ratings.findOne({
+                userId: user._id,
+                scienceId: sanitizedObj.scienceId,
                 worksId: sanitizedObj.worksId
             });
             if(rating){
@@ -113,7 +125,9 @@ ratings_.updateOldReview = function(rating, sanitizedObj){
         $addToSet: {
             oldReviews: {
                 date: rating.date,
-                scores: rating.scores}
+                scores: rating.scores,
+                familiarity: rating.familiarity
+            }
         }
     });
 

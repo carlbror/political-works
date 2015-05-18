@@ -14,7 +14,8 @@ var scoresSchema = new SimpleSchema({
     readabilityScore: {
         type: Number,
         min: 0,
-        max: 100
+        max: 100,
+        optional: true
     }
 });
 
@@ -26,7 +27,8 @@ Schemas.Ratings = new SimpleSchema({
         type: String
     },
     scores: {
-        type: scoresSchema
+        type: scoresSchema,
+        optional: true
     },
     familiarity: {
         type: String

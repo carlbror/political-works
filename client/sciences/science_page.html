@@ -1,4 +1,14 @@
 <template name="sciencePage">
     <h1>{{field.english}}</h1>
     <hr>
+
+
+    {{#if currentUser}}
+    {{> addWorkToScienceAlert}}
+
+    <p>
+        <input type="submit" value="Suggest a work that sheds light on this problem"
+               class="btn add-work-on-science btn-success">
+    </p>
+    {{/if}}
 </template>

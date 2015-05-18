@@ -1,0 +1,45 @@
+#scienceDialogoverlay{
+    display: none;
+    opacity: .8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #CCC;
+    width: 100%;
+    z-index: 10;
+}
+#scienceDialogbox{
+    display: none;
+    position: fixed;
+    background: #FFF;
+    border-radius: 7px;
+    width: 600px;
+    z-index: 10;
+    padding: 7px;
+}
+#scienceDialogbox > div{ background:#FFF;}
+#scienceDialogbox > div > #scienceDialogboxhead{font-size:19px; padding:10px; color:#bbb;}
+#scienceDialogbox > div > #scienceDialogboxbody{padding:15px; color:#CCC; }
+#scienceDialogbox > div > #scienceDialogboxfoot{text-align:right; }
+
+
+#scienceDialogbox label {
+    display: block;
+}
+#scienceDialogbox span {
+    float: left;
+    width: 50%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+    color: #888;
+}
+
+#scienceDialogbox form>input{
+    vertical-align: text-bottom;
+}
+
+#scienceDialogbox form>span{
+    position: relative;
+    top: -10px;
+}
