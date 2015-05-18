@@ -1,7 +1,7 @@
 var fieldSchema = new SimpleSchema({
     english: {
         type: String,
-        optional: true,
+        min: 1,
         unique: true
     }
 });

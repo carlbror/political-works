@@ -4,4 +4,12 @@
 
     <input type="text" class="field" placeholder="The name of the field">
     <button class="btn btn-success add-new-science">Add!</button>
+
+
+    <br><br>
+    <ul>
+        {{#each sciences}}
+        <li>{{field.english}}</li>
+        {{/each}}
+    </ul>
 </template>

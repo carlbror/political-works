@@ -375,7 +375,11 @@ Router.map(function(){
 
 
     /* *** SCIENCES *** */
-    this.route('addNewScience');
+    this.route('addNewScience', {
+        data: function(){
+            return {sciences: Sciences.find().fetch()}
+        }
+    });
 
 
     /* *** USER *** */
