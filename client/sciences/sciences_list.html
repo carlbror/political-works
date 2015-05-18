@@ -1,0 +1,10 @@
+<template name="sciencesList">
+    <h1>Areas of scientific inquiry</h1><hr>
+    {{#each sciences}}
+    <div class="post">
+        <div class="post-content">
+            <h3><a href="{{pathFor 'sciencePage'}}">{{field.english}}</a></h3>
+        </div>
+    </div>
+    {{/each}}
+</template>

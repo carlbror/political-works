@@ -23,6 +23,12 @@
                         {{/each}}
                     </ol>
                     {{/if}}
+
+                    <br>
+                    <p>
+                        <input type="submit" value="Suggest a work that sheds light on this problem"
+                               class="btn add-work-on-area btn-success">
+                    </p>
                 </div>
                 <div class="span2">
                     {{> policyAreaPageMenu}}
@@ -42,10 +48,7 @@
     <br><br>
     {{#if currentUser}}
     {{> policyAreaAlert}}
-    <p>
-        <input type="submit" value="Suggest a work that sheds light on this problem"
-               class="btn add-work-on-area btn-success">
-    </p>
+
 
     <p>
         <input type="submit" value="Add a solution to this problem" class="btn add-policy-for-an-area btn-primary">

@@ -381,6 +381,19 @@ Router.map(function(){
         }
     });
 
+    this.route('sciencesList', {
+        data: function(){
+            return {sciences: Sciences.find().fetch()}
+        }
+    });
+
+    this.route('sciencePage', {
+        path: '/sciences/:_id',
+        data: function(){
+            return Sciences.findOne(this.params._id);
+        }
+    });
+
 
     /* *** USER *** */
     this.route('userPage', {
