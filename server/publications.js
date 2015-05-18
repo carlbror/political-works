@@ -27,6 +27,10 @@ Meteor.publish('places', function(){
     return Places.find();
 });
 
+Meteor.publish('sciences', function(){
+    return Sciences.find();
+});
+
 
 Meteor.publish("userData", function () {
     return Meteor.users.find({},

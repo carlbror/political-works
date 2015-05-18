@@ -10,3 +10,4 @@ Meteor.subscribe('producers');
 Meteor.subscribe('policies');
 Meteor.subscribe('policyAreas');
 Meteor.subscribe('places');
+Meteor.subscribe('sciences');

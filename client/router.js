@@ -373,6 +373,11 @@ Router.map(function(){
     });
 
 
+
+    /* *** SCIENCES *** */
+    this.route('addNewScience');
+
+
     /* *** USER *** */
     this.route('userPage', {
         path: '/user/:username',
