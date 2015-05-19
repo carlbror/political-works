@@ -1,3 +1,7 @@
+.create-new-list-table{
+    margin-bottom: 15px;
+}
+
 .create-new-list-table tr {
     border-bottom: 1px solid black;
 }

@@ -10,12 +10,15 @@ Schemas.Lists = new SimpleSchema({
         type: [String],
         optional: true
     },
-    nonEssentialWorks: {
+    necessaryWorks: {
         type: [String],
         optional: true
     },
     trackers: {
         type: [String],
         optional: true
+    },
+    date: {
+        type: Date()
     }
 });

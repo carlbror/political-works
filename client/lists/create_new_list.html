@@ -1,4 +1,6 @@
 <template name="createNewList">
+    <b>Name of list</b><br>
+    <input type="text" class="list-name">
     <table class="create-new-list-table">
         <tr>
             <td>Name of work</td>
@@ -8,9 +10,19 @@
         {{#each works}}
         <tr>
             <td>{{title}}</td>
-            <td></td>
-            <td></td>
+            <td>
+                <label class="necessary-work" for="necessary-{{_id}}">
+                    <input class="show-type" type="checkbox" id="necessary-{{_id}}">
+                </label>
+            </td>
+            <td>
+                <label class="essential-work" for="essential-{{_id}}">
+                    <input class="show-type" type="checkbox" id="essential-{{_id}}">
+                </label>
+            </td>
         </tr>
         {{/each}}
     </table>
+
+    <button class="btn btn-success create-new-list">Create list!</button>
 </template>
