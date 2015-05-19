@@ -30,7 +30,8 @@ function extractLast(term){
 }
 
 var works,
-    producers;
+    producers,
+    currentSelectedWork;
 
 Template.addWorkToScienceAlert.events({
     'keydown .title': function(event){
@@ -39,13 +40,6 @@ Template.addWorkToScienceAlert.events({
         $(".title").autocomplete({
             source: this.titles
         });
-    },
-    'click .ui-menu-item': function(event){
-        console.log("hi");
-        console.log(event);
-    },
-    'click .ui-state-focus': function(event){
-        console.log("ho");
     },
     'keydown .producer': function(event){
         if(this.producers && this.producers.length > 0){
@@ -176,46 +170,68 @@ Template.addWorkToScienceAlert.rendered = function(){
         if(e.which === 27){
             SciencyAlert.close();
         }
-    });
-
-    $('body').on('click', function(e){
+    }).on('click', function(e){
         if(e.target.id === "scienceDialogoverlay"){
             SciencyAlert.close();
         }
 
-        if(e.originalEvent.explicitOriginalTarget.className === "ui-menu-item" ||
-            $(e.originalEvent.target).attr('class') === "ui-menu-item"){
+        console.log($(e.originalEvent.target).attr('class'));
 
-            console.log($(e.originalEvent.target)[0].innerHTML);
-            console.log(e.originalEvent.explicitOriginalTarget.innerHTML);
+        if($(e.originalEvent.target).attr('class') === "ui-menu-item"){
+            var work = _.findWhere(works, {title: $(e.originalEvent.target)[0].innerHTML}),
+                producersOfWork = _.filter(producers, function(producer){return _.contains(work.producers, producer._id)});
+            currentSelectedWork = work.title;
 
-            var work = _.where(works, {title: $(e.originalEvent.target)[0].innerHTML}),
-                producers = _.filter(producers, function(producer){_.contains(work.producers, producer._id)});
+            var producerField = $('.producer'),
+                urlField = $('.url'),
+                urlDiscussionField = $('.discussion-url');
 
-            console.log(work);
-            console.log(producers);
-//            var work = Works.findOne({title: e.originalEvent.explicitOriginalTarget.innerHTML}),
-//                producers = Producers.find({_id: {$in: work.producers}}).fetch();
+            producerField.val("");
+            urlField.val("");
+            urlDiscussionField.val("");
 
-//            console.log(work);
-//            console.log(producers);
-
-            for(var x=0; x<producers.length; x++){
+            for(var x=0; x<producersOfWork.length; x++){
                 var producer = $('.producer');
-                if(x === producers.length-1){
-                    $('.producer').val(producer.val() + producers[x].name);
+                if(x === producersOfWork.length-1){
+                    $('.producer').val(producer.val() + producersOfWork[x].name);
                 } else {
-                    $('.producer').val(producer.val() + producers[x].name + ", ");
+                    $('.producer').val(producer.val() + producersOfWork[x].name + ", ");
                 }
             }
 
+            urlField.val(work.url);
+            urlDiscussionField.val(work.discussionUrl);
 
-//            console.log(e.originalEvent.explicitOriginalTarget.innerHTML);
-//            console.log(Template.instance());
-//            console.log(this.works);
-//            console.log(Template.parentData(1));
-//            console.log(Template.parentData(2));
-//            console.log(_.where(this.works, {title: e.originalEvent.explicitOriginalTarget.innerHTML}));
+            $(".type-of-work option").filter(function() {
+                return $(this).text() == work.type;
+            }).prop('selected', true);
+
+            producerField.prop('disabled', true);
+            urlField.prop('disabled', true);
+            urlDiscussionField.prop('disabled', true);
+            $('.type-of-work').prop('disabled', true);
+        }
+    });
+
+    $('.title').bind('input', function() {
+        if(currentSelectedWork && currentSelectedWork !== $('.title').val()){
+            var producerField = $('.producer'),
+                urlField = $('.url'),
+                urlDiscussionField = $('.discussion-url');
+
+            producerField.val("");
+            urlField.val("");
+            urlDiscussionField.val("");
+            $(".type-of-work option").filter(function() {
+                return $(this).text() == "";
+            }).prop('selected', true);
+
+            producerField.prop('disabled', false);
+            urlField.prop('disabled', false);
+            urlDiscussionField.prop('disabled', false);
+            $('.type-of-work').prop('disabled', false);
+
+            currentSelectedWork = null;
         }
     });
 };
@@ -228,4 +244,3 @@ Template.addWorkToScienceAlert.helpers({
         return typeOfWork;
     }
 });
-
