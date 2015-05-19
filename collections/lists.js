@@ -8,16 +8,13 @@ Lists.allow({
 });
 
 Meteor.methods({
-    createNewList: function(necessaryWorks, essentialWorks){
-        var user = get_.userOrThrowError();
-        necessaryWorks = o_.sanitizeArray(neccesaryWorks);
-        essentialWorks = o_.sanitizeArray(essentialWorks);
-
-        Lists.insert({
-            createdBy: user._id
-        })
-
-
-
+    createNewList: function(necessaryWorks, essentialWorks, nameForList){
+        return Lists.insert({
+            createdBy: get_.userOrThrowError()._id,
+            name: o_.sanitizeString(nameForList),
+            necessaryWorks: o_.sanitizeArray(necessaryWorks),
+            essentialWorks: o_.sanitizeArray(essentialWorks),
+            date: new Date()
+        });
     }
 });

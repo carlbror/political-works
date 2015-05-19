@@ -475,7 +475,7 @@ Router.map(function(){
     });
 
     this.route('listPage', {
-        path: '/lists/:name',
+        path: '/lists/:name/:_id',
         data: function(){
             return Lists.findOne({name: this.params.name});
         }

@@ -31,6 +31,9 @@ Meteor.publish('sciences', function(){
     return Sciences.find();
 });
 
+Meteor.publish('lists', function(){
+    return Lists.find();
+});
 
 Meteor.publish("userData", function () {
     return Meteor.users.find({},
