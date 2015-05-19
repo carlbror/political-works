@@ -65,7 +65,7 @@ Template.policyAreaPageMenu.events({
         }
 
         if( $('#any').prop('checked')){
-                Session.set('familiarityView', "7,6,5,4,3,2,1");
+                Session.set('familiarityView', "7,6,5,4,3,2,1,0");
         } else {
             var whatFamiliaritiesAreChecked = [];
             _.each(familiarityReveresed, function(type){

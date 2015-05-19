@@ -223,12 +223,14 @@ Router.map(function(){
             this.next();
         },
         data: function(){
-            var policyArea = PolicyAreas.findOne(this.params._id),
+            var familiarities = Session.get('familiarityView').split(',').map(Number),
+                policyArea = PolicyAreas.findOne(this.params._id),
                 works = Works.find({}, {fields: {title: 1, type: 1}}).fetch(),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                ratingsOnArea = Ratings.find(
-                    {policyAreaId: this.params._id, familiarity: {$in: Session.get('familiarityView').split(',').map(Number)}},
-                    {fields: {worksId: 1, scores: 1}}).fetch(),
+                ratingsOnArea = Ratings.find({policyAreaId: this.params._id, $and: [
+                    {familiarity: {$gt: 0}},
+                    {familiarity: {$in: familiarities}}
+                ]}, {fields: {worksId: 1, scores: 1}}).fetch(),
                 type = Session.get('typeView').split(',');
 
             if(policyArea && works.length > 0 && producers.length > 0){
@@ -403,14 +405,17 @@ Router.map(function(){
             this.next();
         },
         data: function(){
-            var works = Works.find({}, {sort: {title: 1}}).fetch(),
+            var familiarities = Session.get('familiarityView').split(',').map(Number),
+                type = Session.get('typeView').split(','),
+                works = Works.find({}, {sort: {title: 1}}).fetch(),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                ratingsOnScience = Ratings.find({scienceId: this.params._id, familiarity: {$gt: 0}},
-                    {fields: {worksId: 1, scores: 1}}).fetch(),
+                ratingsOnScience = Ratings.find({scienceId: this.params._id, $and: [
+                    {familiarity: {$gt: 0}},
+                    {familiarity: {$in: familiarities}}
+                ]}, {fields: {worksId: 1, scores: 1}}).fetch(),
                 nonFamiliarRatingsOnScience = Ratings.find({scienceId: this.params._id, familiarity: 0},
                     {fields: {worksId: 1, scores: 1}}).fetch(),
-                science = Sciences.findOne(this.params._id),
-                type = ['all'];
+                science = Sciences.findOne(this.params._id);
 
             if(science && works.length > 0 && producers.length > 0){
 
@@ -430,7 +435,7 @@ Router.map(function(){
                 if(ratingsOnScience && ratingsOnScience.length > 0){
                     science.sortedRatings = calculateTotalScoreForRatingsAndSort(ratingsOnScience, 'enlighteningScore');
                 }
-                if(nonFamiliarRatingsOnScience && nonFamiliarRatingsOnScience.length > 0){
+                if(nonFamiliarRatingsOnScience && nonFamiliarRatingsOnScience.length > 0 && _.contains(familiarities, 0)){
                     var uniqueWorkIds = _.uniq(_.pluck(nonFamiliarRatingsOnScience, 'worksId'));
 
                     if(ratingsOnScience && ratingsOnScience.length > 0){
