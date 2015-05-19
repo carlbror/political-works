@@ -422,6 +422,7 @@ Router.map(function(){
                 if(type[0] !== 'all'){
                     if(type[0] === 'none'){
                         ratingsOnScience = null;
+                        nonFamiliarRatingsOnScience = null;
                     } else {
                         var worksInRatings = _.filter(works, function(work){
                             return _.contains(type, work.type);
@@ -430,10 +431,14 @@ Router.map(function(){
                         ratingsOnScience = _.filter(ratingsOnScience, function(rating){
                             return _.contains(_.pluck(worksInRatings, '_id'), rating.worksId);
                         });
+
+                        nonFamiliarRatingsOnScience = _.filter(nonFamiliarRatingsOnScience, function(rating){
+                            return _.contains(_.pluck(worksInRatings, '_id'), rating.worksId);
+                        });
                     }
                 }
                 if(ratingsOnScience && ratingsOnScience.length > 0){
-                    science.sortedRatings = calculateTotalScoreForRatingsAndSort(ratingsOnScience, 'enlighteningScore');
+                    science.sortedRatings = calculateTotalScoreForRatingsAndSort(ratingsOnScience, Session.get('scoreView'));
                 }
                 if(nonFamiliarRatingsOnScience && nonFamiliarRatingsOnScience.length > 0 && _.contains(familiarities, 0)){
                     var uniqueWorkIds = _.uniq(_.pluck(nonFamiliarRatingsOnScience, 'worksId'));
