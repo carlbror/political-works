@@ -31,7 +31,7 @@ Schemas.Ratings = new SimpleSchema({
         optional: true
     },
     familiarity: {
-        type: String
+        type: Number
     },
     ratingType: {
         type: String,

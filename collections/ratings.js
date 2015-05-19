@@ -13,11 +13,16 @@ Meteor.methods({
         var user = get_.userOrThrowError(),
             sanitizedObj = o_.sanitizeObject(_.omit(attr, 'scores'));
 
-        sanitizedObj.scores = o_.sanitizeObject(attr.scores);
-        if(sanitizedObj.scores.convincingScore) sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
-        if(sanitizedObj.scores.enlighteningScore) sanitizedObj.scores.enlighteningScore = parseInt(sanitizedObj.scores.enlighteningScore);
-        if(sanitizedObj.scores.readabilityScore) sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
+        if(attr.scores){
+            sanitizedObj.scores = o_.sanitizeObject(attr.scores);
+            if(sanitizedObj.scores.convincingScore) sanitizedObj.scores.convincingScore = parseInt(sanitizedObj.scores.convincingScore);
+            if(sanitizedObj.scores.enlighteningScore) sanitizedObj.scores.enlighteningScore = parseInt(sanitizedObj.scores.enlighteningScore);
+            if(sanitizedObj.scores.readabilityScore) sanitizedObj.scores.readabilityScore = parseInt(sanitizedObj.scores.readabilityScore);
+        }
+        console.log(sanitizedObj.familiarity);
+        console.log(parseInt(sanitizedObj.familiarity));
         sanitizedObj.familiarity = parseInt(sanitizedObj.familiarity);
+        console.log(sanitizedObj.familiarity);
 
         if(sanitizedObj.urlReview && !sanitizedObj.urlReview.match(urlRegExp)){
             throw new Meteor.Error(
@@ -72,7 +77,7 @@ Meteor.methods({
             if(rating){
                 ratings_.updateOldReview(rating, sanitizedObj);
             } else {
-                var ratingId = ratings_.createNewAreaRating(sanitizedObj, user._id);
+                var ratingId = ratings_.createNewScienceRating(sanitizedObj, user._id);
                 if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
             }
         }
@@ -113,7 +118,18 @@ ratings_.createNewAreaRating = function(attr, userId){
         familiarity: attr.familiarity,
         date: new Date()
     });
-}
+};
+
+ratings_.createNewScienceRating = function(attr, userId){
+    return Ratings.insert({
+        scienceId: attr.scienceId,
+        worksId: attr.worksId,
+        userId: userId,
+        scores: attr.scores,
+        familiarity: attr.familiarity,
+        date: new Date()
+    });
+};
 
 ratings_.updateOldReview = function(rating, sanitizedObj){
     Ratings.update({_id: rating._id}, {

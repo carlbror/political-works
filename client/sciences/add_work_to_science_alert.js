@@ -73,21 +73,25 @@ Template.addWorkToScienceAlert.events({
     },
     'change .type-of-work': function(event){
         if(event.currentTarget.value === "Wikipedia article"){
-            $('.producer').val("Wikpedians");
+            $('.producer').val("Wikipedians");
         }
     },
     'change .work-familiarity': function(event){
         var enlighteningScore = $('.enlightening-score'),
-            readabilityScore = $('.readability-score');
+            readabilityScore = $('.readability-score'),
+            review = $('.review');
 
         if(event.currentTarget.value === '' + this.familiarities[this.familiarities.length - 1].number + ''){
             enlighteningScore.val("");
             readabilityScore.val("");
+            review.val("");
             enlighteningScore.prop('disabled', true);
             readabilityScore.prop('disabled', true);
+            review.prop('disabled', true);
         } else {
             enlighteningScore.prop('disabled', false);
             readabilityScore.prop('disabled', false);
+            review.prop('disabled', false);
         }
     },
     'click .add-work-to-science': function(event){
@@ -101,11 +105,12 @@ Template.addWorkToScienceAlert.events({
             scienceId: this._id
         };
 
-        if(familiarity !== 0){
+        if(attr.familiarity !== 0){
             attr.scores = {
                 enlighteningScore: parseInt($('.enlightening-score').val()),
                 readabilityScore: parseInt($('.readability-score').val())
             }
+            throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
         }
 
         var producers = $('.producer').val();
@@ -122,8 +127,6 @@ Template.addWorkToScienceAlert.events({
         if(urlReview !== "") attr.urlReview = urlReview;
 
 
-        throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
-
         if(attr === undefined) throwError("Error code: 601");
         if(attr.title === undefined) throwError("Error code: 602");
         if(attr.url === undefined) throwError("Error code: 603");
@@ -138,6 +141,7 @@ Template.addWorkToScienceAlert.events({
         if(attr.scienceId === undefined) throwError("Error code: 610");
         if(attr.ratingType !== undefined) throwError("Error code: 611");
 
+        console.log(attr);
 
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
             if(error) throwError(error.reason);
@@ -155,6 +159,15 @@ Template.addWorkToScienceAlert.events({
                 $('.type-of-work').val("");
                 $('.producer').val("");
                 $('.review').val("");
+
+
+                $('.producer').prop('disabled', false);
+                $('.url').prop('disabled', false);
+                $('.discussion-url').prop('disabled', false);
+                $('.type-of-work').prop('disabled', false);
+                $('.enlightening-score').prop('disabled', false);
+                $('.readability-score').prop('disabled', false);
+                $('.review').prop('disabled', false);
 
                 SciencyAlert.close();
             });
@@ -174,8 +187,6 @@ Template.addWorkToScienceAlert.rendered = function(){
         if(e.target.id === "scienceDialogoverlay"){
             SciencyAlert.close();
         }
-
-        console.log($(e.originalEvent.target).attr('class'));
 
         if($(e.originalEvent.target).attr('class') === "ui-menu-item"){
             var work = _.findWhere(works, {title: $(e.originalEvent.target)[0].innerHTML}),
