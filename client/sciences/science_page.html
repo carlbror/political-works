@@ -2,13 +2,51 @@
     <h1>{{field.english}}</h1>
     <hr>
 
+    <div class="suggested-works">
+        <div class="container">
+            <div class="row">
+                <div class="span10">
 
-    {{#if currentUser}}
-    {{> addWorkToScienceAlert}}
+                    {{#if sortedRatings}}
+                    <h3>Suggested works</h3>
+                    <ol>
+                        {{#each sortedRatings}}
 
-    <p>
-        <input type="submit" value="Suggest a work that sheds light on this problem"
-               class="btn add-work-on-science btn-success">
-    </p>
-    {{/if}}
+                        <li>{{#with workFromWorksId}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
+                            {{totalRating}}%
+                        </li>
+
+
+                        {{/each}}
+                    </ol>
+                    {{/if}}
+
+                    {{#if nonFamiliarRatedWorks}}
+                    <h3>Suggested works without a rating</h3>
+                    <ul>
+                        {{#each nonFamiliarRatedWorks}}
+                        <li>
+                            <a href="{{pathFor 'worksPage'}}">{{title}}</a>
+                        </li>
+                        {{/each}}
+                    </ul>
+
+                    {{/if}}
+
+                    <br>
+
+                    {{#if currentUser}}
+                    <p>
+                        <input type="submit" value="Suggest a work that sheds light on this problem"
+                               class="btn add-work-on-science btn-success">
+                    </p>
+                    {{> addWorkToScienceAlert}}
+                    {{/if}}
+                </div>
+                <div class="span2">
+                    {{> policyAreaPageMenu}}
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

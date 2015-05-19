@@ -141,8 +141,6 @@ Template.addWorkToScienceAlert.events({
         if(attr.scienceId === undefined) throwError("Error code: 610");
         if(attr.ratingType !== undefined) throwError("Error code: 611");
 
-        console.log(attr);
-
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
             if(error) throwError(error.reason);
             attr.worksId = worksId;

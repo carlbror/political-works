@@ -13,4 +13,4 @@ Template.policyAreaPage.helpers({
             return Works.findOne(this.worksId, {fields: {title: 1}});
         }
     }
-})
+});

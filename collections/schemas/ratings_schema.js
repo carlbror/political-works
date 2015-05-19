@@ -52,6 +52,10 @@ Schemas.Ratings = new SimpleSchema({
         type: String,
         optional: true
     },
+    scienceId: {
+        type: String,
+        optional: true
+    },
     urlReview: {
         type: String,
         optional: true

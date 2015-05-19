@@ -190,16 +190,15 @@ Router.map(function(){
         data: function(){
             var policyAreas = PolicyAreas.find({}, {sort: {area: 1}}).fetch();
 
-            for(var x=0; x<policyAreas.length; x++){
+            for(var x = 0; x < policyAreas.length; x++){
                 var ratings = Ratings.find({policyAreaId: policyAreas[x]._id}, {fields: {"scores.enlighteningScore": 1,
-                worksId: 1}}).fetch()
+                    worksId: 1}}).fetch()
 
                 if(ratings.length > 0){
                     policyAreas[x].bestWork = Works.findOne(calculateTotalScoreForRatingsAndSort(ratings,
                         "enlighteningScore")[0].worksId, {fields: {producers: 1, title: 1, url: 1}});
                 }
             }
-
 
 
             return {policyAreas: policyAreas};
@@ -340,7 +339,7 @@ Router.map(function(){
             });
 
             return {ideologies: ideologies, policies: policies, producers: _.pluck(producers, 'name'),
-                    typeOfWork: typeOfWork};
+                typeOfWork: typeOfWork};
         }
     });
 
@@ -373,7 +372,6 @@ Router.map(function(){
     });
 
 
-
     /* *** SCIENCES *** */
     this.route('addNewScience', {
         data: function(){
@@ -389,13 +387,63 @@ Router.map(function(){
 
     this.route('sciencePage', {
         path: '/sciences/:_id',
+        onBeforeAction: function(){
+            if(!Session.get('scoreView') || Session.get('scoreView') === "convincingScore"){
+                Session.set('scoreView', 'enlighteningScore');
+            }
+            if(!Session.get('typeView')){
+                Session.set('typeView', 'all');
+            }
+
+            if(!Session.get('familiarityView')){
+                Session.set('familiarityView', [familiarityReveresed[0].number, familiarityReveresed[1].number,
+                    familiarityReveresed[2].number, familiarityReveresed[3].number].toString());
+            }
+
+            this.next();
+        },
         data: function(){
-            var works = Works.find().fetch(),
+            var works = Works.find({}, {sort: {title: 1}}).fetch(),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                ratings = Ratings.find({scienceId: this.params._id}, {fields: {worksId: 1, scores: 1}}).fetch(),
-                science = Sciences.findOne(this.params._id);
+                ratingsOnScience = Ratings.find({scienceId: this.params._id, familiarity: {$gt: 0}},
+                    {fields: {worksId: 1, scores: 1}}).fetch(),
+                nonFamiliarRatingsOnScience = Ratings.find({scienceId: this.params._id, familiarity: 0},
+                    {fields: {worksId: 1, scores: 1}}).fetch(),
+                science = Sciences.findOne(this.params._id),
+                type = ['all'];
 
             if(science && works.length > 0 && producers.length > 0){
+
+                if(type[0] !== 'all'){
+                    if(type[0] === 'none'){
+                        ratingsOnScience = null;
+                    } else {
+                        var worksInRatings = _.filter(works, function(work){
+                            return _.contains(type, work.type);
+                        });
+
+                        ratingsOnScience = _.filter(ratingsOnScience, function(rating){
+                            return _.contains(_.pluck(worksInRatings, '_id'), rating.worksId);
+                        });
+                    }
+                }
+                if(ratingsOnScience && ratingsOnScience.length > 0){
+                    science.sortedRatings = calculateTotalScoreForRatingsAndSort(ratingsOnScience, 'enlighteningScore');
+                }
+                if(nonFamiliarRatingsOnScience && nonFamiliarRatingsOnScience.length > 0){
+                    var uniqueWorkIds = _.uniq(_.pluck(nonFamiliarRatingsOnScience, 'worksId'));
+
+                    if(ratingsOnScience && ratingsOnScience.length > 0){
+                        var arrayOfFamiliarWorkIds = _.uniq(_.pluck(ratingsOnScience, 'worksId'));
+                        uniqueWorkIds = _.reject(uniqueWorkIds, function(workId){
+                            return _.contains(arrayOfFamiliarWorkIds, workId);
+                        });
+                    }
+                    science.nonFamiliarRatedWorks = _.filter(works, function(work){
+                        return _.contains(uniqueWorkIds, work._id);
+                    });
+                }
+
                 science.titles = _.pluck(works, "title");
                 science.producers = _.pluck(producers, 'name');
                 science.typeOfWork = typeOfWork;
@@ -443,9 +491,15 @@ Router.map(function(){
 
                 var ratings = Ratings.find({userId: user._id, familiarity: {$in: familiarity}}).fetch();
                 if(ratings && ratings.length > 0){
-                    user.ratingsOnPolicyAreas = _.filter(ratings, function(rating){return rating.policyAreaId});
-                    user.ratingsOnIdeologies = _.filter(ratings, function(rating){return rating.ideologyId;});
-                    user.ratingsOnPolicies = _.filter(ratings, function(rating){return rating.policyId;});
+                    user.ratingsOnPolicyAreas = _.filter(ratings, function(rating){
+                        return rating.policyAreaId
+                    });
+                    user.ratingsOnIdeologies = _.filter(ratings, function(rating){
+                        return rating.ideologyId;
+                    });
+                    user.ratingsOnPolicies = _.filter(ratings, function(rating){
+                        return rating.policyId;
+                    });
 
                     user.ratingsByPolicyArea = [];
                     user.ratingsByIdeology = [];
@@ -463,8 +517,8 @@ Router.map(function(){
                     });
                     _.each(user.ratingsByPolicyArea, function(ratingOnPolicyArea){
                         ratingOnPolicyArea.ratings.sort(function(a, b){
-                                return b.scores[score] - a.scores[score];
-                            });
+                            return b.scores[score] - a.scores[score];
+                        });
                     });
 
                     var listOfIdeologiesAlreadyAdded = [];
