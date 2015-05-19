@@ -467,6 +467,31 @@ Router.map(function(){
     });
 
 
+    /* *** LISTS *** */
+    this.route('lists', {
+        data: function(){
+            return {lists: Lists.find({}, {sort: {name:1}, fields: {name:1}}).fetch()};
+        }
+    });
+
+    this.route('listPage', {
+        path: '/lists/:name',
+        data: function(){
+            return Lists.findOne({name: this.params.name});
+        }
+    });
+
+    this.route('createNewList',{
+        path: '/create-new-list',
+        data: function(){
+            return {
+                lists: Lists.find({}, {fields: {name:1}}).fetch(),
+                works: Works.find({}, {sort: {title:1}, fields: {title:1, producers: 1, type:1}}).fetch()
+            };
+        }
+    });
+
+
     /* *** USER *** */
     this.route('userPage', {
         path: '/user/:username',

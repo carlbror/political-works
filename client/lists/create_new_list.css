@@ -1,0 +1,11 @@
+.create-new-list-table tr {
+    border-bottom: 1px solid black;
+}
+
+.create-new-list-table tr:first-child{
+    font-weight: bold;
+}
+
+.create-new-list-table td:nth-child(2), td:nth-child(1)  {
+    padding-right: 15px;
+}
