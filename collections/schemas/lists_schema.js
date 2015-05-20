@@ -14,7 +14,7 @@ Schemas.Lists = new SimpleSchema({
         type: [String],
         optional: true
     },
-    trackers: {
+    subscribers: {
         type: [String],
         optional: true
     },

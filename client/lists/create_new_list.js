@@ -31,18 +31,20 @@ Template.createNewList.events({
         Meteor.call('createNewList', necessaryWorks, essentialWorks, nameForList, function(err, listId){
             if(err) throwError(err.message);
             _.each(necessaryWorks, function(work){
-                $('#necessary-' + work._id).prop('checked', false);
+                $('#necessary-' + work).prop('checked', false);
             });
             _.each(essentialWorks, function(work){
-                $('#essential-' + work._id).prop('checked', false);
+                $('#essential-' + work).prop('checked', false);
             });
+            $('.list-name').val('');
 
-            var a = document.createElement('a');
-            var linkText = document.createTextNode("my title text");
-            a.appendChild(linkText);
-            a.title = "my title text";
-            a.href = "/lists/" + nameForList + "/" + listId;
-            document.body.appendChild(a);
+            var d = document.createElement('span');
+            d.style = "margin-left: 10px;";
+            $(d).addClass("hidden")
+                .html("New list: <a href='/lists/'" + nameForList + "/" + listId + "'>" + nameForList + "</a>")
+                .appendTo($(".main-place"));
+
+            $('.hidden').switchClass('hidden' ,'visible');
         });
     }
 });

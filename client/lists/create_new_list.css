@@ -13,3 +13,14 @@
 .create-new-list-table td:nth-child(2), td:nth-child(1)  {
     padding-right: 15px;
 }
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 5s linear;
+}
+
+
+.hidden {
+    visibility: hidden;
+}
