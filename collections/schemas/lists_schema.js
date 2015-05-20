@@ -10,7 +10,7 @@ Schemas.Lists = new SimpleSchema({
         type: [String],
         optional: true
     },
-    necessaryWorks: {
+    importantWorks: {
         type: [String],
         optional: true
     },

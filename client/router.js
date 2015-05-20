@@ -477,7 +477,60 @@ Router.map(function(){
     this.route('listPage', {
         path: '/lists/:name/:_id',
         data: function(){
-            return Lists.findOne({name: this.params.name});
+            var list = Lists.findOne(this.params._id),
+                user = Meteor.user(),
+                subscribes, essentialWorksCompleted, importantWorksCompleted, totalWorksCompleted;
+
+            if(list){
+                var essentialWorks = Works.find({_id: {$in: list.essentialWorks}}, {sort: {title:1}}).fetch(),
+                    importantWorks = Works.find({_id: {$in: list.importantWorks}}, {sort: {title:1}}).fetch();
+
+                if(user && _.contains(list.subscribers, user._id)){
+                    subscribes = true;
+                    var uniqueRatingsOnEssentialWorks, uniqueRatingsOnImportantWorks;
+
+                    if(essentialWorks.length > 0){
+                        var ratingsOnEssentialWorks = Ratings.find({worksId: {$in: _.pluck(essentialWorks, '_id')},
+                            familiarity: {$gt: 1}}, {fields: {_id: 1, worksId: 1}}).fetch();
+                        if(ratingsOnEssentialWorks.length > 0){
+                            essentialWorksCompleted = _.uniq(_.pluck(ratingsOnEssentialWorks, 'worksId')).length;
+                        }
+                    }
+
+                    if(importantWorks.length > 0){
+                        var ratingsOnImportantWorks = Ratings.find({worksId: {$in: _.pluck(importantWorks, '_id')},
+                            familiarity: {$gt: 1}}, {fields: {_id: 1, worksId: 1}}).fetch();
+                        if(ratingsOnImportantWorks.length > 0){
+                            importantWorksCompleted = _.uniq(_.pluck(ratingsOnImportantWorks, 'worksId'));
+                        }
+                    }
+
+                    essentialWorksCompleted = essentialWorksCompleted || 0;
+                    importantWorksCompleted = importantWorksCompleted || 0;
+                    totalWorksCompleted = essentialWorksCompleted + importantWorksCompleted;
+
+                    var essentialWorksCompletedPercentage, importantWorksCompletedPercentage;
+
+                    if(essentialWorksCompleted > 0)
+                        essentialWorksCompletedPercentage = Math.round((essentialWorksCompleted / essentialWorks.length)*100);
+
+                    if(importantWorksCompleted > 0)
+                        importantWorksCompletedPercentage = Math.round((importantWorksCompleted / importantWorks.length)*100);
+
+                    var totalWorksCompletedPercentage = Math.round(((essentialWorksCompleted+importantWorksCompleted)/
+                        (essentialWorks.length + importantWorks.length))*100);
+                }
+
+                return {
+                    list: list,
+                    essentialWorks: essentialWorks,
+                    importantWorks: importantWorks,
+                    subscribes: subscribes,
+                    essentialWorksCompletedPercentage: essentialWorksCompletedPercentage,
+                    importantWorksCompletedPercentage: importantWorksCompletedPercentage,
+                    totalWorksCompletedPercentage: totalWorksCompletedPercentage
+                }
+            }
         }
     });
 

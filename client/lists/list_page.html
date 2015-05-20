@@ -1,3 +1,63 @@
 <template name="listPage">
+    <link href="../scripts/bootstrap-switch.css" rel="stylesheet">
+    <script src="../scripts/bootstrap-switch.js"></script>
+    <h1>{{list.name}}</h1>
+    <hr>
 
+    <div class="container">
+        <div class="row">
+            <div class="span2">
+                <div class="subscribe-to-list">
+                    <h4>Work list</h4>
+                    {{#if currentUser}}{{#if subscribes}}
+                    <p>
+                        You have finished:<br>
+                        {{essentialWorksCompletedPercentage}}% of all the essential works,<br>
+                        {{importantWorksCompletedPercentage}}% of all the important works,<br>
+                        {{totalWorksCompletedPercentage}}% of all the works in this list.
+                    </p>
+
+                    <button class="stop-start-subscribing-to-list btn btn-warning">Stop subscribing!</button>
+                    {{else}}
+                    <button class="stop-start-subscribing-to-list btn btn-success">Subscribe to list!</button>
+                    {{/if}}{{/if}}
+                </div>
+            </div>
+
+            <div class="span10">
+                <table class="display-list-table">
+                    <tr>
+                        <td>Work</td>
+                        <td></td>
+                        {{#if subscribes}}
+                        <td>Has read</td>
+                        {{/if}}
+                    </tr>
+
+                    {{#each essentialWorks}}
+                    <tr>
+                        <td><b><a href="{{pathFor 'worksPage'}}">{{title}}</a></b></td>
+                        <td><span><a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span></td>
+                        {{#if ../subscribes}}{{#if hasRead}}
+                        <td>
+                            <span style="font-family: Arial Unicode MS, Lucida Grande">&#10004;</span>
+                        </td>
+                        {{/if}}{{/if}}
+                    </tr>
+                    {{/each}}
+                    {{#each importantWorks}}
+                    <tr>
+                        <td><a href="{{pathFor 'worksPage'}}">{{title}}</a></td>
+                        <td><span><a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span></td>
+                        {{#if ../subscribes}}{{#if hasRead}}
+                        <td>
+                            <span style="font-family: Arial Unicode MS, Lucida Grande">&#10004;</span>
+                        </td>
+                        {{/if}}{{/if}}
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
 </template>

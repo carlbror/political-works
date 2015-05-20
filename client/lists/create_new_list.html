@@ -4,15 +4,15 @@
     <table class="create-new-list-table">
         <tr>
             <td>Name of work</td>
-            <td>Necessary part</td>
+            <td>Important part</td>
             <td>Essential part</td>
         </tr>
         {{#each works}}
         <tr>
             <td>{{title}}</td>
             <td>
-                <label class="necessary-work" for="necessary-{{_id}}">
-                    <input class="show-type" type="checkbox" id="necessary-{{_id}}">
+                <label class="important-work" for="important-{{_id}}">
+                    <input class="show-type" type="checkbox" id="important-{{_id}}">
                 </label>
             </td>
             <td>
@@ -24,5 +24,5 @@
         {{/each}}
     </table>
 
-    <button class="btn btn-success create-new-list">Create list!</button>
+    <button class="btn btn-success create-new-list">Create list!</button>  {{{newList}}}
 </template>
