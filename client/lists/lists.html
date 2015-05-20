@@ -1,4 +1,19 @@
 <template name="lists">
+    <div class="lists">
+        <h1>Lists on works</h1>
+        <hr>
+        {{#each lists}}
+        <div class="post">
+            <div class="post-content">
+                <h3><a href="{{pathFor 'listPage'}}">{{name}}</a></h3>
+            </div>
+        </div>
+        {{/each}}
+
+        {{#if currentUser}}
+        <a class="btn btn-success" href="{{pathFor 'createNewList'}}">Create new list</a>
+        {{/if}}
+    </div>
     {{#each lists}}
 
 

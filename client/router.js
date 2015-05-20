@@ -501,7 +501,7 @@ Router.map(function(){
                         var ratingsOnImportantWorks = Ratings.find({worksId: {$in: _.pluck(importantWorks, '_id')},
                             familiarity: {$gt: 1}}, {fields: {_id: 1, worksId: 1}}).fetch();
                         if(ratingsOnImportantWorks.length > 0){
-                            importantWorksCompleted = _.uniq(_.pluck(ratingsOnImportantWorks, 'worksId'));
+                            importantWorksCompleted = _.uniq(_.pluck(ratingsOnImportantWorks, 'worksId')).length;
                         }
                     }
 
@@ -530,7 +530,7 @@ Router.map(function(){
                     hasImportantWorks: !!importantWorks[0],
                     essentialWorksCompletedPercentage: essentialWorksCompletedPercentage || 0,
                     importantWorksCompletedPercentage: importantWorksCompletedPercentage || 0,
-                    totalWorksCompletedPercentage: totalWorksCompletedPercentage
+                    totalWorksCompletedPercentage: totalWorksCompletedPercentage || 0
                 }
             }
         }
