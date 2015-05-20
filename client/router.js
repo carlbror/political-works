@@ -526,8 +526,10 @@ Router.map(function(){
                     essentialWorks: essentialWorks,
                     importantWorks: importantWorks,
                     subscribes: subscribes,
-                    essentialWorksCompletedPercentage: essentialWorksCompletedPercentage,
-                    importantWorksCompletedPercentage: importantWorksCompletedPercentage,
+                    hasEssentialWorks: !!essentialWorks[0],
+                    hasImportantWorks: !!importantWorks[0],
+                    essentialWorksCompletedPercentage: essentialWorksCompletedPercentage || 0,
+                    importantWorksCompletedPercentage: importantWorksCompletedPercentage || 0,
                     totalWorksCompletedPercentage: totalWorksCompletedPercentage
                 }
             }

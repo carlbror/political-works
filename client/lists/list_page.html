@@ -6,16 +6,28 @@
 
     <div class="container">
         <div class="row">
-            <div class="span2">
+            <div class="span3">
                 <div class="subscribe-to-list">
-                    <h4>Work list</h4>
+                    <h4>List of works</h4>
                     {{#if currentUser}}{{#if subscribes}}
                     <p>
-                        You have finished:<br>
-                        {{essentialWorksCompletedPercentage}}% of all the essential works,<br>
-                        {{importantWorksCompletedPercentage}}% of all the important works,<br>
-                        {{totalWorksCompletedPercentage}}% of all the works in this list.
+                        You have finished:
                     </p>
+                    <ul>
+                        <p>
+                            {{#if hasEssentialWorks}}<b>{{essentialWorksCompletedPercentage}}%</b> of all the essential
+                            works,{{/if}}
+                        </p>
+
+                        <p>
+                            {{#if hasImportantWorks}}<b>{{importantWorksCompletedPercentage}}%</b> of all the important
+                            works,{{/if}}
+                        </p>
+
+                        <p>
+                            <b>{{totalWorksCompletedPercentage}}%</b> of all the works in this list.
+                        </p>
+                    </ul>
 
                     <button class="stop-start-subscribing-to-list btn btn-warning">Stop subscribing!</button>
                     {{else}}
@@ -24,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="span10">
+            <div class="span9">
                 <table class="display-list-table">
                     <tr>
                         <td>Work</td>
