@@ -196,15 +196,14 @@ Router.map(function(){
             var policyAreas = PolicyAreas.find({}, {sort: {area: 1}}).fetch();
 
             for(var x = 0; x < policyAreas.length; x++){
-                var ratings = Ratings.find({policyAreaId: policyAreas[x]._id}, {fields: {"scores.enlighteningScore": 1,
-                    worksId: 1}}).fetch()
+                var ratings = Ratings.find({policyAreaId: policyAreas[x]._id, familiarity: {$gt: 1}},
+                    {fields: {"scores.enlighteningScore": 1, worksId: 1}}).fetch()
 
                 if(ratings.length > 0){
                     policyAreas[x].bestWork = Works.findOne(calculateTotalScoreForRatingsAndSort(ratings,
                         "enlighteningScore")[0].worksId, {fields: {producers: 1, title: 1, url: 1}});
                 }
             }
-
 
             return {policyAreas: policyAreas};
         }
