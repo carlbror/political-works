@@ -223,9 +223,6 @@ Template.specialAlert.rendered = function(){
                 producersOfWork = _.filter(producers, function(producer){return _.contains(work.producers, producer._id)});
             currentSelectedWork = work.title;
 
-            console.log(producersOfWork);
-            console.log(work);
-
             var producerField = $('.producer'),
                 urlField = $('.url'),
                 urlDiscussionField = $('.discussion-url');
