@@ -3,7 +3,7 @@ Template.policyAreaPage.events({
         Router.go('discussAPolicyArea', {_id: this._id});
     },
     'click .add-work-on-area': function(){
-        AreaAlert.render(this.area);
+        SciencyAlert.render(this.area);
     }
 });
 

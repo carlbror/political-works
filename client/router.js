@@ -88,7 +88,7 @@ Router.map(function(){
             if(data && producers && works){
                 data.typeOfWork = typeOfWork;
                 data.familiarities = familiarityReveresed;
-                data.producers = _.pluck(producers, 'name');
+                data.producerNames = _.pluck(producers, 'name');
                 data.titles = _.pluck(works, 'title');
                 data.works = works;
                 data.producers = producers;
@@ -164,7 +164,7 @@ Router.map(function(){
                 originalPolicy.typeOfWork = typeOfWork;
                 originalPolicy.familiarities = familiarityReveresed;
                 originalPolicy.titles = _.pluck(works, 'title');
-                originalPolicy.producers = _.pluck(producers, 'name');
+                originalPolicy.producerNames = _.pluck(producers, 'name');
                 originalPolicy.works = works;
                 originalPolicy.producers = producers;
 
@@ -264,10 +264,12 @@ Router.map(function(){
                 }
 
                 policyArea.titles = _.pluck(works, "title");
-                policyArea.producers = _.pluck(producers, 'name');
+                policyArea.producerNames = _.pluck(producers, 'name');
                 policyArea.ratingsOnArea = ratingsOnArea;
                 policyArea.typeOfWork = typeOfWork;
                 policyArea.familiarities = familiarityReveresed;
+                policyArea.works = works;
+                policyArea.producers = producers;
 
                 return policyArea;
             }
@@ -461,7 +463,7 @@ Router.map(function(){
                 }
 
                 science.titles = _.pluck(works, "title");
-                science.producers = _.pluck(producers, 'name');
+                science.producerNames = _.pluck(producers, 'name');
                 science.typeOfWork = typeOfWork;
                 science.familiarities = familiarityReveresed;
                 science.works = works;

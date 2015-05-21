@@ -42,8 +42,8 @@ Template.addWorkToScienceAlert.events({
         });
     },
     'keydown .producer': function(event){
-        if(this.producers && this.producers.length > 0){
-            availableTags = this.producers;
+        if(this.producerNames && this.producerNames.length > 0){
+            availableTags = this.producerNames;
 
             if(event.keyCode === $.ui.keyCode.TAB &&
                 $(this).autocomplete("instance").menu.active){
@@ -101,9 +101,14 @@ Template.addWorkToScienceAlert.events({
             discussionUrl: $('.discussion-url').val(),
             familiarity: parseInt($('.work-familiarity').val()),
             type: $('.type-of-work').val(),
-            producers: [],
-            scienceId: this._id
+            producers: []
         };
+
+        if(this.field){
+            attr.scienceId = this._id;
+        } else if(this.area){
+            attr.policyAreaId = this._id;
+        }
 
         if(attr.familiarity !== 0){
             attr.scores = {
@@ -138,7 +143,7 @@ Template.addWorkToScienceAlert.events({
         }
         if(attr.type === undefined) throwError("Error code: 608");
         if(attr.producers === undefined) throwError("Error code: 609");
-        if(attr.scienceId === undefined) throwError("Error code: 610");
+        if(attr.scienceId === undefined && attr.policyAreaId === undefined) throwError("Error code: 610");
         if(attr.ratingType !== undefined) throwError("Error code: 611");
 
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){

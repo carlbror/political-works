@@ -45,8 +45,8 @@ Template.specialAlert.events({
         });
     },
     'keydown .producer': function(event){
-        if(this.producers && this.producers.length > 0){
-            availableTags = this.producers;
+        if(this.producerNames && this.producerNames.length > 0){
+            availableTags = this.producerNames;
 
             if(event.keyCode === $.ui.keyCode.TAB &&
                 $(this).autocomplete("instance").menu.active){
