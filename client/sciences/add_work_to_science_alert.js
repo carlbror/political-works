@@ -158,7 +158,6 @@ Template.addWorkToScienceAlert.events({
                 $('.producer').val("");
                 $('.review').val("");
 
-
                 $('.producer').prop('disabled', false);
                 $('.url').prop('disabled', false);
                 $('.discussion-url').prop('disabled', false);

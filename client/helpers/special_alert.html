@@ -37,12 +37,6 @@
 
                 <hr>
 
-                <form>
-                    <span>Work's relationship to {{#if name}}ideology{{else}}policy{{/if}} : </span>
-                    <input type="radio" name="type" class="positive" value="positive"> Lends support
-                    <input type="radio" name="type" class="critical" value="critical"> Criticizes
-                </form>
-
                 <label>
                     <span>Your familiarity with the work :</span>
                     <select class="work-familiarity">
@@ -52,6 +46,12 @@
                         {{/each}}
                     </select>
                 </label>
+
+                <form>
+                    <span>Work's relationship to {{#if name}}ideology{{else}}policy{{/if}} : </span>
+                    <input type="radio" name="type" class="positive" value="positive"> Lends support
+                    <input type="radio" name="type" class="critical" value="critical"> Criticizes
+                </form>
 
                 <label>
                     <span>How well it makes its case :</span>

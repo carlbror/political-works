@@ -21,6 +21,10 @@ function SpecialAlert(){
 };
 Alert = new SpecialAlert();
 
+var works,
+    producers,
+    currentSelectedWork;
+
 function split(val){
     return val.split(/,\s*/);
 }
@@ -34,6 +38,8 @@ Template.specialAlert.events({
         Alert.render("no truth");
     },
     'keydown .title': function(event){
+        works = this.works;
+        producers = this.producers;
         $(".title").autocomplete({
             source: this.titles
         });
@@ -68,19 +74,54 @@ Template.specialAlert.events({
             });
         }
     },
+    'change .type-of-work': function(event){
+        if(event.currentTarget.value === "Wikipedia article"){
+            $('.producer').val("Wikipedians");
+        }
+    },
+    'change .work-familiarity': function(event){
+        var convincingScore = $('.convincing-score'),
+            readabilityScore = $('.readability-score'),
+            positive = $('.positive'),
+            critical = $('.critical'),
+            review = $('.review');
+
+        if(event.currentTarget.value === '' + this.familiarities[this.familiarities.length - 1].number + ''){
+            convincingScore.val("");
+            readabilityScore.val("");
+            review.val("");
+            positive.prop('checked', false);
+            critical.prop('checked', false);
+            convincingScore.prop('disabled', true);
+            readabilityScore.prop('disabled', true);
+            review.prop('disabled', true);
+            positive.prop('disabled', true);
+            critical.prop('disabled', true);
+        } else {
+            convincingScore.prop('disabled', false);
+            readabilityScore.prop('disabled', false);
+            review.prop('disabled', false);
+            positive.prop('disabled', false);
+            critical.prop('disabled', false);
+        }
+    },
     'click .add-work-to-ideology': function(event){
         var attr = {
             title: $('.title').val(),
             url: $('.url').val(),
             discussionUrl: $('.discussion-url').val(),
-            scores: {
-                convincingScore: parseInt($('.convincing-score').val()),
-                readabilityScore: parseInt($('.readability-score').val())
-            },
             familiarity: parseInt($('.work-familiarity').val()),
             type: $('.type-of-work').val(),
             producers: []
         };
+
+        if(attr.familiarity !== 0){
+            attr.scores = {
+                convincingScore: parseInt($('.convincing-score').val()),
+                readabilityScore: parseInt($('.readability-score').val())
+            }
+            throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
+        }
 
         if(this.name){
             attr.ideologyId = this._id;
@@ -98,6 +139,9 @@ Template.specialAlert.events({
             }
         }
 
+        var urlReview = $('.review').val();
+        if(urlReview !== "") attr.urlReview = urlReview;
+
         var producers = $('.producer').val();
         if(producers.indexOf(',')){
             producers = producers.split(',');
@@ -109,26 +153,19 @@ Template.specialAlert.events({
         }
 
 
-
-        var urlReview = $('.review').val();
-        if(urlReview !== "") attr.urlReview = urlReview;
-
-
-        throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
-
         if(attr === undefined) throwError("Error code: 601");
         if(attr.title === undefined) throwError("Error code: 602");
         if(attr.url === undefined) throwError("Error code: 603");
         if(attr.discussionUrl === undefined) throwError("Error code: 604");
-        if(attr.scores.readabilityScore === undefined) throwError("Error code: 605");
-        if(attr.scores.convincingScore === undefined) throwError("Error code: 606");
         if(attr.familiarity === undefined) throwError("Error code: 607");
+        if(attr.familiarity !== 0){
+            if(attr.scores.readabilityScore === undefined) throwError("Error code: 605");
+            if(attr.scores.convincingScore === undefined) throwError("Error code: 606");
+            if(attr.ratingType === undefined) throwError("Error code: 611");
+        }
         if(attr.type === undefined) throwError("Error code: 608");
         if(attr.producers === undefined) throwError("Error code: 609");
         if(attr.ideologyId === undefined && attr.policyId === undefined) throwError("Error code: 610");
-        if(attr.ratingType === undefined) throwError("Error code: 611");
-
-
 
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
             if(error) throwError(error.reason);
@@ -136,7 +173,31 @@ Template.specialAlert.events({
 
             Meteor.call('addNewRatingOrChangeOld', attr, function(error){
                 if(error) throwError(error.reason);
-                location.reload();
+
+
+                $('.title').val("");
+                $('.url').val("");
+                $('.discussion-url').val("");
+                $('.convincing-score').val("");
+                $('.readability-score').val("");
+                $('.work-familiarity').val("");
+                $('.type-of-work').val("");
+                $('.producer').val("");
+                $('.review').val("");
+                $('.positive').prop('checked', false);
+                $('.critical').prop('checked', false);
+
+                $('.producer').prop('disabled', false);
+                $('.url').prop('disabled', false);
+                $('.discussion-url').prop('disabled', false);
+                $('.type-of-work').prop('disabled', false);
+                $('.convincing-score').prop('disabled', false);
+                $('.readability-score').prop('disabled', false);
+                $('.review').prop('disabled', false);
+                $('.positive').prop('disabled', false);
+                $('.critical').prop('disabled', false);
+
+                Alert.close();
             });
         });
     },
@@ -155,6 +216,66 @@ Template.specialAlert.rendered = function(){
     $('body').on('click', function(e){
         if(e.target.id === "dialogoverlay"){
             Alert.close();
+        }
+
+        if($(e.originalEvent.target).attr('class') === "ui-menu-item"){
+            var work = _.findWhere(works, {title: $(e.originalEvent.target)[0].innerHTML}),
+                producersOfWork = _.filter(producers, function(producer){return _.contains(work.producers, producer._id)});
+            currentSelectedWork = work.title;
+
+            console.log(producersOfWork);
+            console.log(work);
+
+            var producerField = $('.producer'),
+                urlField = $('.url'),
+                urlDiscussionField = $('.discussion-url');
+
+            producerField.val("");
+            urlField.val("");
+            urlDiscussionField.val("");
+
+            for(var x=0; x<producersOfWork.length; x++){
+                var producer = $('.producer');
+                if(x === producersOfWork.length-1){
+                    $('.producer').val(producer.val() + producersOfWork[x].name);
+                } else {
+                    $('.producer').val(producer.val() + producersOfWork[x].name + ", ");
+                }
+            }
+
+            urlField.val(work.url);
+            urlDiscussionField.val(work.discussionUrl);
+
+            $(".type-of-work option").filter(function() {
+                return $(this).text() == work.type;
+            }).prop('selected', true);
+
+            producerField.prop('disabled', true);
+            urlField.prop('disabled', true);
+            urlDiscussionField.prop('disabled', true);
+            $('.type-of-work').prop('disabled', true);
+        }
+    });
+
+    $('.title').bind('input', function() {
+        if(currentSelectedWork && currentSelectedWork !== $('.title').val()){
+            var producerField = $('.producer'),
+                urlField = $('.url'),
+                urlDiscussionField = $('.discussion-url');
+
+            producerField.val("");
+            urlField.val("");
+            urlDiscussionField.val("");
+            $(".type-of-work option").filter(function() {
+                return $(this).text() == "";
+            }).prop('selected', true);
+
+            producerField.prop('disabled', false);
+            urlField.prop('disabled', false);
+            urlDiscussionField.prop('disabled', false);
+            $('.type-of-work').prop('disabled', false);
+
+            currentSelectedWork = null;
         }
     });
 };

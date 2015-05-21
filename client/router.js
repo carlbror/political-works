@@ -83,13 +83,15 @@ Router.map(function(){
             var data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
                     Session.get('typeView'), Session.get('familiarityView')),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                works = Works.find({}, {fields: {title: 1}}).fetch();
+                works = Works.find({}, {sort: {title:1}}).fetch();
 
             if(data && producers && works){
                 data.typeOfWork = typeOfWork;
                 data.familiarities = familiarityReveresed;
                 data.producers = _.pluck(producers, 'name');
                 data.titles = _.pluck(works, 'title');
+                data.works = works;
+                data.producers = producers;
                 return data;
             }
         }
@@ -151,7 +153,7 @@ Router.map(function(){
             var originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"),
                     Session.get('typeView'), Session.get('familiarityView')),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                works = Works.find({}, {fields: {title: 1}}).fetch();
+                works = Works.find({}, {sort: {title:1}}).fetch();
 
             if(originalPolicy){
                 var policyAreas = PolicyAreas.find({policyIds: originalPolicy._id}, {fields: {area: 1}}).fetch();
@@ -163,6 +165,9 @@ Router.map(function(){
                 originalPolicy.familiarities = familiarityReveresed;
                 originalPolicy.titles = _.pluck(works, 'title');
                 originalPolicy.producers = _.pluck(producers, 'name');
+                originalPolicy.works = works;
+                originalPolicy.producers = producers;
+
                 return originalPolicy;
             }
         }
@@ -225,7 +230,7 @@ Router.map(function(){
         data: function(){
             var familiarities = Session.get('familiarityView').split(',').map(Number),
                 policyArea = PolicyAreas.findOne(this.params._id),
-                works = Works.find({}, {fields: {title: 1, type: 1}}).fetch(),
+                works = Works.find({}, {sort: {title: 1}}).fetch(),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
                 ratingsOnArea = Ratings.find({policyAreaId: this.params._id, $and: [
                     {familiarity: {$gt: 0}},
