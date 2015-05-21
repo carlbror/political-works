@@ -382,8 +382,9 @@ Router.map(function(){
     });
 
     this.route('sciencesList', {
+        path: 'sciences',
         data: function(){
-            return {sciences: Sciences.find().fetch()}
+            return {sciences: Sciences.find({}, {sort: {"field.english":1}}).fetch()}
         }
     });
 
