@@ -52,6 +52,8 @@ Template.worksPage.helpers({
     },
     getFamiliarity: function(){
         switch(parseInt(this.familiarity)){
+            case 0:
+                return "Haven't read/watched it";
             case 1:
                 return "Briefly familiar";
             case 4:
@@ -78,6 +80,12 @@ Template.worksPage.helpers({
             if(policyArea){
                 return policyArea;
             }
+        } else if(this.scienceId){
+            var science = Sciences.findOne(this.scienceId, {fields: {"field.english": 1}});
+            if(science){
+                return science;
+            }
+
         }
     },
     userFromId: function(){

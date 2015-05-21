@@ -34,18 +34,21 @@
                 <tr>
                     <td>{{#with ideologyOrPolicyFromId}}
                         {{#if solution}}
-                        <a href="{{pathFor 'policyPage'}}">{{solution}}</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{pathFor 'policyPage'}}">{{solution}}</a>
                         <span>({{ratingType}})</span>{{/if}}
                         {{#if name}}
-                        <a href="{{pathFor 'ideologyPage'}}">{{name}}</a> &nbsp;&nbsp;&nbsp;
+                        <a href="{{pathFor 'ideologyPage'}}">{{name}}</a>
                         <span>({{ratingType}})</span>{{else}}
-                        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a> &nbsp;&nbsp;&nbsp;
+                        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>
+                        {{/if}}
+                        {{#if field}}
+                        <a href="{{pathFor 'sciencePage'}}">{{field.english}}</a>
                         {{/if}}
 
                         {{/with}}
                     </td>
                     <td>{{#if scores.enlighteningScore}}{{scores.enlighteningScore}}{{else}}---{{/if}}</td>
-                    <td>{{scores.readabilityScore}}</td>
+                    <td>{{#if scores.readabilityScore}}{{scores.readabilityScore}}{{else}} --- {{/if}}</td>
                     <td>{{#if scores.convincingScore}}{{scores.convincingScore}}{{else}}---{{/if}}</td>
                     <td>{{getFamiliarity}}</td>
                     <td>{{#if urlReview}}<a href="{{urlReview}}"><i class="fa fa-external-link"></i></a>{{else}}---{{/if}}</td>

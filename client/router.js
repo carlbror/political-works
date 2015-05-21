@@ -313,7 +313,7 @@ Router.map(function(){
             var works = Works.findOne({_id: this.params._id});
             if(works){
                 var ratings = Ratings.find({worksId: works._id},
-                    {sort: {ideologyId: -1, policyId: -1, ratingType: 1, convincingScore: -1, readabilityScore: -1}}).fetch();
+                    {sort: {ideologyId: -1, policyId: -1, scienceId: -1, ratingType: 1, convincingScore: -1, readabilityScore: -1}}).fetch();
                 if(ratings){
                     return {works: works, ratings: ratings};
                 }
