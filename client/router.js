@@ -153,7 +153,8 @@ Router.map(function(){
             var originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"),
                     Session.get('typeView'), Session.get('familiarityView')),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                works = Works.find({}, {sort: {title:1}}).fetch();
+                works = Works.find({}, {sort: {title:1}}).fetch(),
+                unrated = Ratings.find({policyId: this.params._id, familiarity: 0}).fetch();
 
             if(originalPolicy){
                 var policyAreas = PolicyAreas.find({policyIds: originalPolicy._id}, {fields: {area: 1}}).fetch();
@@ -167,6 +168,17 @@ Router.map(function(){
                 originalPolicy.producerNames = _.pluck(producers, 'name');
                 originalPolicy.works = works;
                 originalPolicy.producers = producers;
+                console.log(originalPolicy);
+                if(unrated.length > 0){
+                    var alreadyRated = _.pluck(originalPolicy.positiveWorks, 'worksId'),
+                        unratedButNotRated = _.reject(unrated, function(rating){
+                            return _.contains(alreadyRated, rating.worksId);
+                        });
+                    console.log(alreadyRated);
+                    console.log(unratedButNotRated);
+                    originalPolicy.unrated = Works.find({_id: {$in: _.pluck(unratedButNotRated, 'worksId')}},
+                        {sort: {title:1}}).fetch();
+                }
 
                 return originalPolicy;
             }
