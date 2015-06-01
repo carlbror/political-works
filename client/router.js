@@ -168,14 +168,12 @@ Router.map(function(){
                 originalPolicy.producerNames = _.pluck(producers, 'name');
                 originalPolicy.works = works;
                 originalPolicy.producers = producers;
-                console.log(originalPolicy);
                 if(unrated.length > 0){
-                    var alreadyRated = _.pluck(originalPolicy.positiveWorks, 'worksId'),
+                    var alreadyRated = _.union(_.pluck(originalPolicy.positiveWorks, 'worksId'),
+                        _.pluck(originalPolicy.criticalWorks, 'worksId'), _.pluck(originalPolicy.enlighteningWorks, 'worksId')),
                         unratedButNotRated = _.reject(unrated, function(rating){
                             return _.contains(alreadyRated, rating.worksId);
                         });
-                    console.log(alreadyRated);
-                    console.log(unratedButNotRated);
                     originalPolicy.unrated = Works.find({_id: {$in: _.pluck(unratedButNotRated, 'worksId')}},
                         {sort: {title:1}}).fetch();
                 }

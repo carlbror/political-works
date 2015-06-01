@@ -36,6 +36,21 @@
                             {{/each}}
                         </ol>
 
+                        {{#if enlighteningWorks}}
+                        <br>
+                        <h3>Informative works on the policy</h3>
+                        <ol>
+                            {{#each enlighteningWorks}}
+                            <li>
+                                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
+                                <small>{{totalRatingSubString}}%</small>
+                            </li>
+                            {{/each}}
+                        </ol>
+
+
+                        {{/if}}
+
 
                         {{#if unrated}}
                         <br>

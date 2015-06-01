@@ -77,9 +77,10 @@ putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork
         }
 
         var positiveRatings = _.where(ratings, {ratingType: "for"}),
-            criticalRatings = _.where(ratings, {ratingType: "against"});
+            criticalRatings = _.where(ratings, {ratingType: "against"}),
+            enlighteningRatings = _.where(ratings, {ratingType: "enlightening"});
 
-
+        policy.enlighteningWorks = calculateTotalScoreForRatingsAndSort(enlighteningRatings, scoreType);
         policy.positiveWorks = calculateTotalScoreForRatingsAndSort(positiveRatings, scoreType);
         policy.criticalWorks = calculateTotalScoreForRatingsAndSort(criticalRatings, scoreType);
         return policy;
