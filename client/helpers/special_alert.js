@@ -84,6 +84,7 @@ Template.specialAlert.events({
             readabilityScore = $('.readability-score'),
             positive = $('.positive'),
             critical = $('.critical'),
+            enlightening = $('.enlightening'),
             review = $('.review');
 
         if(event.currentTarget.value === '' + this.familiarities[this.familiarities.length - 1].number + ''){
@@ -92,17 +93,20 @@ Template.specialAlert.events({
             review.val("");
             positive.prop('checked', false);
             critical.prop('checked', false);
+            enlightening.prop('checked', false);
             convincingScore.prop('disabled', true);
             readabilityScore.prop('disabled', true);
             review.prop('disabled', true);
             positive.prop('disabled', true);
             critical.prop('disabled', true);
+            enlightening.prop('disabled', true);
         } else {
             convincingScore.prop('disabled', false);
             readabilityScore.prop('disabled', false);
             review.prop('disabled', false);
             positive.prop('disabled', false);
             critical.prop('disabled', false);
+            enlightening.prop('disabled', false);
         }
     },
     'click .add-work-to-ideology': function(event){
@@ -121,6 +125,8 @@ Template.specialAlert.events({
                 readabilityScore: parseInt($('.readability-score').val())
             }
             throwIfVariablesInArrayNotNumbersOrNotBetween1and100(attr.scores);
+        } else {
+            attr.ratingType = "enlightening";
         }
 
         if(this.name){
@@ -129,6 +135,8 @@ Template.specialAlert.events({
                 attr.ratingType = "positive";
             } else if($('.critical').prop('checked')){
                 attr.ratingType = "critical";
+            } else if($('.enlightening').prop('checked')){
+                attr.ratingType = "enlightening";
             }
         } else {
             attr.policyId = this._id;
@@ -136,6 +144,8 @@ Template.specialAlert.events({
                 attr.ratingType = "for";
             } else if($('.critical').prop('checked')){
                 attr.ratingType = "against";
+            } else if($('.enlightening').prop('checked')){
+                attr.ratingType = "enlightening";
             }
         }
 
@@ -166,6 +176,8 @@ Template.specialAlert.events({
         if(attr.type === undefined) throwError("Error code: 608");
         if(attr.producers === undefined) throwError("Error code: 609");
         if(attr.ideologyId === undefined && attr.policyId === undefined) throwError("Error code: 610");
+
+        console.log(attr);
 
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
             if(error) throwError(error.reason);
