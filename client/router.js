@@ -245,7 +245,8 @@ Router.map(function(){
                     {familiarity: {$gt: 0}},
                     {familiarity: {$in: familiarities}}
                 ]}, {fields: {worksId: 1, scores: 1}}).fetch(),
-                type = Session.get('typeView').split(',');
+                type = Session.get('typeView').split(','),
+                unrated = Ratings.find({policyAreaId: this.params._id, familiarity: 0}).fetch();
 
             if(policyArea && works.length > 0 && producers.length > 0){
                 policyArea.policies = [];
@@ -279,6 +280,14 @@ Router.map(function(){
                 policyArea.familiarities = familiarityReveresed;
                 policyArea.works = works;
                 policyArea.producers = producers;
+                if(unrated.length > 0){
+                    var alreadyRated = _.pluck(policyArea.sortedRatings, 'worksId'),
+                        unratedButNotRated = _.reject(unrated, function(rating){
+                            return _.contains(alreadyRated, rating.worksId);
+                        });
+                    policyArea.unrated = Works.find({_id: {$in: _.pluck(unratedButNotRated, 'worksId')}},
+                        {sort: {title:1}}).fetch();
+                }
 
                 return policyArea;
             }
