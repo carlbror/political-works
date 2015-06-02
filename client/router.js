@@ -168,11 +168,16 @@ Router.map(function(){
             this.next();
         },
         data: function(){
-            var originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"),
-                    Session.get('typeView'), Session.get('familiarityView')),
+            var familiarities = Session.get('familiarityView').split(',').map(Number),
+                originalPolicy = putTheTwoTypesOfWorksReviewsOnAPolicy(this.params._id, Session.get("scoreView"),
+                    Session.get('typeView'), familiarities),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                works = Works.find({}, {sort: {title:1}}).fetch(),
-                unrated = Ratings.find({policyId: this.params._id, familiarity: 0}).fetch();
+                works = Works.find({}, {sort: {title:1}}).fetch();
+
+            if(_.contains(familiarities, 0)){
+                var unrated = Ratings.find({policyId: this.params._id, familiarity: 0}).fetch(),
+                    rated = Ratings.find({policyId: this.params._id , familiarity: {$gt: 0}}).fetch();
+            }
 
             if(originalPolicy){
                 var policyAreas = PolicyAreas.find({policyIds: originalPolicy._id}, {fields: {area: 1}}).fetch();
@@ -186,14 +191,14 @@ Router.map(function(){
                 originalPolicy.producerNames = _.pluck(producers, 'name');
                 originalPolicy.works = works;
                 originalPolicy.producers = producers;
-                if(unrated.length > 0){
-                    var alreadyRated = _.union(_.pluck(originalPolicy.positiveWorks, 'worksId'),
-                        _.pluck(originalPolicy.criticalWorks, 'worksId'), _.pluck(originalPolicy.enlighteningWorks, 'worksId')),
-                        unratedButNotRated = _.reject(unrated, function(rating){
-                            return _.contains(alreadyRated, rating.worksId);
-                        });
-                    originalPolicy.unrated = Works.find({_id: {$in: _.pluck(unratedButNotRated, 'worksId')}},
-                        {sort: {title:1}}).fetch();
+                if(unrated && unrated.length > 0){
+                    if(rated && rated.length > 0){
+                        originalPolicy.unrated = Works.find(
+                            {_id: {$in: _.without(_.pluck(unrated, 'worksId'), _.pluck(rated, 'worksId'))}},
+                            {sort: {title:1}}).fetch();
+                    } else {
+                        originalPolicy.unrated = Works.find({_id: {$in: _.pluck(unrated, 'worksId')}}, {sort: {title:1}});
+                    }
                 }
 
                 return originalPolicy;

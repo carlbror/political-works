@@ -9,7 +9,6 @@ Sciences.allow({
 
 Meteor.methods({
     addNewScience: function(field){
-        console.log(field);
         Sciences.insert({
             field: {
                 english: field

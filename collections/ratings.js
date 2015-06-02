@@ -26,10 +26,7 @@ Meteor.methods({
                 'Url needs to be of type ftp://..., http://..., or https://...');
         }
 
-        console.log(sanitizedObj);
-
         if(sanitizedObj.ideologyId){
-            console.log(0);
             var rating = Ratings.findOne({
                 userId: user._id,
                 ideologyId: sanitizedObj.ideologyId,
@@ -37,10 +34,8 @@ Meteor.methods({
                 worksId: sanitizedObj.worksId
             });
             if(rating){
-                console.log(1);
                 ratings_.updateOldReview(rating, sanitizedObj);
             } else {
-                console.log(2);
                 var ratingId = ratings_.createNewIdeologyRating(sanitizedObj, user._id);
                 if(sanitizedObj.urlReview) Ratings.update(ratingId, {$set: {urlReview: sanitizedObj.urlReview}});
             }

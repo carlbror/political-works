@@ -49,10 +49,13 @@ calculateTotalScoreForRatingsAndSort = function(ratings, scoreType){
     return valuableWorks;
 };
 
-putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork, familiarity){
+putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork, familiarities){
     var policy = Policies.findOne(policyId);
     if(policy) {
-        var ratings = Ratings.find({policyId: policy._id},
+        var ratings = Ratings.find({policyId: policy._id,  $and: [
+                {familiarity: {$gt: 0}},
+                {familiarity: {$in: familiarities}}
+            ]},
             {fields: {worksId: 1, scores: 1, ratingType: 1, familiarity: 1}}).fetch();
 
         if(typeOfWork !== "all"){
@@ -61,16 +64,6 @@ putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork
             _.each(ratings, function(rating){
                 var work = Works.findOne(rating.worksId, {fields: {type:1}});
                 if(!_.contains(arrayOfSelectedTypes, work.type)){
-                    ratings = _.without(ratings, rating);
-                }
-            });
-        }
-
-        if(familiarity !== 'any'){
-            var arrayOfSelectedFamiliarities = familiarity.split(',');
-
-            _.each(ratings, function(rating){
-                if(!_.contains(arrayOfSelectedFamiliarities, rating.familiarity.toString())){
                     ratings = _.without(ratings, rating);
                 }
             });

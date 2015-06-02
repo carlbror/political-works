@@ -5,69 +5,73 @@
         </h1>
         <hr>
 
-
         <div class="supporting-undermining-works">
             <div class="container">
                 <div class="row">
                     <div class="span10">
                         {{#if summary}}<b>Summary of the policy:</b> {{{summary}}} {{/if}}
                         {{#if policyAreas}}<br>Proposed as a solution to the area(s) of {{#each policyAreas}}
-                        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{#unless last}}, {{/unless}}{{/each}}.{{/if}}<br><br>
+                        <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{#unless last}},
+                        {{/unless}}{{/each}}.{{/if}}<br><br>
 
-                        <h3>Why the policy proposal should be pursued</h3>
-                        <ol>
-                            {{#each positiveWorks}}
-                            <li>
-                                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
-                                <small>{{totalRatingSubString}}%</small>
-                            </li>
-                            {{/each}}
-                        </ol>
-                        <br>
-
-
-                        <h3>Why it shouldn't be pursued</h3>
-                        <ol>
-                            {{#each criticalWorks}}
-                            <li>
-                                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
-                                <small>{{totalRatingSubString}}%</small>
-                            </li>
-                            {{/each}}
-                        </ol>
-
-                        {{#if enlighteningWorks}}
-                        <br>
-                        <h3>Informative works on the policy</h3>
-                        <ol>
-                            {{#each enlighteningWorks}}
-                            <li>
-                                {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
-                                <small>{{totalRatingSubString}}%</small>
-                            </li>
-                            {{/each}}
-                        </ol>
-
-
+                        {{#if positiveWorks}}
+                        <div class="positive-works">
+                            <div class="container">
+                                <h3>Why the policy proposal should be pursued</h3>
+                                <ol>
+                                    {{#each positiveWorks}}
+                                    {{> listItemForIdeologyAndPolicyPage}}
+                                    {{/each}}
+                                </ol>
+                            </div>
+                        </div>
                         {{/if}}
 
+                        {{#if criticalWorks}}
+                        <div class="critical-works">
+                            <div class="container">
+                                <h3>Why it shouldn't be pursued</h3>
+                                <ol>
+                                    {{#each criticalWorks}}
+                                    {{> listItemForIdeologyAndPolicyPage}}
+                                    {{/each}}
+                                </ol>
+                            </div>
+                        </div>
+                        {{/if}}
+
+                        {{#if enlighteningWorks}}
+                        <div class="enlightening-works">
+                            <div class="container">
+                                <h3>Informative works on the policy</h3>
+                                <ol>
+                                    {{#each enlighteningWorks}}
+                                    {{> listItemForIdeologyAndPolicyPage}}
+                                    {{/each}}
+                                </ol>
+                            </div>
+                        </div>
+                        {{/if}}
 
                         {{#if unrated}}
-                        <br>
-                        <h3>Suggested works without a rating</h3>
-                        <ul>
-                            {{#each unrated}}
-                            <li>
-                                <a href="{{pathFor 'worksPage'}}">{{title}}</a>
-                            </li>
-                            {{/each}}
-                        </ul>
+                        <div class="unrated-works">
+                            <div class="container">
+                                <h3>Suggested works without a rating</h3>
+                                <ul>
+                                    {{#each unrated}}
+                                    <li>
+                                        <a href="{{pathFor 'worksPage'}}">{{title}}</a>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
                         {{/if}}
 
                         {{#if currentUser}}
-                        <br><br>
                         {{> specialAlert}}
-                        <button type="button" class="addWork btn btn-success" style="width: 200px">Add a work to this policy
+                        <button type="button" class="addWork btn btn-success" style="width: 200px">Add a work to this
+                            policy
                         </button>
                         {{/if}}
                     </div>

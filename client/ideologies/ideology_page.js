@@ -71,7 +71,7 @@ Template.ideologyPage.helpers({
     }
 });
 
-Template.listItemForIdeologyPage.helpers({
+Template.listItemForIdeologyAndPolicyPage.helpers({
     work: function(){
         return Works.findOne(this.worksId);
     },

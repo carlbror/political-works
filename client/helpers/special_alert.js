@@ -177,8 +177,6 @@ Template.specialAlert.events({
         if(attr.producers === undefined) throwError("Error code: 609");
         if(attr.ideologyId === undefined && attr.policyId === undefined) throwError("Error code: 610");
 
-        console.log(attr);
-
         Meteor.call('createWork', _.omit(attr, 'scores'), function(error, worksId){
             if(error) throwError(error.reason);
             attr.worksId = worksId;
