@@ -65,7 +65,7 @@ Template.chooseScore.events({
             if(Router.current().route._path === "/user/:username"){
                 Session.set('familiarityView', "7,6,5,4,3,2,1");
             } else {
-                Session.set('familiarityView', 'any');
+                Session.set('familiarityView', "7,6,5,4,3,2,1,0");
             }
         } else {
             var whatFamiliaritiesAreChecked = [];

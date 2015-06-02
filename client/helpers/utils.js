@@ -94,7 +94,10 @@ putTheTwoTypesOfWorksReviewsOnAPolicy = function(policyId, scoreType, typeOfWork
 putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, typeOfWork, familiarity){
     var ideology = Ideologies.findOne({name: ideologyName});
     if(ideology) {
-        var ratings = Ratings.find({ideologyId: ideology._id},
+        var ratings = Ratings.find({ideologyId: ideology._id,  $and: [
+                {familiarity: {$gt: 0}},
+                {familiarity: {$in: familiarity.split(',').map(Number)}}
+            ]},
             {fields: {worksId: 1, scores: 1, ratingType: 1, userId: 1, familiarity: 1}}).fetch();
 
         if(typeOfWork !== "all"){
@@ -108,24 +111,26 @@ putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, ty
             });
         }
 
-        if(familiarity !== 'any'){
-            var arrayOfSelectedFamiliarities = familiarity.split(',');
-
-            _.each(ratings, function(rating){
-                if(!_.contains(arrayOfSelectedFamiliarities, rating.familiarity.toString())){
-                    ratings = _.without(ratings, rating);
-                }
-            });
-        }
-
 
         var positiveRatings = _.where(ratings, {ratingType: "positive"}),
-            criticalRatings = _.where(ratings, {ratingType: "critical"});
+            criticalRatings = _.where(ratings, {ratingType: "critical"}),
+            enlighteningRatings = _.where(ratings, {ratingType: "enlightening"});
 
         var proponentsPositiveRatings = [],
             othersPositiveRatings = [],
             proponentsCriticalRatings = [],
-            othersCriticalRatings = [];
+            othersCriticalRatings = [],
+            proponentsEnlighteningRatings = [],
+            othersEnlighteningRatings = [];
+
+
+        _.each(enlighteningRatings, function(rating){
+            if(_.contains(this, rating.userId)){
+                proponentsEnlighteningRatings.push(rating);
+            } else {
+                othersEnlighteningRatings.push(rating);
+            }
+        }, ideology.proponents);
 
         _.each(positiveRatings, function(rating) {
             if(_.contains(this, rating.userId)){
@@ -143,7 +148,8 @@ putTheFourTypesOfWorksReviewsOnAnIdeology = function(ideologyName, scoreType, ty
             }
         }, ideology.proponents);
 
-
+        ideology.proponentsEnlighteningWorks = calculateTotalScoreForRatingsAndSort(proponentsEnlighteningRatings, scoreType);
+        ideology.othersEnlighteningWorks = calculateTotalScoreForRatingsAndSort(othersEnlighteningRatings, scoreType);
         ideology.proponentsPositiveWorks = calculateTotalScoreForRatingsAndSort(proponentsPositiveRatings, scoreType);
         ideology.othersPositiveWorks = calculateTotalScoreForRatingsAndSort(othersPositiveRatings, scoreType);
         ideology.proponentsCriticalWorks = calculateTotalScoreForRatingsAndSort(proponentsCriticalRatings, scoreType);

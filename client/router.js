@@ -83,7 +83,8 @@ Router.map(function(){
             var data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
                     Session.get('typeView'), Session.get('familiarityView')),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                works = Works.find({}, {sort: {title:1}}).fetch();
+                works = Works.find({}, {sort: {title:1}}).fetch(),
+                unrated = Ratings.find({ideologyId: this.params._id, familiarity: 0}).fetch();
 
             if(data && producers && works){
                 data.typeOfWork = typeOfWork;
@@ -92,6 +93,16 @@ Router.map(function(){
                 data.titles = _.pluck(works, 'title');
                 data.works = works;
                 data.producers = producers;
+                if(unrated.length > 0){
+                    var alreadyRated = _.pluck(_.union(
+                            data.proponentsEnlighteningWorks, data.othersEnlighteningWorks, data.proponentsPositiveWorks,
+                            data.othersPositiveWorks, data.proponentsCriticalWorks, data.othersCriticalWorks), 'worksId'),
+                        unratedButNotRated = _.reject(unrated, function(rating){
+                            return _.contains(alreadyRated, rating.worksId);
+                        });
+                    data.unrated = Works.find({_id: {$in: _.pluck(unratedButNotRated, 'worksId')}},
+                        {sort: {title:1}}).fetch();
+                }
                 return data;
             }
         }

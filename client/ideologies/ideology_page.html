@@ -7,47 +7,106 @@
             <div class="container">
                 <div class="row">
                     <div class="span10">
-                        <h3>Supporting works</h3>
-                        <h4>According to proponents:</h4>
-                        <ol>
-                            {{#each proponentsPositiveWorks}}
-                            {{> listItemForIdeologyPage}}
-                            {{/each}}
-                        </ol>
+                        {{#if anySupportingWorks}}
+                        <div class="supporting-works">
+                            <div class="container">
+                                <h3>Supporting works</h3>
+
+                                {{#if proponentsPositiveWorks}}
+                                <h4>According to proponents:</h4>
+                                <ol>
+                                    {{#each proponentsPositiveWorks}}
+                                    {{> listItemForIdeologyPage}}
+                                    {{/each}}
+                                </ol>
+                                {{/if}}
+
+                                {{#if othersPositiveWorks}}
+                                <h4>According to non-proponents</h4>
+                                <ol>
+                                    {{#each othersPositiveWorks}}
+                                    {{> listItemForIdeologyPage}}
+                                    {{/each}}
+                                </ol>
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{/if}}
+
+
+                        {{#if anyCriticalWorks}}
+                        <div class="critical-works">
+                            <div class="container">
+                                <h3>Undermining works</h3>
+
+                                {{#if sortedOthersCriticalWorks}}
+                                <h4>According to non-proponents</h4>
+                                <ol>
+                                    {{#each sortedOthersCriticalWorks}}
+                                    {{> listItemForIdeologyPage}}
+                                    {{/each}}
+                                </ol>
+                                <br>
+                                {{/if}}
+
+                                {{#if sortedProponentsCriticalWorks}}
+                                <h4>According to proponents</h4>
+                                <ol>
+                                    {{#each sortedProponentsCriticalWorks}}
+                                    {{> listItemForIdeologyPage}}
+                                    {{/each}}
+                                </ol>
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{/if}}
+
+                        {{#if anyEnlighteningWorks}}
+                        <div class="enlightening-works">
+                            <div class="container">
+                                <h3>Informative works</h3>
+
+                                {{#if proponentsEnlighteningWorks}}
+                                <h4>According to proponents</h4>
+                                <ol>
+                                    {{#each proponentsEnlighteningWorks}}
+                                    {{> listItemForIdeologyPage}}
+                                    {{/each}}
+                                </ol>
+                                {{/if}}
+
+                                {{#if othersEnlighteningWorks}}
+                                <h4>According to non-proponents</h4>
+                                <ol>
+                                    {{#each othersEnlighteningWorks}}
+                                    {{> listItemForIdeologyPage}}
+                                    {{/each}}
+                                </ol>
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{/if}}
+
+
+                        {{#if unrated}}
                         <br>
 
-
-                        <h4>According to non-proponents</h4>
-                        <ol>
-                            {{#each othersPositiveWorks}}
-                            {{> listItemForIdeologyPage}}
+                        <h3>Suggested works without a rating</h3>
+                        <ul>
+                            {{#each unrated}}
+                            <li>
+                                <a href="{{pathFor 'worksPage'}}">{{title}}</a>
+                            </li>
                             {{/each}}
-                        </ol>
-                        <br>
-
-
-                        <h3>Undermining works</h3>
-                        <h4>According to non-proponents</h4>
-                        <ol>
-                            {{#each sortedOthersCriticalWorks}}
-                            {{> listItemForIdeologyPage}}
-                            {{/each}}
-                        </ol>
-
-                        <br>
-
-                        <h4>According to proponents</h4>
-                        <ol>
-                            {{#each sortedProponentsCriticalWorks}}
-                            {{> listItemForIdeologyPage}}
-                            {{/each}}
-                        </ol>
+                        </ul>
+                        {{/if}}
 
                         {{#if currentUser}}
                         <br><br>
                         {{> specialAlert}}
-                        <button type="button" class="addWork btn btn-success" style="width: 200px">Add a work to this ideology
-                            </button>
+                        <button type="button" class="addWork btn btn-success" style="width: 200px">Add a work to this
+                            ideology
+                        </button>
                         {{/if}}
                     </div>
 
@@ -62,7 +121,8 @@
 
 <template name="listItemForIdeologyPage">
     <li>
-        {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}} <small>{{totalRatingSubString}}%</small>
+        {{#with work}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
+        <small>{{totalRatingSubString}}%</small>
     </li>
 </template>
 

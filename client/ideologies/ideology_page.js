@@ -50,6 +50,24 @@ Template.ideologyPage.helpers({
             else if (work && this.users && this.users.length === 0)
                 return "-";
         }
+    },
+    anySupportingWorks: function(){
+        if(this.proponentsPositiveWorks && this.proponentsPositiveWorks.length > 0 ||
+            this.othersPositiveWorks && this.othersPositiveWorks.length > 0){
+            return true;
+        }
+    },
+    anyCriticalWorks: function(){
+        if(this.proponentsCriticalWorks && this.proponentsCriticalWorks.length > 0 ||
+            this.othersCriticalWorks && this.othersCriticalWorks.length > 0){
+            return true;
+        }
+    },
+    anyEnlighteningWorks: function(){
+        if(this.proponentsEnlighteningWorks && this.proponentsEnlighteningWorks.length > 0 ||
+            this.othersEnlighteningWorks && this.othersEnlighteningWorks.length > 0){
+            return true;
+        }
     }
 });
 
