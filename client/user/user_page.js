@@ -35,7 +35,31 @@ Template.userPage.helpers({
                 return "zero ";
             }
         }
+    },
+    percentOfOthersSupportiveWorksForTheirIdeologies: function(){
+        if(this._id){
+            var user = Meteor.users.findOne(this._id),
+                allReviewsAtLeastPartakenOnce = Ratings.find({userId: this._id, familiarity: {$gte: 4}},
+                    {fields: {worksId: 1}}).fetch();
+            if(user){
+                var othersSupportiveRatings;
+                if(user.ideologies){
+                    othersSupportiveRatings = Ratings.find({ideologyId: {$nin: user.ideologies}, ratingType: "positive"}).fetch();
+                } else{
+                    othersSupportiveRatings = Ratings.find({ratingType: "positive"}).fetch();
+                }
 
+                if(othersSupportiveRatings.length > 0 && allReviewsAtLeastPartakenOnce.length > 0){
+                    var othersReviewedWorks = _.uniq(_.pluck(othersSupportiveRatings, 'worksId')),
+                        usersRevewedWorksOnOthersIdeologies = _.intersection(othersReviewedWorks,
+                            _.uniq(_.pluck(allReviewsAtLeastPartakenOnce, 'worksId')));
+
+                    return Math.round(usersRevewedWorksOnOthersIdeologies.length/othersReviewedWorks.length)*100;
+                } else {
+                    return "zero";
+                }
+            }
+        }
     }
 });
 
