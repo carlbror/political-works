@@ -11,11 +11,6 @@ Template.userPage.helpers({
     policyFromPolicyId: function(){
         return Policies.findOne(this.policyId, {fields: {solution: 1}});
     },
-    ideology: function(){
-        if(this.ideologies){
-            return Ideologies.findOne(this.ideologies[0]);
-        }
-    },
     oneIdeology: function(){
         if(this.ideologies.length == 1) return true;
     },
