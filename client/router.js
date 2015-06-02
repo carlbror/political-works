@@ -86,8 +86,13 @@ Router.map(function(){
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
                 works = Works.find({}, {sort: {title:1}}).fetch();
 
-            if(_.contains(familiarities, 0))
-                var unrated = Ratings.find({policyAreaId: this.params._id, familiarity: 0}).fetch();
+            if(_.contains(familiarities, 0)) {
+                var ideology = Ideologies.findOne({name:this.params.name});
+                if(ideology){
+                    var unrated = Ratings.find({ideologyId: ideology._id, familiarity: 0}).fetch(),
+                        rated = Ratings.find({ideologyId: ideology._id , familiarity: {$gt: 0}}).fetch();
+                }
+            }
 
             if(data && producers && works){
                 data.typeOfWork = typeOfWork;
@@ -97,14 +102,13 @@ Router.map(function(){
                 data.works = works;
                 data.producers = producers;
                 if(unrated && unrated.length > 0){
-                    var alreadyRated = _.pluck(_.union(
-                            data.proponentsEnlighteningWorks, data.othersEnlighteningWorks, data.proponentsPositiveWorks,
-                            data.othersPositiveWorks, data.proponentsCriticalWorks, data.othersCriticalWorks), 'worksId'),
-                        unratedButNotRated = _.reject(unrated, function(rating){
-                            return _.contains(alreadyRated, rating.worksId);
-                        });
-                    data.unrated = Works.find({_id: {$in: _.pluck(unratedButNotRated, 'worksId')}},
-                        {sort: {title:1}}).fetch();
+                    if(rated && rated.length > 0){
+                        data.unrated = Works.find(
+                            {_id: {$in: _.without(_.pluck(unrated, 'worksId'), _.pluck(rated, 'worksId'))}},
+                            {sort: {title:1}}).fetch();
+                    } else {
+                        data.unrated = Works.find({_id: {$in: _.pluck(unrated, 'worksId')}}, {sort: {title:1}});
+                    }
                 }
                 return data;
             }
