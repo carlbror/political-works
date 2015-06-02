@@ -80,11 +80,14 @@ Router.map(function(){
             this.next();
         },
         data: function(){
-            var data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
-                    Session.get('typeView'), Session.get('familiarityView')),
+            var familiarities = Session.get('familiarityView').split(',').map(Number),
+                data = putTheFourTypesOfWorksReviewsOnAnIdeology(this.params.name, Session.get("scoreView"),
+                    Session.get('typeView'), familiarities),
                 producers = Producers.find({}, {fields: {name: 1}}).fetch(),
-                works = Works.find({}, {sort: {title:1}}).fetch(),
-                unrated = Ratings.find({ideologyId: this.params._id, familiarity: 0}).fetch();
+                works = Works.find({}, {sort: {title:1}}).fetch();
+
+            if(_.contains(familiarities, 0))
+                var unrated = Ratings.find({policyAreaId: this.params._id, familiarity: 0}).fetch();
 
             if(data && producers && works){
                 data.typeOfWork = typeOfWork;
@@ -93,7 +96,7 @@ Router.map(function(){
                 data.titles = _.pluck(works, 'title');
                 data.works = works;
                 data.producers = producers;
-                if(unrated.length > 0){
+                if(unrated && unrated.length > 0){
                     var alreadyRated = _.pluck(_.union(
                             data.proponentsEnlighteningWorks, data.othersEnlighteningWorks, data.proponentsPositiveWorks,
                             data.othersPositiveWorks, data.proponentsCriticalWorks, data.othersCriticalWorks), 'worksId'),
@@ -256,8 +259,10 @@ Router.map(function(){
                     {familiarity: {$gt: 0}},
                     {familiarity: {$in: familiarities}}
                 ]}, {fields: {worksId: 1, scores: 1}}).fetch(),
-                type = Session.get('typeView').split(','),
-                unrated = Ratings.find({policyAreaId: this.params._id, familiarity: 0}).fetch();
+                type = Session.get('typeView').split(',');
+
+            if(_.contains(familiarities, 0))
+                var unrated = Ratings.find({policyAreaId: this.params._id, familiarity: 0}).fetch();
 
             if(policyArea && works.length > 0 && producers.length > 0){
                 policyArea.policies = [];
@@ -291,7 +296,7 @@ Router.map(function(){
                 policyArea.familiarities = familiarityReveresed;
                 policyArea.works = works;
                 policyArea.producers = producers;
-                if(unrated.length > 0){
+                if(unrated && unrated.length > 0){
                     var alreadyRated = _.pluck(policyArea.sortedRatings, 'worksId'),
                         unratedButNotRated = _.reject(unrated, function(rating){
                             return _.contains(alreadyRated, rating.worksId);

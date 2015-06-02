@@ -87,22 +87,22 @@
                         </div>
                         {{/if}}
 
-
                         {{#if unrated}}
-                        <br>
-
-                        <h3>Suggested works without a rating</h3>
-                        <ul>
-                            {{#each unrated}}
-                            <li>
-                                <a href="{{pathFor 'worksPage'}}">{{title}}</a>
-                            </li>
-                            {{/each}}
-                        </ul>
+                        <div class="unrated-works">
+                            <div class="container">
+                                <h3>Suggested works without a rating</h3>
+                                <ul>
+                                    {{#each unrated}}
+                                    <li>
+                                        <a href="{{pathFor 'worksPage'}}">{{title}}</a>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
                         {{/if}}
 
                         {{#if currentUser}}
-                        <br><br>
                         {{> specialAlert}}
                         <button type="button" class="addWork btn btn-success" style="width: 200px">Add a work to this
                             ideology
