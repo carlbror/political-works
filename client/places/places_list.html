@@ -2,10 +2,10 @@
     <div class="places-list">
         <h1>Places</h1>
         <hr>
-        {{#each place}}
+        {{#each places}}
         <div class="post">
             <div class="post-content">
-                sf
+                <h3><a href="{{pathFor 'placePage'}}">{{truePlace}}</a></h3>
             </div>
         </div>
         {{/each}}

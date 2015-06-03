@@ -400,7 +400,7 @@ Router.map(function(){
     this.route('placesList', {
         path: '/places',
         data: function(){
-            return Places.find().fetch();
+            return {places: Places.find().fetch()};
         }
     });
 
@@ -409,15 +409,7 @@ Router.map(function(){
         data: function(){
             var place = Places.findOne(this.params._id);
             if(place){
-
-                if(place.country && !place.area){
-                    place.truePlace = place.country;
-                } else if(place.country && place.area){
-                    place.truePlace = place.area + ", " + place.country;
-                } else if(place.area && !place.country){
-                    place.truePlace = place.area;
-                }
-
+                place.truePlace = get_.truePlace(place);
                 return place;
             }
         }

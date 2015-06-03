@@ -7,14 +7,8 @@ Template.policyPage.helpers({
         return totalRatingString.substring(0,2);
     },
     truePlaceName: function(){
-        if(this) {
-            if (this.country && !this.area) {
-                return this.country;
-            } else if (this.country && this.area) {
-                return this.area + ", " + this.country;
-            } else if (this.area && !this.country) {
-                return this.area;
-            }
+        if(this){
+            return get_.truePlace(this);
         }
     },
     place: function(){
