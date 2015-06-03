@@ -54,7 +54,7 @@ Template.userPage.helpers({
                         usersRevewedWorksOnOthersIdeologies = _.intersection(othersReviewedWorks,
                             _.uniq(_.pluck(allReviewsAtLeastPartakenOnce, 'worksId')));
 
-                    return Math.round(usersRevewedWorksOnOthersIdeologies.length/othersReviewedWorks.length)*100;
+                    return Math.round((usersRevewedWorksOnOthersIdeologies.length/othersReviewedWorks.length)*100);
                 } else {
                     return "zero";
                 }
