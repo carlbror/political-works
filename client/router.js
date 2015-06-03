@@ -400,7 +400,7 @@ Router.map(function(){
     this.route('placesList', {
         path: '/places',
         data: function(){
-            return {places: Places.find().fetch()};
+            return {places: Places.find({}, {sort: {country: 1, area: 1}}).fetch()};
         }
     });
 
