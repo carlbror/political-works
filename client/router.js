@@ -533,7 +533,7 @@ Router.map(function(){
                     var uniqueRatingsOnEssentialWorks, uniqueRatingsOnImportantWorks;
 
                     if(essentialWorks.length > 0){
-                        var ratingsOnEssentialWorks = Ratings.find({worksId: {$in: _.pluck(essentialWorks, '_id')},
+                        var ratingsOnEssentialWorks = Ratings.find({userId: user._id, worksId: {$in: _.pluck(essentialWorks, '_id')},
                             familiarity: {$gt: 1}}, {fields: {_id: 1, worksId: 1}}).fetch();
                         if(ratingsOnEssentialWorks.length > 0){
                             essentialWorksCompleted = _.uniq(_.pluck(ratingsOnEssentialWorks, 'worksId')).length;
@@ -541,7 +541,7 @@ Router.map(function(){
                     }
 
                     if(importantWorks.length > 0){
-                        var ratingsOnImportantWorks = Ratings.find({worksId: {$in: _.pluck(importantWorks, '_id')},
+                        var ratingsOnImportantWorks = Ratings.find({userId: user._id, worksId: {$in: _.pluck(importantWorks, '_id')},
                             familiarity: {$gt: 1}}, {fields: {_id: 1, worksId: 1}}).fetch();
                         if(ratingsOnImportantWorks.length > 0){
                             importantWorksCompleted = _.uniq(_.pluck(ratingsOnImportantWorks, 'worksId')).length;
