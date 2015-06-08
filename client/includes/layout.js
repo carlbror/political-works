@@ -1,9 +1,10 @@
+var updatesData;
+
 Template.layout.events({
     'click .updates': function(){
         Session.set('updates', !Session.get('updates'));
         var obj = getUpdatesOffset($('.updates')[0]),
             updatesDiv = $('.updates-div');
-
 
         if(updatesDiv.is(":visible")){
             updatesDiv.hide();
@@ -11,6 +12,11 @@ Template.layout.events({
             updatesDiv.offset(obj);
             updatesDiv.show();
             updatesDiv.offset(obj);
+            var heightOfDiv = 75 + 44 * updatesData.length;
+            if(updatesData.length === 0)
+                heightOfDiv = 40;
+
+            updatesDiv[0].style.height = "" + heightOfDiv + "px";
         }
     },
     "click #login-buttons-logout": function(event){
@@ -29,7 +35,8 @@ function getUpdatesOffset(el){
 Template.trueHeader.helpers({
     updates: function(){
         var sessionUpdates = Session.get('updates');
-        return ReactiveMethod.call("getFiveUpdates", sessionUpdates);
+        updatesData = ReactiveMethod.call("getFiveUpdates", sessionUpdates);
+        return updatesData;
     },
     usernameFromId: function(){
         return Meteor.users.findOne(this.userId, {fields: {username: 1}}).username;
@@ -78,15 +85,15 @@ Template.trueHeader.helpers({
                 return "Ten minutes ago";
                 break;
             case 660000 <= differenceInTime && differenceInTime < 3600000:
-                return Math.round(differenceInTime/60000) + " minutes ago";
+                return Math.round(differenceInTime / 60000) + " minutes ago";
                 break;
             case 3600000 <= differenceInTime && differenceInTime < 86400000:
-                return Math.round(differenceInTime/3600000) + " hours ago";
+                return Math.round(differenceInTime / 3600000) + " hours ago";
                 break;
             case 86400000 <= differenceInTime:
                 var date = this.date.toUTCString();
 
-                return date.substring(0,11) + ", " + date.substring(16,22);
+                return date.substring(0, 11) + ", " + date.substring(16, 22);
         }
 
     }
@@ -123,9 +130,9 @@ Template.layout.rendered = function(){
             var obj = getUpdatesOffset($('.updates')[0]),
                 updatesDiv = $('.updates-div');
 
-                updatesDiv.offset(obj);
-                updatesDiv.show();
-                updatesDiv.offset(obj);
+            updatesDiv.offset(obj);
+            updatesDiv.show();
+            updatesDiv.offset(obj);
         }
     });
 }

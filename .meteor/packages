@@ -8,7 +8,6 @@ accounts-password
 accounts-ui
 iron:router
 bootstrap
-accounts-facebook
 spiderable
 
 fortawesome:fontawesome

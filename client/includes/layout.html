@@ -1,5 +1,45 @@
 <template name="layout">
     <body>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '1393782600864351',
+                xfbml      : true,
+                version    : 'v2.3'
+            });
+
+            // ADD ADDITIONAL FACEBOOK CODE HERE
+            function onLogin(response) {
+                if (response.status == 'connected') {
+                    FB.api('/me?fields=first_name', function(data) {
+                        var welcomeBlock = document.getElementById('fb-welcome');
+                        welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+                    });
+                }
+            }
+
+            FB.getLoginStatus(function(response) {
+                // Check login status on load, and if the user is
+                // already logged in, go directly to the welcome message.
+                if (response.status == 'connected') {
+                    onLogin(response);
+                } else {
+                    // Otherwise, show Login dialog first.
+                    FB.login(function(response) {
+                        onLogin(response);
+                    }, {scope: 'user_friends, email'});
+                }
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     {{>trueHeader}}
     {{> errors}}
 
@@ -21,10 +61,12 @@
                         <li><a href="{{pathFor 'placesList'}}">Places</a></li>
                         <li><a href="{{pathFor 'lists'}}">Lists</a></li>
                         {{#with currentUser}}
-                        <li><a href="{{pathFor 'userPage'}}">Your page</a></li>
                         <li><a class="updates" href="#"><i class="updates-cog fa fa-cog"></i></a></li>
+                        <li><a href="{{pathFor 'userPage'}}">{{username}}</a></li>
                         {{/with}}
-                        <li>{{>loginButtons align="right"}}</li>
+                        {{#unless currentUser}}
+                        <li><a href="{{pathFor 'logIn'}}">Sign in</a></li>
+                        {{/unless}}
                     </ul>
                 </div>
             </div>
@@ -51,7 +93,7 @@
                 {{#with currentUser}}
                 <p><a href="{{pathFor 'userPage'}}">Your page</a></p>
 
-                <p><a href="{{pathFor 'logIn'}}">{{username}} &#9660;</a></p>
+                <p><a href="{{pathFor 'logIn'}}">{{username}}</a></p>
                 {{/with}}
                 {{#unless currentUser}}
                 <p><a href="{{pathFor 'logIn'}}">Sign in &#9660;</a></p>
@@ -61,19 +103,22 @@
     </div>
 
     <div class="updates-div" id="updates-box" style="display: none;">
+        {{#if updates}}
         <p class="updates-related updates-intro">
             <b class="updates-related">Updates</b>
         </p>
-
-
-        {{#if currentUser}}{{#each updates}}
+        {{#each updates}}
         <a class="update-link" href="{{pathFor 'worksPage' _id=this.worksId }}">
             <div class="checked-update-box-{{checked}}" id="{{_id}}">
                 <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
                 <span class="updates-date">{{understandableDate}}</span>
             </div>
         </a>
+        {{/each}}
+        {{/if}}
 
-        {{/each}}{{/if}}
+        <p class="sign-out">
+            <b><a href="{{pathFor 'logIn'}}">Sign out</a></b>
+        </p>
     </div>
 </template>
