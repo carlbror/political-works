@@ -23,6 +23,7 @@ Template.loginTest.events({
 
         // Trim and validate the input
         email = trimInput(email);
+        if(!isValidPassword(password)) throwError("Password needs to be at least 6 numbers long.");
 
         Accounts.createUser({email: email, password: password}, function(err){
             if(err){
@@ -34,6 +35,11 @@ Template.loginTest.events({
 
         });
         return false;
+    },
+    'click .facebook-login': function(){
+        Meteor.loginWithFacebook(function(err){
+            if(err)throwError(err);
+        });
     }
 });
 
@@ -43,4 +49,8 @@ Template.loginTest.events({
 // trim helper
 var trimInput = function(val) {
     return val.replace(/^\s*|\s*$/g, "");
-}
+};
+
+var isValidPassword = function(val) {
+    return val.length >= 6 ? true : false;
+};

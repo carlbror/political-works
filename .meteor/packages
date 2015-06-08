@@ -18,3 +18,4 @@ simple:reactive-method
 gadicohen:phantomjs
 dfischer:phantomjs
 accounts-base
+accounts-facebook

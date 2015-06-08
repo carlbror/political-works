@@ -1,25 +1,33 @@
 <template name="loginTest">
-    <div class="login">
-        <div class="container">
-            <form id="login-form" action="action">
-                <div>
-                    <input type="email" id="login-email" />
-                    <input type="password" id="login-password" />
-                    <input type="submit" id="login-button" value="Sign in" />
-                </div>
-            </form>
-        </div>
+    <div class="login-test">
+        <form id="login-form" action="action">
+            <div>
+                <input type="email" id="login-email"/>
+                <input type="password" id="login-password"/>
+                <input type="submit" id="login-button" value="Sign in"/>
+            </div>
+        </form>
     </div>
+
+
 
     <div class="register">
         <div class="container">
             <form id="register-form" action="action">
                 <div>
-                    <input type="email" id="account-email" />
-                    <input type="password" id="account-password" />
-                    <input type="submit" id="create-account" value="Create an Account" />
+                    <input type="email" id="account-email"/>
+                    <input type="password" id="account-password"/>
+                    <input type="submit" id="create-account" value="Create an Account"/>
                 </div>
             </form>
         </div>
     </div>
+
+    <br><br>
+    <a class="facebook-login" href="">login with facebook</a>
+
+
+
+    <br><br><br><br>
+    {{> loginButtons}}
 </template>
