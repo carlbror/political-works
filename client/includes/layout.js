@@ -21,6 +21,12 @@ Template.layout.events({
     },
     "click #login-buttons-logout": function(event){
         Session.set('updates', 'none');
+    },
+    'click .sign-out a': function(){
+        Meteor.logout(function(err){
+            if(err)
+                throwError(err);
+        });
     }
 });
 
