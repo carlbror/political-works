@@ -7,6 +7,7 @@ Router.map(function(){
 
     /* *** INCLUDES *** */
     this.route('logIn');
+    this.route('loginTest');
 
     this.route('frontPage', {
         path: '/',
