@@ -27,6 +27,71 @@ Template.layout.events({
             if(err)
                 throwError(err);
         });
+    },
+    'click .sign-in': function(){
+        var obj = getSignInOffset($('.sign-in')[0]),
+            loginDiv = $('.login-div');
+
+        if(loginDiv.is(":visible")){
+            loginDiv.hide();
+        } else {
+            loginDiv.offset(obj);
+            loginDiv.show();
+            loginDiv.offset(obj);
+        }
+    },
+    'submit #login-form': function(e, t){
+        e.preventDefault();
+        var usernameOrEmail = t.find('#login-username-or-email').value,
+            password = t.find('#login-password').value;
+
+        Meteor.loginWithPassword(usernameOrEmail, password, function(err){
+            if(err) throwError(err);
+            else {
+                var user = Meteor.user();
+                if(user){
+                    $('#login-username-or-email').val("");
+                    $('#login-password').val("");
+                    $('.login-div').hide();
+                }
+            }
+        });
+        return false;
+    },
+    'submit #register-form': function(e, t){
+        e.preventDefault();
+        var profileName = t.find('#account-name').value,
+            username = t.find('#account-username').value,
+            email = t.find('#account-email').value,
+            password = t.find('#account-password').value,
+            passwordRepeat = t.find('#account-password-repeat').value;
+
+        if(password !== passwordRepeat) throwError("Passwords don't match.")
+
+        Accounts.createUser({username: username, email: email, password: password, profile: {name: profileName}}, function(err){
+            if(err){
+                throwError(err.message);
+            } else {
+                $('#account-name').val("");
+                $('#account-username').val("");
+                $('#account-email').val("");
+                $('#account-password').val("");
+                $('#account-password-repeat').val("");
+                $('.login-div').hide();
+            }
+        });
+        return false;
+    },
+    'click .register-login': function(){
+        var login = $('.login-test'),
+            register = $('.register');
+        if(login.is(':visible')){
+            login.hide();
+            register.show();
+        } else if(register.is(':visible')){
+            register.hide();
+            login.show();
+        }
     }
 });
 
@@ -35,6 +100,14 @@ function getUpdatesOffset(el){
     return {
         top: el.bottom + window.scrollY + 19,
         left: el.right + window.scrollX - 290
+    }
+}
+
+function getSignInOffset(el){
+    el = el.getBoundingClientRect();
+    return {
+        top: el.bottom + window.scrollY + 19,
+        left: el.right + window.scrollX - 320
     }
 }
 
@@ -117,9 +190,12 @@ Template.trueHeader.events({
 });
 
 Template.layout.rendered = function(){
+    var loginDiv = $('.login-div');
+
     $('body').on('keydown', function(e){
         if(e.which === 27){
             $('.updates-div').hide();
+            loginDiv.hide();
         }
     });
 
@@ -128,6 +204,10 @@ Template.layout.rendered = function(){
             && e.target.className !== "updates-cog fa fa-cog" && e.target.className !== "updates-related updates-intro"
             && e.target.className !== "updates-related"){
             $('.updates-div').hide();
+        }
+
+        if(!$(e.target).parents('.login-div').length && e.target.className !== "sign-in"){
+            loginDiv.hide();
         }
     });
 
@@ -139,6 +219,14 @@ Template.layout.rendered = function(){
             updatesDiv.offset(obj);
             updatesDiv.show();
             updatesDiv.offset(obj);
+        }
+
+        if(loginDiv.is(":visible")){
+            var obj = getSignInOffset($('.sign-in')[0]);
+
+            loginDiv.offset(obj);
+            loginDiv.show();
+            loginDiv.offset(obj);
         }
     });
 }

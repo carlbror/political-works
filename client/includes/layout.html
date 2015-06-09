@@ -65,7 +65,7 @@
                         <li><a href="{{pathFor 'userPage'}}">{{#if username}}{{username}}{{else}}{{profile.name}}{{/if}}</a></li>
                         {{/with}}
                         {{#unless currentUser}}
-                        <li><a href="{{pathFor 'login'}}">Sign in</a></li>
+                        <li><a class="sign-in" href="">Sign in</a></li>
                         {{/unless}}
                     </ul>
                 </div>
@@ -118,5 +118,39 @@
         <p class="sign-out">
             <b><a href="#">Sign out</a></b>
         </p>
+    </div>
+
+
+    <div class="login-div" style="display: none">
+        <div class="login-div-content">
+        <p><b>Sign in / Sign up</b></p>
+        <div class="login-test">
+            <form id="login-form" action="action">
+                <div>
+                    <input type="text" id="login-username-or-email"/>
+                    <input type="password" id="login-password"/>
+                    <input type="submit" class="btn btn-primary" id="login-button" value="Sign in"/>
+                </div>
+            </form>
+
+            <p><a class="register-login" href="">Create account</a></p>
+        </div>
+
+
+        <div class="register" hidden>
+            <form id="register-form" action="action">
+                <div>
+                    <input type="text" id="account-name" placeholder="Name"/>
+                    <input type="text" id="account-username" placeholder="Username"/>
+                    <input type="email" id="account-email" placeholder="Email"/>
+                    <input pattern=".{6,}" required title="Six characters minimum" type="password" id="account-password" placeholder="Password"/>
+                    <input pattern=".{6,}" required title="Six characters minimum" type="password" id="account-password-repeat" placeholder="Repeat password"/>
+                    <input type="submit" id="create-account" class="btn btn-primary" value="Create an Account"/>
+                </div>
+            </form>
+
+            <p><a class="register-login" href="">Login</a></p>
+        </div>
+        </div>
     </div>
 </template>
