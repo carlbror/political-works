@@ -1,21 +1,43 @@
-<template name="logIn">
-    <div class="login">
-        <h5>Sign in/ Sign up</h5>
-        <hr>
+<template name="login">
+    <div class="login-page">
         {{#if currentUser}}
-            <p align="center">
-                <input type="submit" class="btn btn-primary log-out" value="Log out"><br><br>
-            </p>
+        <h5>Log out</h5>
+
+        <div class="log-out">
+            <form id="logout-form" action="action">
+                <input type="submit" class="btn btn-primary" value="Log out">
+            </form>
+        </div>
+
         {{else}}
-            <p align="center">
-                <input class="username" type="text" placeholder="Username"><br>
-                <input pattern=".{6,}" required title="3 characters minimum" class="password-1" type="password" placeholder="Password">
-                <input pattern=".{6,}" required title="3 characters minimum" class="password-2" type="password" placeholder="Password (again)" style="display: none;">
-                <input type="submit" class="btn btn-primary log-in" value="Log in">
-                <input type="submit" class="btn btn-primary create-account" style="display: none;" value="Create account" disabled><br>
-            </p>
-            <a class="register-link register-login" href="">Create account</a>
-            <a class="login-link register-login" href="" style="display: none;">Login</a>
-       {{/if}}
+        <p><b>Sign in / Sign up</b></p>
+        <div class="login-test">
+            <form id="login-form" action="action">
+                <div>
+                    <input type="text" id="login-username-or-email"/>
+                    <input type="password" id="login-password"/>
+                    <input type="submit" class="btn btn-primary" id="login-button" value="Sign in"/>
+                </div>
+            </form>
+
+            <p><a class="register-login" href="">Create account</a></p>
+        </div>
+
+
+        <div class="register" hidden>
+            <form id="register-form" action="action">
+                <div>
+                    <input type="text" id="account-name" placeholder="Name"/>
+                    <input type="text" id="account-username" placeholder="Username"/>
+                    <input type="email" id="account-email" placeholder="Email"/>
+                    <input pattern=".{6,}" required title="Six characters minimum" type="password" id="account-password" placeholder="Password"/>
+                    <input pattern=".{6,}" required title="Six characters minimum" type="password" id="account-password-repeat" placeholder="Repeat password"/>
+                    <input type="submit" id="create-account" class="btn btn-primary" value="Create an Account"/>
+                </div>
+            </form>
+
+            <p class="register-login"><a href="">Login</a></p>
+        </div>
+        {{/if}}
     </div>
 </template>

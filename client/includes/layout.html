@@ -62,10 +62,10 @@
                         <li><a href="{{pathFor 'lists'}}">Lists</a></li>
                         {{#with currentUser}}
                         <li><a class="updates" href="#"><i class="updates-cog fa fa-cog"></i></a></li>
-                        <li><a href="{{pathFor 'userPage'}}">{{username}}</a></li>
+                        <li><a href="{{pathFor 'userPage'}}">{{#if username}}{{username}}{{else}}{{profile.name}}{{/if}}</a></li>
                         {{/with}}
                         {{#unless currentUser}}
-                        <li><a href="{{pathFor 'logIn'}}">Sign in</a></li>
+                        <li><a href="{{pathFor 'login'}}">Sign in</a></li>
                         {{/unless}}
                     </ul>
                 </div>
@@ -91,12 +91,10 @@
 
                 <p><a href="{{pathFor 'policyList'}}">Policies</a></p>
                 {{#with currentUser}}
-                <p><a href="{{pathFor 'userPage'}}">Your page</a></p>
-
-                <p><a href="{{pathFor 'logIn'}}">{{username}}</a></p>
+                <p><a href="{{pathFor 'userPage'}}">{{#if username}}{{username}}{{else}}{{profile.name}}{{/if}}</a></p>
                 {{/with}}
                 {{#unless currentUser}}
-                <p><a href="{{pathFor 'logIn'}}">Sign in &#9660;</a></p>
+                <p><a href="{{pathFor 'login'}}">Sign in &#9660;</a></p>
                 {{/unless}}
             </div>
         </header>
