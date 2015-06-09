@@ -117,8 +117,8 @@ Template.trueHeader.helpers({
         updatesData = ReactiveMethod.call("getFiveUpdates", sessionUpdates);
         return updatesData;
     },
-    usernameFromId: function(){
-        return Meteor.users.findOne(this.userId, {fields: {username: 1}}).username;
+    profileNameFromId: function(){
+        return Meteor.users.findOne(this.userId, {fields: {"profile.name": 1}}).profile.name;
     },
     ideologyNameFromId: function(){
         return Ideologies.findOne(this.ideologyId, {fields: {name: 1}}).name;

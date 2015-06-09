@@ -62,7 +62,7 @@
                         <li><a href="{{pathFor 'lists'}}">Lists</a></li>
                         {{#with currentUser}}
                         <li><a class="updates" href="#"><i class="updates-cog fa fa-cog"></i></a></li>
-                        <li><a href="{{pathFor 'userPage'}}">{{#if username}}{{username}}{{else}}{{profile.name}}{{/if}}</a></li>
+                        <li><a href="{{pathFor 'userPage'}}">{{profile.name}}</a></li>
                         {{/with}}
                         {{#unless currentUser}}
                         <li><a class="sign-in" href="">Sign in</a></li>
@@ -91,7 +91,7 @@
 
                 <p><a href="{{pathFor 'policyList'}}">Policies</a></p>
                 {{#with currentUser}}
-                <p><a href="{{pathFor 'userPage'}}">{{#if username}}{{username}}{{else}}{{profile.name}}{{/if}}</a></p>
+                <p><a href="{{pathFor 'userPage'}}">{{profile.name}}</a></p>
                 {{/with}}
                 {{#unless currentUser}}
                 <p><a href="{{pathFor 'login'}}">Sign in &#9660;</a></p>
@@ -108,7 +108,7 @@
         {{#each updates}}
         <a class="update-link" href="{{pathFor 'worksPage' _id=this.worksId }}">
             <div class="checked-update-box-{{checked}}" id="{{_id}}">
-                <b>{{usernameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
+                <b>{{profileNameFromId}}</b> has reviewed a {{ratingType}} work on {{ideologyNameFromId}}
                 <span class="updates-date">{{understandableDate}}</span>
             </div>
         </a>

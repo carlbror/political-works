@@ -612,9 +612,7 @@ Router.map(function(){
             var score = Session.get('scoreView'),
                 type = Session.get('typeView'),
                 familiarity = Session.get('familiarityView').split(',').map(Number),
-                userFromUsername = Meteor.users.findOne({username: this.params.username}),
-                userFromProfileName = Meteor.users.findOne({"profile.name": this.params.username}),
-                user = userFromUsername || userFromProfileName;
+                user = Meteor.users.findOne({username: this.params.username});
 
             if(user){
                 user.userRatings = Ratings.find({userId: user._id}).fetch();

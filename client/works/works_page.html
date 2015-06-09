@@ -52,7 +52,7 @@
                     <td>{{#if scores.convincingScore}}{{scores.convincingScore}}{{else}}---{{/if}}</td>
                     <td>{{getFamiliarity}}</td>
                     <td>{{#if urlReview}}<a href="{{urlReview}}"><i class="fa fa-external-link"></i></a>{{else}}---{{/if}}</td>
-                    <td>{{#with userFromId}}<a href="{{pathFor 'userPage'}}">{{username}}</a>{{/with}}</td>
+                    <td>{{#with userFromId}}<a href="{{pathFor 'userPage'}}">{{profile.name}}</a>{{/with}}</td>
                 </tr>
                 {{/each}}
             </table>
