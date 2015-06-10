@@ -34,3 +34,16 @@
     margin-right: auto;
 }
 
+.login-div button{
+    width:75%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.facebook-icon{
+    height: 15px;
+    position: relative;
+    float: left;
+    top: 2px;
+}
