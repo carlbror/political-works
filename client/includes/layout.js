@@ -82,19 +82,19 @@ Template.layout.events({
         });
         return false;
     },
-//    'submit .sign-in-with-facebook': function(e,t){
-//        e.preventDefault();
-//        Meteor.loginWithFacebook(function(){
-//            $('#login-username-or-email').val("");
-//            $('#login-password').val("");
-//            $('#account-name').val("");
-//            $('#account-username').val("");
-//            $('#account-email').val("");
-//            $('#account-password').val("");
-//            $('#account-password-repeat').val("");
-//            $('.login-div').hide();
-//        });
-//    },
+    'submit .sign-in-with-facebook': function(e,t){
+        e.preventDefault();
+        Meteor.loginWithFacebook(function(){
+            $('#login-username-or-email').val("");
+            $('#login-password').val("");
+            $('#account-name').val("");
+            $('#account-username').val("");
+            $('#account-email').val("");
+            $('#account-password').val("");
+            $('#account-password-repeat').val("");
+            $('.login-div').hide();
+        });
+    },
     'click .register-login': function(){
         var login = $('.login-test'),
             register = $('.register');
