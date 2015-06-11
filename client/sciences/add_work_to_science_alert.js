@@ -190,7 +190,8 @@ Template.addWorkToScienceAlert.rendered = function(){
             SciencyAlert.close();
         }
 
-        if($(e.originalEvent.target).attr('class') === "ui-menu-item"){
+        if($(e.originalEvent.target).attr('class') === "ui-menu-item" &&
+            $(e.originalEvent.target).parents('.producer').length){
             var work = _.findWhere(works, {title: $(e.originalEvent.target)[0].innerHTML}),
                 producersOfWork = _.filter(producers, function(producer){return _.contains(work.producers, producer._id)});
             currentSelectedWork = work.title;
