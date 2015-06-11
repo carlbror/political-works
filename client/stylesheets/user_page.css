@@ -16,3 +16,7 @@
 .tab {
     display:none;
 }
+
+.works-both-have-encountered td:nth-child(1), td:nth-child(2){
+    padding-right: 10px;
+}

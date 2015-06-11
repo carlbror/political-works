@@ -1,187 +1,219 @@
 <template name="userPage">
-    <div class="user-header">
-        <div class="container">
-            <h2>{{profile.name}}</h2>
-        </div>
+<div class="user-header">
+    <div class="container">
+        <h2>{{profile.name}}</h2>
     </div>
+</div>
 
-    <div class="user-wallpaper">
-        <div class="container">
-            <div class="row">
-                <div class="span3">
-                    <div class="profile-resume">
-                        Reviews
+<div class="user-wallpaper">
+    <div class="container">
+        <div class="row">
+            <div class="span3">
+                <div class="profile-resume">
+                    Reviews
+                    <ul>
+                        on policy areas
                         <ul>
-                            on policy areas
-                            <ul>
-                                {{#each ratingsByPolicyArea}}
-                                <p style="margin: 0;">
-                                    {{#with policyAreaFromPolicyAreaId}}<a href="#{{_id}}" class="link policyArea">
-                                    {{area}}</a>{{/with}}
-                                </p>
-                                {{/each}}
-                            </ul>
-
-                            on ideologies
-                            <ul>
-                                {{#each ratingsByIdeology}}
-                                <p style="margin:0;">
-                                    {{#with ideologyFromIdeologyId}}<a href="#{{_id}}" class="link">{{name}}</a>{{/with}}
-                                </p>
-                                {{/each}}
-                            </ul>
-
-                            on policies
-                            <ul>
-                                {{#each ratingsByPolicy}}
-                                <p style="margin:0;">
-                                    {{#with policyFromPolicyId}}<a href="#{{_id}}" class="link">{{solution}}</a>{{/with}}
-                                </p>
-                                {{/each}}
-                            </ul>
+                            {{#each ratingsByPolicyArea}}
+                            <p style="margin: 0;">
+                                {{#with policyAreaFromPolicyAreaId}}<a href="#{{_id}}" class="link policyArea">
+                                {{area}}</a>{{/with}}
+                            </p>
+                            {{/each}}
                         </ul>
 
-                        <a href="#ideologies" class="link">Ideologies</a>
+                        on ideologies
                         <ul>
-                            {{#each ideologies}}
+                            {{#each ratingsByIdeology}}
                             <p style="margin:0;">
-                                {{#with ideologyFromId}}{{name}}{{/with}}
+                                {{#with ideologyFromIdeologyId}}<a href="#{{_id}}" class="link">{{name}}</a>{{/with}}
                             </p>
                             {{/each}}
                         </ul>
 
-                        <p><a href="#statistics" class="link">Statistics</a></p>
-                    </div>
-                </div>
-
-                <div class="span7">
-                    <div class="tab-content">
-                        <div id="tab1" class="tab active">
-                        </div>
-
-                        <div id="ideologies" class="tab">
-                            {{#each ideologies}}
-                            <div class="ideology-view"><h4>{{#with ideologyFromId}}<a href="{{pathFor 'ideologyPage'}}">
-                                {{name}}</a>{{/with}}</h4>
-                            </div>
+                        on policies
+                        <ul>
+                            {{#each ratingsByPolicy}}
+                            <p style="margin:0;">
+                                {{#with policyFromPolicyId}}<a href="#{{_id}}" class="link">{{solution}}</a>{{/with}}
+                            </p>
                             {{/each}}
-                        </div>
+                        </ul>
+                    </ul>
 
-                        {{#each ratingsByPolicyArea}}
-                        <div id="{{policyAreaId}}" class="tab">
-                            <h4>Reviews of works casting a light on {{#with policyAreaFromPolicyAreaId}}
-                                <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{/with}}
-                                </h4>
-
-                            <ol>
-                                {{#each ratings}}
-                                    {{>workItemForUserPage}}
-                                {{/each}}
-                            </ol>
-                        </div>
+                    <a href="#ideologies" class="link">Ideologies</a>
+                    <ul>
+                        {{#each ideologies}}
+                        <p style="margin:0;">
+                            {{#with ideologyFromId}}{{name}}{{/with}}
+                        </p>
                         {{/each}}
+                    </ul>
 
-                        {{#each ratingsByIdeology}}
-                        <div id="{{ideologyId}}" class="tab">
-                            {{#if supportiveRatings}}
-                            <h4>Reviews of works that support {{#with ideologyFromIdeologyId}}
-                                <a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{/with}}</h4>
+                    <p><a href="#statistics" class="link">Statistics</a></p>
 
-                            <ol>
-                                {{#each supportiveRatings}}
-                                {{> workItemForUserPage}}
-                                {{/each}}
-                            </ol>
-                            {{/if}}
-
-                            {{#if underminingRatings}}
-                            <h4>Reviews of works that argue against {{#with
-                                ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
-
-                            <ol>
-                                {{#each underminingRatings}}
-                                {{> workItemForUserPage}}
-                                {{/each}}
-                            </ol>
-                            {{/if}}
-                        </div>
-                        {{/each}}
-
-
-                        {{#each ratingsByPolicy}}
-                        <div id="{{policyId}}" class="tab">
-                            {{#if supportiveRatings}}
-                            <h4>Reviews of works that support the policy to {{#with
-                                policyFromPolicyId}}
-                                <a href="{{pathFor 'policyPage'}}">{{solution}}</a>{{/with}}</h4>
-
-                            <ol>
-                                {{#each supportiveRatings}}
-                                {{> workItemForUserPage}}
-                                {{/each}}
-                            </ol>
-                            {{/if}}
-
-                            {{#if underminingRatings}}
-                            <h4>Reviews of works that argue against the policy to {{#with
-                                policyFromPolicyId}}{{solution}}{{/with}}</h4>
-
-                            <ol>
-                                {{#each underminingRatings}}
-                                {{> workItemForUserPage}}
-                                {{/each}}
-                            </ol>
-                            {{/if}}
-                        </div>
-                        {{/each}}
-
-
-                        <div id="statistics" class="tab">
-                            <p>
-                                Committed
-                                {{#if userRatings}}{{userRatings.length}}
-                                review{{#unless userHasMadeOneRating}}s.{{/unless}}{{else}}0 reviews.{{/if}}<br>
-                                Subscribes to {{#if ideologies}}{{ideologies.length}} {{#if
-                                userSubscribesToOneIdeology}}
-                                ideology.{{else}} ideologies.{{/if}}{{else}}no ideology.{{/if}}
-                            </p>
-
-                            <p>Of all the works reviewed on the site, this user has engaged <b>{{percentEngaged}}%</b>
-                                of them at least once.</p>
-
-                            <p>
-                                Of all the works that someone has recommended for their own, different from the user's,
-                                ideology, this user has engaged <b>{{percentOfOthersSupportiveWorksForTheirIdeologies}}%</b>
-                                of them at least once.
-                            </p>
-                        </div>
-
-                    </div>
+                    {{#if notSameUser}}<p><a href="#comparisons" class="link">Comparisons</a></p>{{/if}}
                 </div>
+            </div>
 
-                <div class="span2">
-                    <div class="sort-works-by">
-                        {{#if hasRatingsOn}}
-                        {{> chooseScore}}
+            <div class="span7">
+                <div class="tab-content">
+                    <div id="tab1" class="tab active">
+                    </div>
+
+                    <div id="ideologies" class="tab">
+                        {{#each ideologies}}
+                        <div class="ideology-view"><h4>{{#with ideologyFromId}}<a href="{{pathFor 'ideologyPage'}}">
+                            {{name}}</a>{{/with}}</h4>
+                        </div>
+                        {{/each}}
+                    </div>
+
+                    {{#each ratingsByPolicyArea}}
+                    <div id="{{policyAreaId}}" class="tab">
+                        <h4>Reviews of works casting a light on {{#with policyAreaFromPolicyAreaId}}
+                            <a href="{{pathFor 'policyAreaPage'}}">{{area}}</a>{{/with}}
+                        </h4>
+
+                        <ol>
+                            {{#each ratings}}
+                            {{>workItemForUserPage}}
+                            {{/each}}
+                        </ol>
+                    </div>
+                    {{/each}}
+
+                    {{#each ratingsByIdeology}}
+                    <div id="{{ideologyId}}" class="tab">
+                        {{#if supportiveRatings}}
+                        <h4>Reviews of works that support {{#with ideologyFromIdeologyId}}
+                            <a href="{{pathFor 'ideologyPage'}}">{{name}}</a>{{/with}}</h4>
+
+                        <ol>
+                            {{#each supportiveRatings}}
+                            {{> workItemForUserPage}}
+                            {{/each}}
+                        </ol>
                         {{/if}}
 
-                        {{#if hasPolicyAreaRatingsOn}}
-                            {{> policyAreaPageMenu}}
+                        {{#if underminingRatings}}
+                        <h4>Reviews of works that argue against {{#with
+                            ideologyFromIdeologyId}}{{name}}{{/with}}</h4>
+
+                        <ol>
+                            {{#each underminingRatings}}
+                            {{> workItemForUserPage}}
+                            {{/each}}
+                        </ol>
+                        {{/if}}
+                    </div>
+                    {{/each}}
+
+
+                    {{#each ratingsByPolicy}}
+                    <div id="{{policyId}}" class="tab">
+                        {{#if supportiveRatings}}
+                        <h4>Reviews of works that support the policy to {{#with
+                            policyFromPolicyId}}
+                            <a href="{{pathFor 'policyPage'}}">{{solution}}</a>{{/with}}</h4>
+
+                        <ol>
+                            {{#each supportiveRatings}}
+                            {{> workItemForUserPage}}
+                            {{/each}}
+                        </ol>
+                        {{/if}}
+
+                        {{#if underminingRatings}}
+                        <h4>Reviews of works that argue against the policy to {{#with
+                            policyFromPolicyId}}{{solution}}{{/with}}</h4>
+
+                        <ol>
+                            {{#each underminingRatings}}
+                            {{> workItemForUserPage}}
+                            {{/each}}
+                        </ol>
+                        {{/if}}
+                    </div>
+                    {{/each}}
+
+
+                    <div id="statistics" class="tab">
+                        <p>
+                            Committed
+                            {{#if userRatings}}{{userRatings.length}}
+                            review{{#unless userHasMadeOneRating}}s.{{/unless}}{{else}}0 reviews.{{/if}}<br>
+                            Subscribes to {{#if ideologies}}{{ideologies.length}} {{#if
+                            userSubscribesToOneIdeology}}
+                            ideology.{{else}} ideologies.{{/if}}{{else}}no ideology.{{/if}}
+                        </p>
+
+                        <p>Of all the works reviewed on the site, this user has engaged <b>{{percentEngaged}}%</b>
+                            of them at least once.</p>
+
+                        <p>
+                            Of all the works that someone has recommended for their own, different from the user's,
+                            ideology, this user has engaged <b>{{percentOfOthersSupportiveWorksForTheirIdeologies}}%</b>
+                            of them at least once.
+                        </p>
+                    </div>
+
+                    <div id="comparisons" class="tab">
+                        {{#if worksYouHaveEncountered}}
+                        <div class="works-both-have-encountered">
+                            <h3>Works you both have engaged</h3>
+                            <table>
+                                <tr>
+                                    <td>Work</td>
+                                    <td>Your familiarity</td>
+                                    <td>{{../profile.name}}'s familiarity</td>
+                                </tr>
+
+                                {{#each worksYouHaveEncountered}}
+                                <tr>
+                                    <td>
+                                        {{#with workFromWorksId}}<a href="{{pathFor 'worksPage'}}">{{title}}</a>{{/with}}
+                                    </td>
+                                    <td>
+                                        {{yourFamiliarity}}
+                                    </td>
+                                    <td>
+                                        {{usersFamiliarity}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </table>
+                        </div>
+
+
                         {{/if}}
                     </div>
                 </div>
             </div>
+
+            <div class="span2">
+                <div class="sort-works-by">
+                    {{#if hasRatingsOn}}
+                    {{> chooseScore}}
+                    {{/if}}
+
+                    {{#if hasPolicyAreaRatingsOn}}
+                    {{> policyAreaPageMenu}}
+                    {{/if}}
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
 
-    <div class="badges-on-user">
-        <div class="container">
-            {{#each badgesForReviewedIdeologies}}
-            {{> rowOfBadges}}
-            {{/each}}
-        </div>
+<div class="badges-on-user">
+    <div class="container">
+        {{#each badgesForReviewedIdeologies}}
+        {{> rowOfBadges}}
+        {{/each}}
     </div>
+</div>
 </template>
 
 

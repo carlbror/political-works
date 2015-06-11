@@ -1,15 +1,27 @@
 Template.userPage.helpers({
+    notSameUser: function(){
+        if(Meteor.userId() && Meteor.userId() !== this._id) return true;
+    },
     ideologyFromId: function(){
         return Ideologies.findOne(this.toString(), {fields: {name: 1}});
     },
     policyAreaFromPolicyAreaId: function(){
-        return PolicyAreas.findOne(this.policyAreaId, {fields: {area:1}});
+        return PolicyAreas.findOne(this.policyAreaId, {fields: {area: 1}});
     },
     ideologyFromIdeologyId: function(){
         return Ideologies.findOne(this.ideologyId, {fields: {name: 1}});
     },
     policyFromPolicyId: function(){
         return Policies.findOne(this.policyId, {fields: {solution: 1}});
+    },
+    workFromWorksId: function(){
+        return Works.findOne(this.userRating.worksId, {fields: {title: 1}});
+    },
+    yourFamiliarity: function(){
+        return get_.familiarity(this.yourRating.familiarity);
+    },
+    usersFamiliarity: function(){
+        return get_.familiarity(this.userRating.familiarity);
     },
     oneIdeology: function(){
         if(this.ideologies.length == 1) return true;
@@ -45,7 +57,7 @@ Template.userPage.helpers({
                 var othersSupportiveRatings;
                 if(user.ideologies){
                     othersSupportiveRatings = Ratings.find({ideologyId: {$nin: user.ideologies}, ratingType: "positive"}).fetch();
-                } else{
+                } else {
                     othersSupportiveRatings = Ratings.find({ratingType: "positive"}).fetch();
                 }
 
@@ -54,11 +66,29 @@ Template.userPage.helpers({
                         usersRevewedWorksOnOthersIdeologies = _.intersection(othersReviewedWorks,
                             _.uniq(_.pluck(allReviewsAtLeastPartakenOnce, 'worksId')));
 
-                    return Math.round((usersRevewedWorksOnOthersIdeologies.length/othersReviewedWorks.length)*100);
+                    return Math.round((usersRevewedWorksOnOthersIdeologies.length / othersReviewedWorks.length) * 100);
                 } else {
                     return "zero";
                 }
             }
+        }
+    },
+    worksYouHaveEncountered: function(){
+        var yourRatings = Ratings.find({userId: Meteor.userId(), familiarity: {$gt: 0}}).fetch(),
+            usersRatings = Ratings.find({userId: this._id, familiarity: {$gt: 0}}).fetch(),
+            bothRatings = [];
+
+        if(yourRatings.length > 0 && usersRatings.length > 0){
+            var yourWorks = _.pluck(yourRatings, "worksId"),
+                usersWorks = _.pluck(usersRatings, "worksId"),
+                bothWorks = _.intersection(yourWorks, usersWorks);
+
+            _.each(bothWorks, function(worksId){
+                bothRatings.push({userRating: _.findWhere(usersRatings, {worksId: worksId}),
+                    yourRating: _.findWhere(yourRatings, {worksId: worksId})});
+            });
+
+            return bothRatings;
         }
     }
 });
@@ -77,6 +107,9 @@ Template.userPage.events({
             if(!Session.get('scoreView') || Session.get('scoreView') === "convincingScore"){
                 Session.set('scoreView', 'enlighteningScore');
             }
+        } else if(currentAttrValue === "#comparisons"){
+            Session.set('hasRatingsOn', false);
+            Session.set('hasPolicyAreaRatingsOn', false);
         } else if(currentAttrValue !== "#ideologies"){
             Session.set('hasPolicyAreaRatingsOn', false);
             Session.set('hasRatingsOn', true);
