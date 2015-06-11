@@ -10,7 +10,8 @@
     {{/each}}
 
     {{#if currentUser}}
-    <a class="btn btn-success" href="{{pathFor 'newAddWork'}}">Add new work</a>
+    {{>addWorkAlert}}
+    <a class="btn btn-success add-new-work" href="#">Add new work</a>
     {{/if}}
     <br><br>
 </template>

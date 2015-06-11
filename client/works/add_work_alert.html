@@ -1,0 +1,47 @@
+<template name="addWorkAlert">
+    <div id="workDialogoverlay"></div>
+    <div id="workDialogbox">
+        <div>
+            <div id="workDialogboxhead">
+                Add a work
+            </div>
+            <div id="workDialogboxbody">
+
+                <label>
+                    <span>Title of the work :</span>
+                    <input class="title" style="width:200px;"/>
+                </label>
+
+                <label>
+                    <span>Producers :</span>
+                    <input class="producer" style="width:200px;"/>
+                </label>
+
+                <label>
+                    <span>URL to work :</span>
+                    <input class="url" style="width:200px;"/>
+                </label>
+
+                <label>
+                    <span>URL to public discussion of work :</span>
+                    <input class="discussion-url" style="width: 200px;"/>
+                </label>
+
+                <label>
+                    <span>Type of work :</span>
+                    <select class="type-of-work">
+                        <option></option>
+                        {{#each typeOfWork}}
+                        <option>{{clientName}}</option>
+                        {{/each}}
+                    </select>
+                </label>
+
+            </div>
+            <div id="workDialogboxfoot">
+                <button class="btn close-custom-alert">Cancel</button>
+                <button class="btn btn-primary add-work">OK</button>
+            </div>
+        </div>
+    </div>
+</template>

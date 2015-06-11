@@ -5,3 +5,9 @@ Template.worksList.helpers({
         }
     }
 });
+
+Template.worksList.events({
+    'click .add-new-work': function(){
+        NewWorkAlert.render();
+    }
+});

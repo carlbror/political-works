@@ -353,7 +353,8 @@ Router.map(function(){
     this.route('worksList', {
         path: '/works',
         data: function(){
-            return {works: Works.find({}, {sort: {title: 1}}, {fields: {title: 1, url: 1}}).fetch()};
+            return {works: Works.find({}, {sort: {title: 1}}, {fields: {title: 1, url: 1}}).fetch(),
+            producers: Producers.find({}, {sort: {name:1}}).fetch()};
         }
     });
 
