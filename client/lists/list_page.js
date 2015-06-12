@@ -11,5 +11,8 @@ Template.listPage.events({
         Meteor.call('toggleSubscriptionToList', this.list._id, this.subscribes, function(err){
             if(err) throwError(err.reason);
         });
+    },
+    'click .edit-list': function(){
+
     }
-})
+});

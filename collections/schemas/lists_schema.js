@@ -6,6 +6,10 @@ Schemas.Lists = new SimpleSchema({
         type: String,
         autoValue:function(){ return this.userId }
     },
+    coCreators: {
+        type: [String],
+        optional: true
+    },
     essentialWorks: {
         type: [String],
         optional: true

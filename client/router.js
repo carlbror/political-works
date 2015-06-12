@@ -523,7 +523,7 @@ Router.map(function(){
         data: function(){
             var list = Lists.findOne(this.params._id),
                 user = Meteor.user(),
-                subscribes, essentialWorksCompleted, importantWorksCompleted, totalWorksCompleted;
+                subscribes, essentialWorksCompleted, importantWorksCompleted, totalWorksCompleted, coCreator;
 
             if(list){
                 var essentialWorks = Works.find({_id: {$in: list.essentialWorks}}, {sort: {title:1}}).fetch(),
@@ -531,6 +531,9 @@ Router.map(function(){
 
                 if(user && _.contains(list.subscribers, user._id)){
                     subscribes = true;
+                    if(list.coCreators && _.contains(list.coCreators, user._id) || list.createdBy === user._id)
+                        coCreator = true;
+
                     var uniqueRatingsOnEssentialWorks, uniqueRatingsOnImportantWorks;
 
                     if(essentialWorks.length > 0){
@@ -570,6 +573,7 @@ Router.map(function(){
                     essentialWorks: essentialWorks,
                     importantWorks: importantWorks,
                     subscribes: subscribes,
+                    coCreator: coCreator,
                     hasEssentialWorks: !!essentialWorks[0],
                     hasImportantWorks: !!importantWorks[0],
                     essentialWorksCompletedPercentage: essentialWorksCompletedPercentage || 0,

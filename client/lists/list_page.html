@@ -3,12 +3,12 @@
     <script src="../scripts/bootstrap-switch.js"></script>
     <h1>{{list.name}}</h1>
     <hr>
-
     <div class="container">
         <div class="row">
             <div class="span3">
                 <div class="subscribe-to-list">
-                    {{#if currentUser}}{{#if subscribes}}
+                    {{#if currentUser}}
+                    {{#if subscribes}}
                     <p>
                         You have finished:
                     </p>
@@ -29,13 +29,22 @@
                     </ul>
 
                     <button class="stop-start-subscribing-to-list btn btn-warning">Stop subscribing!</button>
+
+                    <button class="edit-list btn btn-success">Edit the list</button>
+
+                    <div class="add-co-creator">
+                        <button class="btn btn-primary add-co-creator">Add admin to list</button>
+                    </div>
+
                     {{else}}
                     <button class="stop-start-subscribing-to-list btn btn-success">Subscribe to list!</button>
-                    {{/if}}{{/if}}
+                    {{/if}}
+                    {{/if}}
                 </div>
             </div>
 
             <div class="span9">
+                {{#unless editing}}
                 <table class="display-list-table">
                     <tr>
                         <td>List of works</td>
@@ -68,6 +77,7 @@
                     </tr>
                     {{/each}}
                 </table>
+                {{/unless}}
             </div>
         </div>
     </div>

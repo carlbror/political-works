@@ -293,4 +293,3 @@ Template.specialAlert.helpers({
         return familiarity;
     }
 });
-

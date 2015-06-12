@@ -6,10 +6,10 @@ Schemas.Works = new SimpleSchema({
         type: [String]
     },
     url: {
-        type: String
+        type: SimpleSchema.RegEx.Url
     },
     discussionUrl: {
-        type: String
+        type: SimpleSchema.RegEx.Url
     },
     type: {
         type: String
