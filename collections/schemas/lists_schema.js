@@ -6,7 +6,7 @@ Schemas.Lists = new SimpleSchema({
         type: String,
         autoValue:function(){ return this.userId }
     },
-    coCreators: {
+    coAdmins: {
         type: [String],
         optional: true
     },

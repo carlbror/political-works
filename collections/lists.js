@@ -25,5 +25,23 @@ Meteor.methods({
         } else {
             Lists.update(listId, {$addToSet: {subscribers: get_.userOrThrowError()._id}});
         }
+    },
+    changeListComposition: function(listId, workId, checked, important){
+        var user = get_.userOrThrowError(),
+            list = Lists.findOne(listId);
+
+        if(list && _.contains(list.coAdmins, user._id) || user._id === list.createdBy){
+            if(!checked){
+                Lists.update({_id: listId}, {$pull: {essentialWorks: workId, importantWorks: workId}});
+            } else {
+                if(important){
+                    Lists.update({_id: listId},{$addToSet:{importantWorks:workId}, $pull: {
+                       essentialWorks: workId}});
+                } else {
+                    Lists.update({_id: listId},{$addToSet:{essentialWorks:workId}, $pull: {
+                        importantWorks: workId}});
+                }
+            }
+        }
     }
 });
