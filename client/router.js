@@ -523,7 +523,9 @@ Router.map(function(){
         data: function(){
             var list = Lists.findOne(this.params._id),
                 user = Meteor.user(),
-                subscribes, essentialWorksCompleted, importantWorksCompleted, totalWorksCompleted, coCreator;
+                subscribes, essentialWorksCompleted, importantWorksCompleted, totalWorksCompleted, coCreator,
+                works = Works.find({}, {sort: {title:1}, fields: {title:1, producers: 1, type:1}}).fetch();
+
 
             if(list){
                 var essentialWorks = Works.find({_id: {$in: list.essentialWorks}}, {sort: {title:1}}).fetch(),
@@ -566,10 +568,35 @@ Router.map(function(){
 
                     var totalWorksCompletedPercentage = Math.round(((essentialWorksCompleted+importantWorksCompleted)/
                         (essentialWorks.length + importantWorks.length))*100);
+
+                    if(works.length > 0){
+                        _.each(works, function(work){
+                            if(_.contains(list.essentialWorks, work._id)){
+                                work.essentialWork = true;
+                                work.importantWork = false;
+                            }
+                            else if(_.contains(list.importantWorks, work._id)){
+                                work.importantWork = true;
+                                work.essentialWork = false;
+                            } else {
+                                work.essentialWork = false;
+                                work.importantWork = false;
+                            }
+                        });
+
+                        works.sort(function(a,b){
+                            return b.importantWork - a.importantWork;
+                        });
+                        works.sort(function(a,b){
+                            return b.essentialWork - a.essentialWork;
+                        });
+
+                    }
                 }
 
                 return {
                     list: list,
+                    works: works,
                     essentialWorks: essentialWorks,
                     importantWorks: importantWorks,
                     subscribes: subscribes,

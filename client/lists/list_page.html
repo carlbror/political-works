@@ -30,7 +30,8 @@
 
                     <button class="stop-start-subscribing-to-list btn btn-warning">Stop subscribing!</button>
 
-                    <button class="edit-list btn btn-success">Edit the list</button>
+                    <button class="edit-list btn btn-success">{{#unless editing}}Edit the list{{else}}Finished editing
+                    {{/unless}}</button>
 
                     <div class="add-co-creator">
                         <button class="btn btn-primary add-co-creator">Add admin to list</button>
@@ -74,6 +75,30 @@
                             <span style="font-family: Arial Unicode MS, Lucida Grande">&#10004;</span>
                         </td>
                         {{/if}}{{/if}}
+                    </tr>
+                    {{/each}}
+                </table>
+                {{else}}
+
+                <table class="create-new-list-table">
+                    <tr>
+                        <td>Name of work</td>
+                        <td>Important part</td>
+                        <td>Essential part</td>
+                    </tr>
+                    {{#each works}}
+                    <tr>
+                        <td>{{title}}</td>
+                        <td>
+                            <label class="important-work" for="important-{{_id}}">
+                                <input class="show-type" type="checkbox" id="important-{{_id}}" {{important}}>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="essential-work" for="essential-{{_id}}">
+                                <input class="show-type" type="checkbox" id="essential-{{_id}}" {{essential}}>
+                            </label>
+                        </td>
                     </tr>
                     {{/each}}
                 </table>
