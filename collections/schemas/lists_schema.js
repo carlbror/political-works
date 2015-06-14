@@ -7,8 +7,7 @@ Schemas.Lists = new SimpleSchema({
         autoValue:function(){ return this.userId }
     },
     coAdmins: {
-        type: [String],
-        optional: true
+        type: [String]
     },
     essentialWorks: {
         type: [String],

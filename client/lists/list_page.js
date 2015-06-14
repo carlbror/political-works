@@ -25,6 +25,10 @@ Template.listPage.helpers({
     },
     essential: function(){
         if(this.essentialWork) return "checked";
+    },
+    users: function(){
+        return Meteor.users.find({subscribers: {$in: Template.parentData().list.subscribers},
+            _id: {$nin: Template.parentData().list.coAdmins}}, {sort: {"profile.name": 1}}).fetch();
     }
 });
 
@@ -50,6 +54,18 @@ Template.listPage.events({
             $('#essential-' + event.target.id.split('-')[1]).is(":checked"), false, function(err){
                 if(err) throwError(err.reason);
             });
+    },
+    'click .add-co-admin': function(event){
+        var addAdminsDiv = $('.add-admins-div'),
+            overlay = $('.overlay');
+
+        addAdminsDiv.show();
+        overlay.show();
+    },
+    'change .add-admin-checkbox': function(event){
+        Meteor.call('addAdmin', Template.parentData().list._id, event.target.id.plit('-')[1], function(err){
+            if(err) throwError(err.reason);
+        });
     }
 });
 

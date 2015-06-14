@@ -1,0 +1,45 @@
+#generalDialogoverlay{
+    display: none;
+    opacity: .8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #CCC;
+    width: 100%;
+    z-index: 10;
+}
+#generalDialogbox{
+    display: none;
+    position: fixed;
+    background: #FFF;
+    border-radius: 7px;
+    width: 600px;
+    z-index: 10;
+    padding: 7px;
+}
+#generalDialogbox > div{ background:#FFF;}
+#generalDialogbox > div > #generalDialogboxhead{font-size:19px; padding:10px; color:#bbb;}
+#generalDialogbox > div > #generalDialogboxbody{padding:15px; color:#CCC; }
+#generalDialogbox > div > #generalDialogboxfoot{text-align:right; }
+
+
+#generalDialogbox label {
+    display: block;
+}
+#generalDialogbox span {
+    float: left;
+    width: 50%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+    color: #888;
+}
+
+#generalDialogbox form>input{
+    vertical-align: text-bottom;
+}
+
+#generalDialogbox form>span{
+    position: relative;
+    top: -10px;
+}

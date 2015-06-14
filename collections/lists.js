@@ -12,6 +12,7 @@ Meteor.methods({
         var user = get_.userOrThrowError();
         return Lists.insert({
             createdBy: user._id,
+            coAdmins: [user._id],
             name: o_.sanitizeString(nameForList),
             importantWorks: o_.sanitizeArray(necessaryWorks),
             essentialWorks: o_.sanitizeArray(essentialWorks),
@@ -30,7 +31,7 @@ Meteor.methods({
         var user = get_.userOrThrowError(),
             list = Lists.findOne(listId);
 
-        if(list && _.contains(list.coAdmins, user._id) || user._id === list.createdBy){
+        if(list && _.contains(list.coAdmins, user._id)){
             if(!checked){
                 Lists.update({_id: listId}, {$pull: {essentialWorks: workId, importantWorks: workId}});
             } else {
@@ -42,6 +43,14 @@ Meteor.methods({
                         importantWorks: workId}});
                 }
             }
+        }
+    },
+    addAdmin: function(listId, userId){
+        var user = get_.userOrThrowError(),
+            list = Lists.findOne(listId);
+
+        if(list && _.contains(list.coAdmins, user._id)){
+            Lists.update(list._id, {$addToSet: {coAdmins: userId}});
         }
     }
 });

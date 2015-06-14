@@ -533,7 +533,7 @@ Router.map(function(){
 
                 if(user && _.contains(list.subscribers, user._id)){
                     subscribes = true;
-                    if(list.coAdmins && _.contains(list.coAdmins, user._id) || list.createdBy === user._id)
+                    if(list.coAdmins && _.contains(list.coAdmins, user._id))
                         coAdmin = true;
 
                     var uniqueRatingsOnEssentialWorks, uniqueRatingsOnImportantWorks;

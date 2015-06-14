@@ -148,11 +148,11 @@ Template.addWorkAlert.events({
 Template.addWorkAlert.rendered = function(){
     $('body').on('keydown',function(e){
         if(e.which === 27){
-            SciencyAlert.close();
+            NewWorkAlert.close();
         }
     }).on('click', function(e){
             if(e.target.id === "workDialogoverlay"){
-                SciencyAlert.close();
+                NewWorkAlert.close();
             }
 
             if($(e.originalEvent.target).attr('class') === "ui-menu-item" &&

@@ -3,6 +3,22 @@
     <script src="../scripts/bootstrap-switch.js"></script>
     <h1>{{list.name}}</h1>
     <hr>
+
+    <div class="overlay"></div>
+    <div class="add-admins-div on-overlay" hidden>
+        <table>
+            <tr>
+                <td>User profile</td>
+                <td>Make admin?</td>
+            </tr>
+            {{#each users}}
+            <tr>
+                <td>{{profile.name}}</td>
+                <td><input type="checkbox" id="admin-{{_id}}" class="add-admin-checkbox"></td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
     <div class="container">
         <div class="row">
             <div class="span3">
@@ -34,7 +50,7 @@
                     {{/unless}}</button>
 
                     <div class="add-co-creator">
-                        <button class="btn btn-primary add-co-creator">Add admin to list</button>
+                        <button class="btn btn-primary add-co-admin">Add admins to list</button>
                     </div>
 
                     {{else}}
