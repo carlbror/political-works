@@ -97,6 +97,9 @@ Template.listPage.events({
         Meteor.call('addAdmins', Template.parentData().list._id, checkedValues, function(err){
             if(err) throwError(err.reason);
         });
+    },
+    'click .list-page .add-new-work': function(){
+        NewWorkAlert.render();
     }
 });
 

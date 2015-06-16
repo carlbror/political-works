@@ -38,109 +38,118 @@
         </div>
         {{/if}}
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="span3">
-                <div class="subscribe-to-list">
-                    {{#if currentUser}}
-                    {{#if subscribes}}
-                    <p>
-                        You have finished:
-                    </p>
-                    <ul>
-                        <p>
-                            {{#if hasEssentialWorks}}<b>{{essentialWorksCompletedPercentage}}%</b> of all the essential
-                            works,{{/if}}
-                        </p>
-
-                        <p>
-                            {{#if hasImportantWorks}}<b>{{importantWorksCompletedPercentage}}%</b> of all the important
-                            works,{{/if}}
-                        </p>
-
-                        <p>
-                            <b>{{totalWorksCompletedPercentage}}%</b> of all the works in this list.
-                        </p>
-                    </ul>
-
-                    <button class="stop-start-subscribing-to-list btn btn-warning">Stop subscribing!</button>
-
-                    {{#if coAdmin}}
-                    <button class="edit-list btn btn-success">{{#unless editing}}Edit the list{{else}}Finished editing
-                        {{/unless}}
-                    </button>
-
-                    <div class="add-co-creator">
-                        <button class="btn btn-primary add-co-admin">Add admins to list</button>
-                    </div>
-                    {{/if}}
-
-                    {{else}}
-                    <button class="stop-start-subscribing-to-list btn btn-success">Subscribe to list!</button>
-                    {{/if}}
-                    {{/if}}
-                </div>
-            </div>
-
-            <div class="span9">
-                {{#unless editing}}
-                <table class="display-list-table">
-                    <tr>
-                        <td>List of works</td>
-                        <td>Links</td>
+    <div class="list-page">
+        <div class="container">
+            <div class="row">
+                <div class="span3">
+                    <div class="subscribe-to-list">
+                        {{#if currentUser}}
                         {{#if subscribes}}
-                        <td>Has read</td>
+                        <p>
+                            You have finished:
+                        </p>
+                        <ul>
+                            <p>
+                                {{#if hasEssentialWorks}}<b>{{essentialWorksCompletedPercentage}}%</b> of all the
+                                essential
+                                works,{{/if}}
+                            </p>
+
+                            <p>
+                                {{#if hasImportantWorks}}<b>{{importantWorksCompletedPercentage}}%</b> of all the
+                                important
+                                works,{{/if}}
+                            </p>
+
+                            <p>
+                                <b>{{totalWorksCompletedPercentage}}%</b> of all the works in this list.
+                            </p>
+                        </ul>
+
+                        <button class="stop-start-subscribing-to-list btn btn-warning">Stop subscribing!</button>
+
+                        {{#if coAdmin}}
+                        <button class="edit-list btn btn-success">{{#unless editing}}Edit the list{{else}}Finished
+                            editing
+                            {{/unless}}
+                        </button>
+
+                        <div class="add-co-creator">
+                            <button class="btn btn-primary add-co-admin">Add admins to list</button>
+                        </div>
                         {{/if}}
-                    </tr>
 
-                    {{#each essentialWorks}}
-                    <tr>
-                        <td><b><a href="{{pathFor 'worksPage'}}">{{title}}</a></b></td>
-                        <td><span><a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span></td>
-                        {{#if ../subscribes}}{{#if hasRead}}
-                        <td>
-                            <span style="font-family: Arial Unicode MS, Lucida Grande">&#10004;</span>
-                        </td>
-                        {{/if}}{{/if}}
-                    </tr>
-                    {{/each}}
-                    {{#each importantWorks}}
-                    <tr>
-                        <td><a href="{{pathFor 'worksPage'}}">{{title}}</a></td>
-                        <td><span><a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span></td>
-                        {{#if ../subscribes}}{{#if hasRead}}
-                        <td>
-                            <span style="font-family: Arial Unicode MS, Lucida Grande">&#10004;</span>
-                        </td>
-                        {{/if}}{{/if}}
-                    </tr>
-                    {{/each}}
-                </table>
-                {{else}}
+                        {{else}}
+                        <button class="stop-start-subscribing-to-list btn btn-success">Subscribe to list!</button>
+                        {{/if}}
+                        {{/if}}
+                    </div>
+                </div>
 
-                <table class="create-new-list-table">
-                    <tr>
-                        <td>Name of work</td>
-                        <td>Important part</td>
-                        <td>Essential part</td>
-                    </tr>
-                    {{#each works}}
-                    <tr>
-                        <td>{{title}}</td>
-                        <td>
-                            <label class="important-work" for="important-{{_id}}">
-                                <input class="show-type" type="checkbox" id="important-{{_id}}" {{important}}>
-                            </label>
-                        </td>
-                        <td>
-                            <label class="essential-work" for="essential-{{_id}}">
-                                <input class="show-type" type="checkbox" id="essential-{{_id}}" {{essential}}>
-                            </label>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </table>
-                {{/unless}}
+                <div class="span9">
+                    {{#unless editing}}
+                    <table class="display-list-table">
+                        <tr>
+                            <td>List of works</td>
+                            <td>Links</td>
+                            {{#if subscribes}}
+                            <td>Has read</td>
+                            {{/if}}
+                        </tr>
+
+                        {{#each essentialWorks}}
+                        <tr>
+                            <td><b><a href="{{pathFor 'worksPage'}}">{{title}}</a></b></td>
+                            <td><span><a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span>
+                            </td>
+                            {{#if ../subscribes}}{{#if hasRead}}
+                            <td>
+                                <span style="font-family: Arial Unicode MS, Lucida Grande">&#10004;</span>
+                            </td>
+                            {{/if}}{{/if}}
+                        </tr>
+                        {{/each}}
+                        {{#each importantWorks}}
+                        <tr>
+                            <td><a href="{{pathFor 'worksPage'}}">{{title}}</a></td>
+                            <td><span><a href="{{url}}" target="_blank"><i class="fa fa-external-link"></i></a></span>
+                            </td>
+                            {{#if ../subscribes}}{{#if hasRead}}
+                            <td>
+                                <span style="font-family: Arial Unicode MS, Lucida Grande">&#10004;</span>
+                            </td>
+                            {{/if}}{{/if}}
+                        </tr>
+                        {{/each}}
+                    </table>
+                    {{else}}
+
+                    <table class="create-new-list-table">
+                        <tr>
+                            <td>Name of work</td>
+                            <td>Important part</td>
+                            <td>Essential part</td>
+                        </tr>
+                        {{#each works}}
+                        <tr>
+                            <td>{{title}}</td>
+                            <td>
+                                <label class="important-work" for="important-{{_id}}">
+                                    <input class="show-type" type="checkbox" id="important-{{_id}}" {{important}}>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="essential-work" for="essential-{{_id}}">
+                                    <input class="show-type" type="checkbox" id="essential-{{_id}}" {{essential}}>
+                                </label>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                    {{> addWorkAlert}}
+                    <button class="btn btn-success add-new-work">Add new work</button>
+                    {{/unless}}
+                </div>
             </div>
         </div>
     </div>
