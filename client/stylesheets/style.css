@@ -221,11 +221,11 @@ h1.center{
 
 .overlay{
     display: none;
-    opacity: .2;
+    opacity: .7;
     position: fixed;
     top: 0;
     left: 0;
-    background: #000000;
+    background: #292F33;
     width: 100%;
     height: 100%;
     z-index: 100;
@@ -238,13 +238,22 @@ h1.center{
 }
 
 .add-admins-div {
-    width: 300px;
-    padding: 7px;
+    top: 50%;
+    left: 50%;
+
+    margin-top: -100px;
+    margin-left: -204px;
+    width: 400px;
+    padding: 8px;
     border-radius: 7px;
 
     background-color: white;
 }
 
+.middle-of-screen{
+    top: 50%;
+    left: 50%;
+}
 
 
 

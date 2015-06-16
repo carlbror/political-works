@@ -219,7 +219,8 @@ Template.layout.rendered = function(){
             $('.updates-div').hide();
         }
 
-        if(!$(e.target).parents('.login-div').length && e.target.className !== "sign-in"){
+        if(!$(e.target).parents('.login-div').length && e.target.className !== "sign-in" &&
+            e.target.className !== "login-div"){
             loginDiv.hide();
         }
     });

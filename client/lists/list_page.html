@@ -6,6 +6,7 @@
 
     <div class="overlay"></div>
     <div class="add-admins-div on-overlay" hidden>
+        <div class="admins-div-header"></div>
         <table>
             <tr>
                 <td>User profile</td>
@@ -15,9 +16,16 @@
             <tr>
                 <td>{{profile.name}}</td>
                 <td><input type="checkbox" id="admin-{{_id}}" class="add-admin-checkbox"></td>
+                <td></td>
             </tr>
             {{/each}}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
         </table>
+        <div class="admins-div-footer"><span></span></div>
     </div>
     <div class="container">
         <div class="row">
@@ -46,12 +54,14 @@
 
                     <button class="stop-start-subscribing-to-list btn btn-warning">Stop subscribing!</button>
 
+                    {{#if coAdmin}}
                     <button class="edit-list btn btn-success">{{#unless editing}}Edit the list{{else}}Finished editing
                     {{/unless}}</button>
 
                     <div class="add-co-creator">
                         <button class="btn btn-primary add-co-admin">Add admins to list</button>
                     </div>
+                    {{/if}}
 
                     {{else}}
                     <button class="stop-start-subscribing-to-list btn btn-success">Subscribe to list!</button>
