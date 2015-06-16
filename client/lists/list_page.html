@@ -132,7 +132,7 @@
                         </tr>
                         {{#each works}}
                         <tr>
-                            <td>{{title}}</td>
+                            <td><a href="{{pathFor 'worksPage'}}">{{title}}</a></td>
                             <td>
                                 <label class="important-work" for="important-{{_id}}">
                                     <input class="show-type" type="checkbox" id="important-{{_id}}" {{important}}>
