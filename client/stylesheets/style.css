@@ -301,8 +301,8 @@ h1.center {
 }
 
 .add-admins-div {
-    top: 50%;
     left: 50%;
+    top: 200px;
 
     border-radius: 7px;
     background-color: white;
