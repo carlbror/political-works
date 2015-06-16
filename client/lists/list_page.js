@@ -71,15 +71,18 @@ Template.listPage.events({
         overlay.show();
     },
     'change .add-admin-checkbox': function(event){
-        Meteor.call('addAdmin', Template.parentData().list._id, event.target.id.split('-')[1], function(err){
-            if(err) throwError(err.reason);
-            else {
-                var user = Meteor.users.findOne(event.target.id.split('-')[1]);
-                if(user){
-                    $('.add-admins-div tr:last-child td:last-child').append(user.profile.name + " has been made admin.");
-                }
-            }
-        });
+        var checkedValues = $('input:checkbox:checked').map(function() {
+            return this.id.split('-')[1];
+        }).get();
+        if(checkedValues.length > 0){
+            $('.add-these-admins').prop('disabled', false);
+        } else {
+            $('.add-these-admins').prop('disabled', true);
+        }
+    },
+    'click .add-admins-div .admins-div-header span:last-child': function(event){
+        addAdminsDiv.hide();
+        overlay.hide();
     }
 });
 

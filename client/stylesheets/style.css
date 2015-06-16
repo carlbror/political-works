@@ -7,7 +7,7 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
-.absolute{
+.absolute {
     position: absolute;
 }
 
@@ -16,18 +16,19 @@
     padding-bottom: 25px;
 }
 
-
 a {
     text-decoration: none;
     outline: none;
 }
 
-p{}
-p .bottom{
+p {
+}
+
+p .bottom {
     padding-bottom: 20px;
 }
 
-.main2{
+.main2 {
     position: relative;
 }
 
@@ -35,7 +36,7 @@ body {
 }
 
 .outgoing-link:after {
-    content:"";
+    content: "";
     display: block;
     width: 20px;
     height: 20px;
@@ -43,28 +44,79 @@ body {
     margin: 0 6px 0 0;
 }
 
+.menuList {
+}
 
-.menuList { }
-.menuList ul {  }
-.menuList ul li  { display:inline; text-transform:uppercase; padding:0 5px; letter-spacing:1px; }
-.menuList ul li a { text-decoration:none; color:#ccc; }
-.menuList ul li a:hover { color:deepskyblue; }
+.menuList ul {
+}
 
-.list2 {}
-.list2 ul {   padding-left: 0;  }
-.list2 ul li  { display:block; text-transform:uppercase; padding: 6px; letter-spacing:1px; border-top: 1px solid #ccc; }
-.list2 ul li a { text-decoration:none; color:#eee; }
-.list2 ul li a:hover { color:deepskyblue; }
+.menuList ul li {
+    display: inline;
+    text-transform: uppercase;
+    padding: 0 5px;
+    letter-spacing: 1px;
+}
 
+.menuList ul li a {
+    text-decoration: none;
+    color: #ccc;
+}
 
+.menuList ul li a:hover {
+    color: deepskyblue;
+}
 
-.mobileMenuList{ padding-top: 15px;}
-.mobileMenuList p{ display:block; text-transform:uppercase; padding-top: 10px; letter-spacing:1px; border-top: 1px solid #ccc; }
-.mobileMenuList p:last-child{padding-bottom: 10px; border-bottom: 1px solid #ccc}
-.mobileMenuList p a { text-decoration:none; color:#eee; }
-.mobileMenuList p a:hover { color:deepskyblue; }
+.list2 {
+}
 
-.menu{
+.list2 ul {
+    padding-left: 0;
+}
+
+.list2 ul li {
+    display: block;
+    text-transform: uppercase;
+    padding: 6px;
+    letter-spacing: 1px;
+    border-top: 1px solid #ccc;
+}
+
+.list2 ul li a {
+    text-decoration: none;
+    color: #eee;
+}
+
+.list2 ul li a:hover {
+    color: deepskyblue;
+}
+
+.mobileMenuList {
+    padding-top: 15px;
+}
+
+.mobileMenuList p {
+    display: block;
+    text-transform: uppercase;
+    padding-top: 10px;
+    letter-spacing: 1px;
+    border-top: 1px solid #ccc;
+}
+
+.mobileMenuList p:last-child {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc
+}
+
+.mobileMenuList p a {
+    text-decoration: none;
+    color: #eee;
+}
+
+.mobileMenuList p a:hover {
+    color: deepskyblue;
+}
+
+.menu {
     max-width: 1152px;
 
     margin-left: auto;
@@ -76,39 +128,42 @@ body {
     position: relative;
 }
 
-.sixHundred{
+.sixHundred {
     max-width: 600px;
 }
 
-.horizontal-list ul li {display:inline;}
-
-
-h1{
-    display:inline; letter-spacing:1px;
+.horizontal-list ul li {
+    display: inline;
 }
 
-.main3{
+h1 {
+    display: inline;
+    letter-spacing: 1px;
+}
+
+.main3 {
     margin: 0;
     line-height: 1.4;
     font-size: 10px;
 }
 
-.post2{
+.post2 {
     font-size: 18px
 }
 
-.center{ text-align: center }
+.center {
+    text-align: center
+}
 
-.centered{
+.centered {
     margin-left: auto;
     margin-right: auto;
-    width: 100%;
+    display: block;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
-
 
 .login {
     background: #fff;
@@ -122,33 +177,40 @@ h1{
     margin-left: auto;
     margin-right: auto;
 }
-.login input{
-    width:75%;
+
+.login input {
+    width: 75%;
 }
-.login a{
-    width:50%;
+
+.login a {
+    width: 50%;
 }
-.login h5{padding-left: 10px;}
 
+.login h5 {
+    padding-left: 10px;
+}
 
+.navbar {
+    margin-bottom: 10px;
+    margin-top: 5px
+}
 
-.navbar { margin-bottom: 10px; margin-top: 5px }
 .navbar .navbar-inner {
     border-radius: 0px 0px 3px 3px;
 }
-#spinner { max-height: 300px }
 
+#spinner {
+    max-height: 300px
+}
 
 .myText {
-    max-width:560px;
-
+    max-width: 560px;
 
     position: relative;
     opacity: 1;
     display: block;
     margin-left: auto;
     margin-right: auto;
-
 
     background: #fff;
     border-radius: 3px;
@@ -157,28 +219,28 @@ h1{
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
-.cursive{
+.cursive {
     font-family: 'Tangerine', cursive;
     font-size: 200%;
 }
 
-.largest-font{
+.largest-font {
     font-size: 600%;
 }
 
-.main-color{
-    color:deepskyblue;
+.main-color {
+    color: deepskyblue;
 }
 
-.grey-color{
+.grey-color {
     background-color: lightgrey;
 }
 
-.under-header{
+.under-header {
     margin-top: -31px;
 }
 
-.start-middle{
+.start-middle {
     position: absolute;
     left: 35%;
 }
@@ -190,7 +252,7 @@ img.center {
     max-width: 100%;
 }
 
-h1.center{
+h1.center {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -202,24 +264,26 @@ h1.center{
     padding-bottom: 10px;
 }
 
+.special-table {
+}
 
-
-.special-table{}
 .special-table table {
     border-collapse: collapse;
 }
+
 .special-table th {
     background: #333;
     color: white;
     font-weight: bold;
 }
+
 .special-table td, th {
     padding: 6px;
     border: 1px solid #ccc;
     text-align: left;
 }
 
-.overlay{
+.overlay {
     display: none;
     opacity: .7;
     position: fixed;
@@ -231,8 +295,7 @@ h1.center{
     z-index: 100;
 }
 
-
-.on-overlay{
+.on-overlay {
     z-index: 100;
     position: absolute;
 }
@@ -241,21 +304,68 @@ h1.center{
     top: 50%;
     left: 50%;
 
-    margin-top: -100px;
-    margin-left: -204px;
-    width: 400px;
-    padding: 8px;
     border-radius: 7px;
-
     background-color: white;
 }
 
-.middle-of-screen{
-    top: 50%;
-    left: 50%;
+.add-admins-div .admins-div-header {
+}
+
+.add-admins-div .admins-div-header p {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: center;
+    font-size: 1.2em;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 0px;
+}
+
+.add-admins-div .admins-div-header span:last-child {
+    float: right;
+    position: relative;
+    right: 10px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.admins-div-middle {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.admins-div-middle .inner-center {
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    background-color: #ffffff;
 }
 
 
+.admins-div-middle .inner-center .centered{
+    width: 200px;
+}
+
+.admins-div-middle .admins-table td:nth-child(2) {
+    float: right;
+}
+
+
+.admins-div-middle .admins-table label {
+    padding-left: 120px;
+}
+
+
+.admins-div-footer button {
+    float: right;
+    position: relative;
+    margin: 10px;
+}
+
+.middle-of-screen {
+    top: 50%;
+    left: 50%;
+}
 
 .right {
     position: absolute;
@@ -271,18 +381,19 @@ h1.center{
     position: absolute;
     left: 5px;
 }
+
 .left-relative {
     position: relative;
     left: 95%;
 }
 
-.first-stack{
+.first-stack {
     z-index: 1;
 }
-.second-stack{
+
+.second-stack {
     z-index: 0;
 }
-
 
 .post {
     position: relative;
@@ -291,20 +402,27 @@ h1.center{
     margin-bottom: 10px;
     box-shadow: -15px 0 15px -20px;
 }
+
 .post:before, .post:after {
     content: "";
     display: table;
 }
-.post:after { clear: both }
+
+.post:after {
+    clear: both
+}
+
 .post .post-content h3 {
     margin: 0;
     line-height: 1.4;
     font-size: 18px;
 }
+
 .post .post-content h3 a {
     display: inline-block;
     margin-right: 5px;
 }
+
 .post .post-content h3 span {
     font-weight: normal;
     font-size: 14px;
@@ -312,26 +430,27 @@ h1.center{
     color: #aaaaaa;
 }
 
-.post .post-content span a{
+.post .post-content span a {
     color: #aaaaaa;
     border-bottom: 1px dotted #aaaaaa;
     padding-right: 0;
     margin-right: 0;
 }
 
-.post .post-content span a:hover{
+.post .post-content span a:hover {
     text-decoration: none;
 }
 
-.post .post-content span:last-child{
+.post .post-content span:last-child {
     position: relative;
     top: 4px;
     float: right;
     color: #aaaaaa;
 }
 
-
-.post .post-content p { margin: 0 }
+.post .post-content p {
+    margin: 0
+}
 
 .dropdown-menu span {
     display: block;
@@ -340,6 +459,7 @@ h1.center{
     color: #bbb;
     white-space: nowrap;
 }
+
 .load-more {
     display: block;
     border-radius: 3px;
@@ -349,11 +469,13 @@ h1.center{
     line-height: 60px;
     margin-bottom: 10px;
 }
+
 .load-more:hover {
     text-decoration: none;
     background: rgba(0, 0, 0, 0.1);
 }
 
 .indent {
-    margin-left: 3em; margin-right: 3em;
+    margin-left: 3em;
+    margin-right: 3em;
 }

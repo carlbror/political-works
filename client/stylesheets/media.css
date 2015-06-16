@@ -4,6 +4,12 @@
     body {
     }
 
+    .add-admins-div {
+        width: 300px;
+        margin-top: -100px;
+        margin-left: -150px;
+    }
+
     .frontpage blockquote {
         padding: 16px 8px;
         color: white;
@@ -63,6 +69,12 @@
 }
 
 @media screen and (min-width: 501px) and (max-width: 600px) {
+    .add-admins-div {
+        width: 400px;
+        margin-top: -100px;
+        margin-left: -200px;
+    }
+
     .frontpage blockquote {
         padding: 16px 8px;
         color: white;
@@ -79,6 +91,11 @@
 }
 
 @media screen and (min-width: 501px) and (max-width: 767px) {
+    .add-admins-div {
+        width: 400px;
+        margin-top: -100px;
+        margin-left: -200px;
+    }
 
     .main-place {
         max-width: 1152px;
@@ -108,6 +125,12 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 900px) {
+    .add-admins-div {
+        width: 400px;
+        margin-top: -100px;
+        margin-left: -200px;
+    }
+
     .main-place {
         padding-top: 10px;
         padding-bottom: 10px;
@@ -131,6 +154,12 @@
 
 /* BIG SCREENS !!! */
 @media screen and (min-width: 901px) and (max-width: 4096px) {
+    .add-admins-div {
+        width: 400px;
+        margin-top: -100px;
+        margin-left: -200px;
+    }
+
     .header {
         height: 53px;
         position: relative;

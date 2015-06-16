@@ -6,26 +6,37 @@
 
     <div class="overlay"></div>
     <div class="add-admins-div on-overlay" hidden>
-        <div class="admins-div-header"></div>
-        <table>
-            <tr>
-                <td>User profile</td>
-                <td>Make admin?</td>
-            </tr>
-            {{#each users}}
-            <tr>
-                <td>{{profile.name}}</td>
-                <td><input type="checkbox" id="admin-{{_id}}" class="add-admin-checkbox"></td>
-                <td></td>
-            </tr>
-            {{/each}}
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-        <div class="admins-div-footer"><span></span></div>
+        <div class="admins-div-header">
+            <p>Add admins to list <span>&#x2715;</span></p>
+        </div>
+        <div class="admins-div-middle">
+            <div class="inner-center">
+                <div class="centered">
+                    {{#if users}}
+                    Subscribers to list
+                    <table class="admins-table">
+                        {{#each users}}
+                        <tr>
+                            <td>{{profile.name}}</td>
+                            <td>
+                                <label for="admin-{{_id}}">
+                                    <input type="checkbox" name="admin" id="admin-{{_id}}" class="add-admin-checkbox">
+                                </label>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                    {{else}}
+                    There are no subscribers to this list who are not already admins.
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <div class="admins-div-footer">
+            {{#if users}}
+            <button class="btn btn-success add-these-admins" disabled>Add as admins!</button>
+            {{/if}}
+        </div>
     </div>
     <div class="container">
         <div class="row">
@@ -56,7 +67,8 @@
 
                     {{#if coAdmin}}
                     <button class="edit-list btn btn-success">{{#unless editing}}Edit the list{{else}}Finished editing
-                    {{/unless}}</button>
+                        {{/unless}}
+                    </button>
 
                     <div class="add-co-creator">
                         <button class="btn btn-primary add-co-admin">Add admins to list</button>
