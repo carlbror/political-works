@@ -18,7 +18,12 @@ Template.listPage.helpers({
         }
     },
     editing: function(){
-        return getIsEditing();
+        if(this.list){
+            if(!_.contains(this.list.subscribers, Meteor.userId()) || !Meteor.userId()){
+                setIsEditing(false);
+            }
+            return getIsEditing();
+        }
     },
     important: function(){
         if(this.importantWork) return "checked";
