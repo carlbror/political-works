@@ -83,6 +83,15 @@ Template.listPage.events({
     'click .add-admins-div .admins-div-header span:last-child': function(event){
         addAdminsDiv.hide();
         overlay.hide();
+    },
+    'click .add-these-admins': function(event){
+        var checkedValues = $('input:checkbox:checked').map(function() {
+            return this.id.split('-')[1];
+        }).get();
+
+        Meteor.call('addAdmins', Template.parentData().list._id, checkedValues, function(err){
+            if(err) throwError(err.reason);
+        });
     }
 });
 

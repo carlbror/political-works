@@ -45,12 +45,12 @@ Meteor.methods({
             }
         }
     },
-    addAdmin: function(listId, userId){
+    addAdmins: function(listId, userIds){
         var user = get_.userOrThrowError(),
             list = Lists.findOne(listId);
 
         if(list && _.contains(list.coAdmins, user._id)){
-            Lists.update(list._id, {$addToSet: {coAdmins: userId}});
+            Lists.update(list._id, {$addToSet: {coAdmins: {$each: userIds}}});
         }
     }
 });

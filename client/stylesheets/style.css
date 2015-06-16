@@ -331,7 +331,6 @@ h1.center {
 .admins-div-middle {
     padding-top: 8px;
     padding-bottom: 8px;
-    border-bottom: 1px solid lightgrey;
 }
 
 .admins-div-middle .inner-center {
@@ -355,6 +354,9 @@ h1.center {
     padding-left: 120px;
 }
 
+.admins-div-footer {
+    border-top: 1px solid lightgrey;
+}
 
 .admins-div-footer button {
     float: right;
