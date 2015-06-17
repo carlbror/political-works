@@ -57,6 +57,7 @@ Template.createIdeologicalTuringTest.helpers({
 });
 
 Template.createIdeologicalTuringTest.rendered=function(){
+    console.log("hello");
     this.$('.datepicker').datepicker();
 };
 

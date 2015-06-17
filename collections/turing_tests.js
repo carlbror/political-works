@@ -13,6 +13,7 @@ Meteor.methods({
             secondIdeologyId = ideologies_.createIdeology(sanitizedObj.secondIdeology);
 
         var ittId = TuringTests.insert({
+            admin: get_.userOrThrowError()._id,
             type: sanitizedObj.type,
             firstIdeologyId: firstIdeologyId,
             secondIdeology: secondIdeologyId,
@@ -25,6 +26,6 @@ Meteor.methods({
             {$set: {numberOfContestantsAllowed: sanitizedObj.numberOfContestantsAllowed}});
         if(sanitizedObj.secondQuestions.length>0) TuringTests.update(ittId, {$set: {secondQuestions: sanitizedObj.secondQuestions}});
 
-
+        return ittId;
     }
 });
