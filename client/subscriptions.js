@@ -12,3 +12,4 @@ Meteor.subscribe('policyAreas');
 Meteor.subscribe('places');
 Meteor.subscribe('sciences');
 Meteor.subscribe('lists');
+Meteor.subscribe('ittData');

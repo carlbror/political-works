@@ -1,5 +1,13 @@
 <template name="ittPage">
     <div class="itt-page">
+        <h1>{{itt.name}}</h1>
+        <hr>
+
+        <ol>
+            {{#each itt.firstQuestions}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ol>
 
     </div>
 </template>

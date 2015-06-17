@@ -37,16 +37,28 @@ Template.createIdeologicalTuringTest.events({
             type: 1,
             firstIdeology: $('.test-directed-towards').val(),
             secondIdeology: $('.ideology-tested-on').val(),
-            firstQuestions: _.map($('#first-ideology-group-questions textarea'), function(element){if(element.value !=="")
-            {return element.value}}),
-            secondQuestions: _.map($('#second-ideology-group-questions textarea'), function(element){if(element.value !=="")
-            {return element.value}}),
+            firstQuestions: _.map($('#first-ideology-group-questions textarea'), function(element){
+                if(element.value !== ""){
+                    return element.value
+                }
+            }),
+            secondQuestions: _.map($('#second-ideology-group-questions textarea'), function(element){
+                if(element.value !== ""){
+                    return element.value
+                }
+            }),
             numberOfContestantsAllowed: $('.number-of-allowed-contestants').val(),
             lastDateToAnswer: $('#last-date-to-answer').val(),
             lastDateToGuess: $('#last-date-to-guess').val()
+        }, function(err, ittId){
+            if(err) throwError(err.reason);
+            Router.go('ittPage', {_id: ittId});
         });
     },
     'keydown #second-ideology-questions-textarea': function(){
+        ifReadyToCreateEnableButtonElseDisable();
+    },
+    'keydown .name-of-test': function(){
         ifReadyToCreateEnableButtonElseDisable();
     }
 });
@@ -57,27 +69,31 @@ Template.createIdeologicalTuringTest.helpers({
     }
 });
 
-Template.createIdeologicalTuringTest.rendered=function(){
+Template.createIdeologicalTuringTest.rendered = function(){
     this.$('.datepicker').datepicker({  dateFormat: "yy-mm-dd"});
 
 };
 
 var ifReadyToCreateEnableButtonElseDisable = function(){
-    var necessaryElements = $('.necessary').map(function() {
-        if(this.value !== "")
-            return this.value;
-    }).get();
-    if(necessaryElements.length === 3){
-        if($('#reciprocal-test-checkbox').is(':checked')){
-            if(!!$('#second-ideology-questions-textarea').val() === false){
-                $('.create-test').prop('disabled', true);
+    if($('.name-of-test').val() === ""){
+        $('.create-test').prop('disabled', true);
+    } else {
+        var necessaryElements = $('.necessary').map(function(){
+            if(this.value !== "")
+                return this.value;
+        }).get();
+        if(necessaryElements.length === 3){
+            if($('#reciprocal-test-checkbox').is(':checked')){
+                if(!!$('#second-ideology-questions-textarea').val() === false){
+                    $('.create-test').prop('disabled', true);
+                } else {
+                    $('.create-test').prop('disabled', false);
+                }
             } else {
                 $('.create-test').prop('disabled', false);
             }
         } else {
-            $('.create-test').prop('disabled', false);
+            $('.create-test').prop('disabled', true);
         }
-    } else {
-        $('.create-test').prop('disabled', true);
     }
 };

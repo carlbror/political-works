@@ -35,6 +35,10 @@ Meteor.publish('lists', function(){
     return Lists.find();
 });
 
+Meteor.publish('ittData', function(){
+    return TuringTests.find({}, {fields: {name:1, firstQuestions:1, secondQuestions: 2}});
+});
+
 Meteor.publish("userData", function () {
     return Meteor.users.find({},
         {fields: {
