@@ -1,6 +1,6 @@
 var ideologyNames;
 
-Template.createIdeologicalTuringTest.s({
+Template.createIdeologicalTuringTest.events({
     'keydown .ideologies': function(){
         if(this.ideologies && this.ideologies.length > 0){
             if(!ideologyNames){
@@ -9,6 +9,7 @@ Template.createIdeologicalTuringTest.s({
             $(".ideologies").autocomplete({
                 source: ideologyNames
             });
+            ifReadyToCreateEnableButtonElseDisable();
         }
     },
     'click #first-ideology-group-questions .up': function(){
@@ -19,6 +20,7 @@ Template.createIdeologicalTuringTest.s({
     },
     'change #reciprocal-test-checkbox': function(){
         Session.set('twoWayTest', !Session.get('twoWayTest'));
+        ifReadyToCreateEnableButtonElseDisable();
     },
     'click #second-ideology-group-questions .up': function(){
         $('#second-ideology-group-questions').append('<textarea class="extra-second-question" rows="3" cols="50"></textarea>')
@@ -27,12 +29,22 @@ Template.createIdeologicalTuringTest.s({
         $('.extra-second-question:last-child').remove();
     },
     'keydown .necessary': function(){
-        console.log(2)
-        var necessaryElements = $('.necessary').map(function() {
-            if(this.val() !== "")
-                return 1;
-        }).get();
-        console.log(necessaryElements);
+        ifReadyToCreateEnableButtonElseDisable();
+    },
+    'click .create-test': function(){
+        Meteor.call('createIdeologicalTuringTest', {
+            type: 1,
+            firstIdeology: $('.test-directed-towards').val(),
+            secondIdeology: $('.ideology-tested-on').val(),
+            firstQuestions: _.map($('#first-ideology-group-questions textarea'), function(element){if(element.value !=="")
+            {return element.value}}),
+            secondQuestions: _.map($('#second-ideology-group-questions textarea'), function(element){if(element.value !=="")
+            {return element.value}}),
+            numberOfContestantsAllowed: $('.number-of-allowed-contestants').val()
+        });
+    },
+    'keydown #second-ideology-questions-textarea': function(){
+        ifReadyToCreateEnableButtonElseDisable();
     }
 });
 
@@ -44,4 +56,24 @@ Template.createIdeologicalTuringTest.helpers({
 
 Template.createIdeologicalTuringTest.rendered=function(){
     this.$('.datepicker').datepicker();
+};
+
+var ifReadyToCreateEnableButtonElseDisable = function(){
+    var necessaryElements = $('.necessary').map(function() {
+        if(this.value !== "")
+            return this.value;
+    }).get();
+    if(necessaryElements.length === 3){
+        if($('#reciprocal-test-checkbox').is(':checked')){
+            if(!!$('#second-ideology-questions-textarea').val() === false){
+                $('.create-test').prop('disabled', true);
+            } else {
+                $('.create-test').prop('disabled', false);
+            }
+        } else {
+            $('.create-test').prop('disabled', false);
+        }
+    } else {
+        $('.create-test').prop('disabled', true);
+    }
 };
