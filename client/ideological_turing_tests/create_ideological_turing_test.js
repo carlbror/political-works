@@ -57,8 +57,8 @@ Template.createIdeologicalTuringTest.helpers({
 });
 
 Template.createIdeologicalTuringTest.rendered=function(){
-    console.log("hello");
-    this.$('.datepicker').datepicker();
+    this.$('.datepicker').datepicker({  dateFormat: "yy-mm-dd"});
+
 };
 
 var ifReadyToCreateEnableButtonElseDisable = function(){

@@ -20,8 +20,10 @@ Meteor.methods({
             firstQuestions: sanitizedObj.firstQuestions
         });
 
-        if(sanitizedObj.lastDateToAnswer) TuringTests.update(ittId, {$set: {lastDateToAnswer: sanitizedObj.lastDateToAnswer}});
-        if(sanitizedObj.lastDateToGuess) TuringTests.update(ittId, {$set: {lastDateToGuess: sanitizedObj.lastDateToGuess}});
+        if(sanitizedObj.lastDateToAnswer) TuringTests.update(ittId,
+            {$set: {lastDateToAnswer: new Date(sanitizedObj.lastDateToAnswer)}});
+        if(sanitizedObj.lastDateToGuess) TuringTests.update(ittId,
+            {$set: {lastDateToGuess: new Date(sanitizedObj.lastDateToGuess)}});
         if(sanitizedObj.numberOfContestantsAllowed) TuringTests.update(ittId,
             {$set: {numberOfContestantsAllowed: sanitizedObj.numberOfContestantsAllowed}});
         if(sanitizedObj.secondQuestions.length>0) TuringTests.update(ittId, {$set: {secondQuestions: sanitizedObj.secondQuestions}});
