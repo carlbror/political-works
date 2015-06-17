@@ -1,6 +1,5 @@
 <template name="createIdeologicalTuringTest">
     <div class="create-ideological-turing-test">
-        {{#if currentUser}}
         <h1>Create an Ideological Turing Test</h1>
         <hr>
         <p>
@@ -70,7 +69,5 @@
         <input id="last-date-to-guess" class="datepicker"  name="date">
 
         <button class="btn btn-primary create-test" disabled>Create test</button>
-        {{else}}
-        {{/if}}
     </div>
 </template>
