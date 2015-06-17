@@ -622,6 +622,19 @@ Router.map(function(){
     });
 
 
+
+
+    /* *** TURING TESTS *** */
+    this.route('createIdeologicalTuringTest', {
+        path: '/create-ideological-turing-test',
+        data: function(){
+            return {
+                ideologies: Ideologies.find({}, {sort: {name:1}}, {fields: {name:1}}).fetch()
+            }
+        }
+    });
+
+
     /* *** USER *** */
     this.route('userPage', {
         path: '/user/:username',

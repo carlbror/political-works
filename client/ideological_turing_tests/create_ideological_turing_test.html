@@ -1,0 +1,73 @@
+<template name="createIdeologicalTuringTest">
+    <div class="create-ideological-turing-test">
+        <h1>Create an Ideological Turing Test</h1>
+        <hr>
+        <p>
+            <a href="https://en.wikipedia.org/wiki/Turing_test">Turing Tests</a> are conducted to determine if a
+            computer
+            can fool humans into believing it is also human. <a
+                href="https://en.wikipedia.org/wiki/Ideological_Turing_Test">
+            Ideological Turing Tests</a> are conducted to test if someone with an ideology can fool others into
+            believing
+            he or she believes in something she doesn't.
+        </p>
+
+        <p>
+            There are a few variants of the Ideological Turing Test. Here you can create tests where someone might
+            answer
+            questions on only others ideology or both others and his/her own ideology.
+        </p>
+
+        <p>
+            What ideology does the one/those you want to test adhere to?
+        </p>
+        <input type="text" class="test-directed-towards ideologies necessary">
+
+
+        <p>
+            What ideology should they be tested on?
+        </p>
+        <input type="text" class="ideology-tested-on ideologies necessary">
+
+        <p>
+            Should the test be reciprocal, should the latter group also be tested on how well they can disguise themselves
+            as members of the first group?
+            <label class="reciprocal-test" for="reciprocal-test-checkbox">
+                <input type="checkbox" id="reciprocal-test-checkbox"> Yes?
+            </label>
+        </p>
+
+        <p>Write the questions for the first group:</p>
+        <div class="textarea-container" id="first-ideology-group-questions">
+            <textarea rows="3" cols="50" class="necessary"></textarea> <i class="fa fa-plus-circle up"></i> <i class="fa fa-minus-circle down"></i>
+        </div>
+
+        {{#if twoWayTest}}
+        <p>Write the questions for the second group:</p>
+        <div class="textarea-container" id="second-ideology-group-questions">
+            <textarea rows="3" cols="50"></textarea> <i class="fa fa-plus-circle up"></i> <i class="fa fa-minus-circle down"></i>
+        </div>
+        {{/if}}
+
+        <p>
+            How many can take part of the test? (Leave empty or write 0 for allowing as many as possible to take part.)
+        </p>
+
+        <input type="number" min="0" class="number-of-allowed-contestants">
+
+        <p>
+            Is there a last date to answer the question? (Leave empty to decide later whenever it should be finished.)
+        </p>
+
+        <input id="last-date-to-answer" class="datepicker"  name="date">
+
+        <p>
+            Is there a last date for others to guess what ideology the contestants belong to?
+            (Leave empty to decide whenever it should be finished.)
+        </p>
+
+        <input id="last-date-to-guess" class="datepicker"  name="date">
+
+        <button class="btn btn-primary create-test" disabled>Create test</button>
+    </div>
+</template>
