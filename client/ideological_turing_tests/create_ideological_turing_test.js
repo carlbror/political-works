@@ -40,7 +40,9 @@ Template.createIdeologicalTuringTest.events({
             {return element.value}}),
             secondQuestions: _.map($('#second-ideology-group-questions textarea'), function(element){if(element.value !=="")
             {return element.value}}),
-            numberOfContestantsAllowed: $('.number-of-allowed-contestants').val()
+            numberOfContestantsAllowed: $('.number-of-allowed-contestants').val(),
+            lastDateToAnswer: $('#last-date-to-answer').val(),
+            lastDateToGuess: $('#last-date-to-guess').val()
         });
     },
     'keydown #second-ideology-questions-textarea': function(){
