@@ -30,7 +30,8 @@
         <input type="text" class="ideology-tested-on ideologies necessary">
 
         <p>
-            Should the test be reciprocal, should the latter group also be tested on how well they can disguise themselves
+            Should the test be reciprocal, should the latter group also be tested on how well they can disguise
+            themselves
             as members of the first group?
             <label class="reciprocal-test" for="reciprocal-test-checkbox">
                 <input type="checkbox" id="reciprocal-test-checkbox"> Yes?
@@ -38,14 +39,18 @@
         </p>
 
         <p>Write the questions for the first group:</p>
+
         <div class="textarea-container" id="first-ideology-group-questions">
-            <textarea rows="3" cols="50" class="necessary"></textarea> <i class="fa fa-plus-circle up"></i> <i class="fa fa-minus-circle down"></i>
+            <textarea rows="3" cols="50" class="necessary"></textarea> <i class="fa fa-plus-circle up"></i> <i
+                class="fa fa-minus-circle down"></i>
         </div>
 
         {{#if twoWayTest}}
         <p>Write the questions for the second group:</p>
+
         <div class="textarea-container" id="second-ideology-group-questions">
-            <textarea id="second-ideology-questions-textarea" rows="3" cols="50"></textarea> <i class="fa fa-plus-circle up"></i> <i class="fa fa-minus-circle down"></i>
+            <textarea id="second-ideology-questions-textarea" rows="3" cols="50"></textarea> <i
+                class="fa fa-plus-circle up"></i> <i class="fa fa-minus-circle down"></i>
         </div>
         {{/if}}
 
@@ -59,15 +64,23 @@
             Is there a last date to answer the question? (Leave empty to decide later whenever it should be finished.)
         </p>
 
-        <input id="last-date-to-answer" class="datepicker"  name="date">
+        <input id="last-date-to-answer" class="datepicker" name="date">
 
         <p>
             Is there a last date for others to guess what ideology the contestants belong to?
             (Leave empty to decide whenever it should be finished.)
         </p>
 
-        <input id="last-date-to-guess" class="datepicker"  name="date">
+        <input id="last-date-to-guess" class="datepicker" name="date">
 
-        <button class="btn btn-primary create-test" disabled>Create test</button>
+        <p>
+            What should the test be called?
+        </p>
+
+        <input type="text" class="name-of-test">
+
+        <p>
+            <button class="btn btn-primary create-test" disabled>Create test</button>
+        </p>
     </div>
 </template>

@@ -33,6 +33,7 @@ Template.createIdeologicalTuringTest.events({
     },
     'click .create-test': function(){
         Meteor.call('createIdeologicalTuringTest', {
+            name: $('.name-of-test').val(),
             type: 1,
             firstIdeology: $('.test-directed-towards').val(),
             secondIdeology: $('.ideology-tested-on').val(),

@@ -634,6 +634,15 @@ Router.map(function(){
         }
     });
 
+    this.route('ittPage',{
+        path: '/ideological-turing-test/:_id',
+        data: function(){
+            return {
+                itt: TuringTests.findOne(this.params._id)
+            }
+        }
+    });
+
 
     /* *** USER *** */
     this.route('userPage', {

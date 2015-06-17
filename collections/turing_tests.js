@@ -14,6 +14,7 @@ Meteor.methods({
 
         var ittId = TuringTests.insert({
             admin: get_.userOrThrowError()._id,
+            name: sanitizedObj.name,
             type: sanitizedObj.type,
             firstIdeologyId: firstIdeologyId,
             secondIdeology: secondIdeologyId,
