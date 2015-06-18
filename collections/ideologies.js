@@ -11,6 +11,7 @@ Ideologies.allow({
 Meteor.methods({
     stopSubscribingToIdeology: function(ideologyName){
         ideologyName = o_.sanitizeString(ideologyName);
+        console.log("hello");
 
         var user = get_.userOrThrowError();
         var ideology = Ideologies.findOne({name: ideologyName});
