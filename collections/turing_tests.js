@@ -20,7 +20,7 @@ Meteor.methods({
             name: sanitizedObj.name,
             type: sanitizedObj.type,
             firstIdeologyId: firstIdeologyId,
-            secondIdeology: secondIdeologyId,
+            secondIdeologyId: secondIdeologyId,
             firstQuestions: sanitizedObj.firstQuestions
         });
 

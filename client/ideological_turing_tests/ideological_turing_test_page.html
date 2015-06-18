@@ -2,6 +2,22 @@
     <div class="itt-page">
         <h1>{{itt.name}}</h1>
         <hr>
+        <p>
+            <a href="https://en.wikipedia.org/wiki/Turing_test">Turing Tests</a> are done to determine if a
+            computer
+            can fool humans into believing it is also human. <a
+                href="https://en.wikipedia.org/wiki/Ideological_Turing_Test">
+            Ideological Turing Tests</a> shows if someone can fool others into
+            thinking
+            she believes something which she actually doesn't. It's a way to test how well you understand ideas you
+            disagree with.
+        </p>
+
+        <p>
+            This test is for anyone who believes in {{#with firstIdeology}}<a href="{{pathFor 'ideologyPage'}}">{{name}}
+        </a>{{/with}}{{#if itt.secondQuestions}}or {{#with secondIdeology}}<a href="{{pathFor 'ideologyPage'}}">{{name}}.
+        </a>{{/with}}{{/if}} It is {{openOrClosed}}.
+        </p>
 
         <ol>
             {{#each itt.firstQuestions}}

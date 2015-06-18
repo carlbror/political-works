@@ -36,7 +36,7 @@ Meteor.publish('lists', function(){
 });
 
 Meteor.publish('ittData', function(){
-    return TuringTests.find({}, {fields: {name:1, firstQuestions:1, secondQuestions: 2}});
+    return TuringTests.find({}, {fields: {name:1, firstIdeologyId:1, secondIdeologyId:1, firstQuestions:1, secondQuestions: 2}});
 });
 
 Meteor.publish("userData", function () {
