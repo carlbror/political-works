@@ -19,11 +19,31 @@
         </a>{{/with}}{{/if}} It is {{openOrClosed}}.
         </p>
 
+        <p>
+            Here are the questions you can answer:
+        </p>
+
+        <h4>For those who believe in {{#with firstIdeology}}{{name}}{{/with}}
+        </h4>
+
         <ol>
             {{#each itt.firstQuestions}}
             <li>{{this}}</li>
             {{/each}}
         </ol>
+
+        {{#if itt.secondQuestions}}
+            <h4>For those who believe in {{#with secondIdeology}}{{name}}{{/with}}
+            </h4>
+
+            <ol>
+                {{#each itt.secondQuestions}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ol>
+        {{/if}}
+
+
 
     </div>
 </template>
