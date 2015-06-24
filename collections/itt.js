@@ -1,6 +1,6 @@
-TuringTests = new Meteor.Collection('turing_tests');
+ITT = new Meteor.Collection('itt');
 
-TuringTests.allow({
+ITT.allow({
     insert: function(userId){
         return !!userId;
     }
@@ -15,7 +15,7 @@ Meteor.methods({
         sanitizedObj.firstQuestions = o_.sanitizeArray(object.firstQuestions);
         sanitizedObj.secondQuestions = o_.sanitizeArray(object.secondQuestions);
 
-        var ittId = TuringTests.insert({
+        var ittId = ITT.insert({
             admin: get_.userOrThrowError()._id,
             name: sanitizedObj.name,
             type: sanitizedObj.type,
@@ -24,13 +24,13 @@ Meteor.methods({
             firstQuestions: sanitizedObj.firstQuestions
         });
 
-        if(sanitizedObj.lastDateToAnswer) TuringTests.update(ittId,
+        if(sanitizedObj.lastDateToAnswer) ITT.update(ittId,
             {$set: {lastDateToAnswer: new Date(sanitizedObj.lastDateToAnswer)}});
-        if(sanitizedObj.lastDateToGuess) TuringTests.update(ittId,
+        if(sanitizedObj.lastDateToGuess) ITT.update(ittId,
             {$set: {lastDateToGuess: new Date(sanitizedObj.lastDateToGuess)}});
-        if(sanitizedObj.numberOfContestantsAllowed) TuringTests.update(ittId,
+        if(sanitizedObj.numberOfContestantsAllowed) ITT.update(ittId,
             {$set: {numberOfContestantsAllowed: sanitizedObj.numberOfContestantsAllowed}});
-        if(sanitizedObj.secondQuestions.length>0) TuringTests.update(ittId,
+        if(sanitizedObj.secondQuestions.length>0) ITT.update(ittId,
             {$set: {secondQuestions: sanitizedObj.secondQuestions}});
 
         return ittId;

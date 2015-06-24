@@ -638,7 +638,7 @@ Router.map(function(){
         path: '/ideological-turing-test/:_id',
         data: function(){
             return {
-                itt: TuringTests.findOne(this.params._id)
+                itt: ITT.findOne(this.params._id)
             }
         }
     });
