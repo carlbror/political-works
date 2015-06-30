@@ -514,12 +514,12 @@ Router.map(function(){
     /* *** LISTS *** */
     this.route('lists', {
         data: function(){
-            return {lists: Lists.find({}, {sort: {name:1}, fields: {name:1}}).fetch()};
+            return {lists: Lists.find({}, {sort: {name:1}, fields: {name:1, urlName:1}}).fetch()};
         }
     });
 
     this.route('listPage', {
-        path: '/lists/:name/:_id',
+        path: '/lists/:urlName/:_id',
         data: function(){
             var list = Lists.findOne(this.params._id),
                 user = Meteor.user(),

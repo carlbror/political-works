@@ -39,7 +39,7 @@ Template.createNewList.events({
             $('.list-name').val('');
 
             Session.set('newList', '<span style="margin-left: 10px;">New list: <a href="/lists/' +
-                nameForList + '/' + listId + '">' + nameForList + '</a></span>');
+                return_.urlName(nameForList) + '/' + listId + '">' + nameForList + '</a></span>');
         });
     }
 });

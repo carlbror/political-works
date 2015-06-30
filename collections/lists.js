@@ -9,11 +9,14 @@ Lists.allow({
 
 Meteor.methods({
     createNewList: function(necessaryWorks, essentialWorks, nameForList){
+        nameForList = o_.sanitizeString(nameForList);
         var user = get_.userOrThrowError();
+
         return Lists.insert({
             createdBy: user._id,
             coAdmins: [user._id],
-            name: o_.sanitizeString(nameForList),
+            name: nameForList,
+            urlName: return_.urlName(nameForList),
             importantWorks: o_.sanitizeArray(necessaryWorks),
             essentialWorks: o_.sanitizeArray(essentialWorks),
             subscribers: [user._id],
