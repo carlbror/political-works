@@ -643,6 +643,15 @@ Router.map(function(){
         }
     });
 
+    this.route('ittAnswerPage', {
+        path: '/ideological-turing-test/:_id/give-answer',
+        data: function(){
+            return {
+                itt: ITT.findOne(this.params._id)
+            }
+        }
+    });
+
 
     /* *** USER *** */
     this.route('userPage', {

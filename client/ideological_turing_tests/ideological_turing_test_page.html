@@ -33,17 +33,32 @@
         </ol>
 
         {{#if itt.secondQuestions}}
-            <h4>For those who believe in {{#with secondIdeology}}{{name}}{{/with}}
-            </h4>
+        <h4>For those who believe in {{#with secondIdeology}}{{name}}{{/with}}
+        </h4>
 
-            <ol>
-                {{#each itt.secondQuestions}}
-                <li>{{this}}</li>
-                {{/each}}
-            </ol>
+        <ol>
+            {{#each itt.secondQuestions}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ol>
         {{/if}}
 
+        {{#if currentUser}}
+        <a href="#" class="answer-questions-for-itt">Take the ideological turing test and answer {{#if
+            itt.secondQuestions}}each
+            set of questions{{else}}the questions{{/if}}.</a>
+        {{else}}
+        Log in or create an account to be able to take part in this test.
+        {{/if}}
 
-
+        <div class="dialog-box">
+            <div id="dialog" title="Basic dialog" hidden>
+                <p>Unfortunately, only proponents of either ideology can participate in this test. If you are one and
+                    want to
+                    take the test, enter which ideology you think is best <a
+                            href="{{pathFor 'chooseIdeology'}}">here</a>.
+                </p>
+            </div>
+        </div>
     </div>
 </template>
