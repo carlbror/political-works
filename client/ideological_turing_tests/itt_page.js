@@ -27,16 +27,24 @@ Template.ittPage.events({
                 } else if(_.contains(user.ideologies, this.itt.firstIdeologyId) || _.contains(user.ideologies, this.itt.secondIdeologyId)){
                     Router.go('ittAnswerPage', {_id: this.itt._id});
                 } else {
-                    $( "#dialog" ).dialog();
+                    $("#dialog").dialog();
                 }
             }
         }
-    },
-    'click a': function(e){
-        console.log($(e.originalEvent.target).attr('class'))
-        if($(e.originalEvent.target).attr('class') !== "answer-questions-for-itt"){
-            console.log(2);
-            $('.ui-dialog-content').dialog('close');
-        }
     }
 });
+
+Template.ittPage.rendered = function(){
+    $('body').on('keydown',function(e){
+        if(e.which === 27){
+            $('.ui-dialog-content').dialog('close');
+        }
+    }).on('click', function(e){
+            if(!$(e.target).parents('.ui-dialog').length &&
+                $(e.originalEvent.target).attr('class') !== "ui-dialog" &&
+                $(e.originalEvent.target).attr('class') !== "answer-questions-for-itt" ||
+                $(e.originalEvent.target).attr('class') === "choose-ideology"){
+                $('.ui-dialog-content').dialog('close');
+            }
+        });
+};
