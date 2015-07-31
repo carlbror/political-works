@@ -823,7 +823,12 @@ setDocumentTitle = function(pathString){
         splitString[1] = splitString[1].replace("%20", " ");
         splitString[1] = splitString[1].replace("-", " ");
 
-        document.title = "The Best Political Works  -  " + splitString[1] + " - " + splitString[2];
+        if(splitString[2].indexOf('-') === -1){
+            document.title = "The Best Political Works  -  " + splitString[1] + " - " + splitString[2];
+        } else {
+            document.title = "The Best Political Works  -  " + splitString[1] + " - " + o_.capitaliseFirstLetter(
+                return_.withoutHyphens(splitString[2]));
+        }
     } else if(splitString[1]){
 
         document.title = "The Best Political Works  -  " + o_.capitaliseFirstLetter(splitString[1]).replace("-", " ");
