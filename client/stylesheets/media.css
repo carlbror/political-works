@@ -66,6 +66,7 @@
     .minimizeButtonWhenSmall {
         width: 40px;
     }
+
 }
 
 @media screen and (min-width: 501px) and (max-width: 600px) {
@@ -207,6 +208,10 @@
 
     .minimizeButtonWhenSmall {
         width: 80px;
+    }
+
+    .max-five-hundred-px {
+        width: 400px;
     }
 }
 

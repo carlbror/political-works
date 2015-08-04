@@ -15,13 +15,23 @@ Meteor.methods({
         sanitizedObj.firstQuestions = o_.sanitizeArray(object.firstQuestions);
         sanitizedObj.secondQuestions = o_.sanitizeArray(object.secondQuestions);
 
+        var firstQuestions = [],
+            secondQuestions = [];
+
+        _.each(sanitizedObj.firstQuestions, function(question){
+            firstQuestions.push({
+                questionId: Random.id(),
+                question: question
+            });
+        });
+
         var ittId = ITT.insert({
             admin: get_.userOrThrowError()._id,
             name: sanitizedObj.name,
             type: sanitizedObj.type,
             firstIdeologyId: firstIdeologyId,
             secondIdeologyId: secondIdeologyId,
-            firstQuestions: sanitizedObj.firstQuestions
+            firstQuestions: firstQuestions
         });
 
         if(sanitizedObj.lastDateToAnswer) ITT.update(ittId,
@@ -30,9 +40,37 @@ Meteor.methods({
             {$set: {lastDateToGuess: new Date(sanitizedObj.lastDateToGuess)}});
         if(sanitizedObj.numberOfContestantsAllowed) ITT.update(ittId,
             {$set: {numberOfContestantsAllowed: sanitizedObj.numberOfContestantsAllowed}});
-        if(sanitizedObj.secondQuestions.length>0) ITT.update(ittId,
-            {$set: {secondQuestions: sanitizedObj.secondQuestions}});
+        if(sanitizedObj.secondQuestions.length > 0){
+            _.each(sanitizedObj.secondQuestions, function(question){
+                secondQuestions.push({
+                    questionId: Random.id(),
+                    question: question
+                });
+            });
+
+            ITT.update(ittId, {$set: {secondQuestions: secondQuestions}});
+        }
 
         return ittId;
+    },
+    submitAnswerToITT: function(answersToFirstQuestions, answersToSecondQuestions, ittId){
+        if(Meteor.isServer){
+            answersToFirstQuestions = o_.sanitizeArrayWithObjectsInside(answersToFirstQuestions);
+            if(answersToSecondQuestions) answersToSecondQuestions = o_.sanitizeArrayWithObjectsInside(answersToSecondQuestions);
+            ittId = o_.sanitizeString(ittId);
+
+            var user = get_.userOrThrowError();
+            var doesIttExist = ITT.findOne({_id: ittId, "answers.userId": user._id});
+            if(doesIttExist) throw new Meteor.Error(401, 'You have already answered this ideological turing test');
+
+
+//            if(!answersToSecondQuestions){
+//                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions}}});
+//            } else {
+//                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions,
+//                    answersToSecondQuestions: answersToSecondQuestions}}});
+//            }
+            return ittId;
+        }
     }
 });

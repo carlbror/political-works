@@ -1,0 +1,28 @@
+<template name="ittAnswerPage">
+    <h1>{{itt.name}} <small>Give your answer</small></h1>
+    <hr>
+
+    Answer {{firstTypeOrYourself}}
+
+    {{#each itt.firstQuestions}}
+        <blockquote class="four-seventy-five-px">{{question}}</blockquote>
+
+        <textarea form="itt-answer-form" class="max-five-hundred-px"></textarea>
+    {{/each}}
+
+
+    <hr class="max-five-hundred-px">
+
+
+    Answer {{secondTypeOrYourself}}
+
+    {{#each itt.secondQuestions}}
+        <blockquote class="four-seventy-five-px">{{question}}</blockquote>
+
+        <textarea form="itt-answer-form" class="max-five-hundred-px"></textarea>
+    {{/each}}
+
+    <form id="itt-answer-form">
+        <input action="javascript:void(0);" type="submit" class="btn btn-success" value="Submit Answer">
+    </form>
+</template>

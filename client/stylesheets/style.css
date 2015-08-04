@@ -11,6 +11,27 @@
     position: absolute;
 }
 
+blockquote {
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C" "\201D" "\2018" "\2019";
+}
+
+blockquote:before {
+    color: #ccc;
+    content: "\201C";
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+}
+
+blockquote p {
+    display: inline;
+}
+
 .padded-top-bottom {
     padding-top: 25px;
     padding-bottom: 25px;
@@ -340,15 +361,13 @@ h1.center {
     background-color: #ffffff;
 }
 
-
-.admins-div-middle .inner-center .centered{
+.admins-div-middle .inner-center .centered {
     width: 200px;
 }
 
 .admins-div-middle .admins-table td:nth-child(2) {
     float: right;
 }
-
 
 .admins-div-middle .admins-table label {
     padding-left: 120px;
@@ -480,4 +499,8 @@ h1.center {
 .indent {
     margin-left: 3em;
     margin-right: 3em;
+}
+
+.four-seventy-five-px {
+    max-width: 375px;
 }
