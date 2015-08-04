@@ -1,4 +1,37 @@
 Template.ittAnswerPage.helpers({
+    wrongIdeologue: function(){
+        var user = Meteor.user();
+        if(this.itt){
+            if(this.itt.secondQuestions){
+                if(_.contains(user.ideologies, this.itt.firstIdeologyId) && _.contains(user.ideologies, this.itt.secondIdeologyId)){
+                    return true;
+                } else if(_.contains(user.ideologies, this.itt.firstIdeologyId) || _.contains(user.ideologies, this.itt.secondIdeologyId)){
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if(_.contains(user.ideologies, this.itt.firstIdeologyId)){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    },
+    wrongIdeologueMessage: function(){
+        if(this.itt){
+            if(this.itt.secondQuestions){
+                if(_.contains(Meteor.user().ideologies, this.itt.firstIdeologyId) && _.contains(user.ideologies, this.itt.secondIdeologyId)){
+                    return "Unfortunately, you are a proponent of both ideologies, so you cannot participate in this test.";
+                } else {
+                    return "Unfortunately, only proponents of either ideology can participate in this test. If you are one and want to " +
+                        "take the test, enter which ideology you think is best <a href='/../../choose-ideology'>here</a>.";
+                }
+            } else {
+                return "Unfortunately, only proponents of either ideology can participate in this test. If you are one and want to " +
+                    "take the test, enter which ideology you think is best <a href='/../../choose-ideology'>here</a>.";
+            }
+        }
+    },
     firstTypeOrYourself: function(){
         var user = Meteor.user();
         if(this.itt && user){
@@ -19,7 +52,8 @@ Template.ittAnswerPage.helpers({
             }
         }
     }
-});
+})
+;
 
 Template.ittAnswerPage.events({
     'submit #itt-answer-form': function(event){
@@ -28,7 +62,7 @@ Template.ittAnswerPage.events({
             var answersToFirstQuestions = [],
                 answersToSecondQuestions = [];
 
-            for(x=0; x<this.itt.firstQuestions.length; x++){
+            for(x = 0; x < this.itt.firstQuestions.length; x++){
                 answersToFirstQuestions.push({
                     ittQuestionId: this.itt.firstQuestions[x].questionId,
                     answer: event.currentTarget[x].value
@@ -36,9 +70,9 @@ Template.ittAnswerPage.events({
             }
 
             if(this.itt.secondQuestions){
-                for(x=this.itt.firstQuestions.length; x<this.itt.firstQuestions.length+this.itt.secondQuestions.length; x++){
+                for(x = this.itt.firstQuestions.length; x < this.itt.firstQuestions.length + this.itt.secondQuestions.length; x++){
                     answersToSecondQuestions.push({
-                        ittQuestionId: this.itt.secondQuestions[x-this.itt.firstQuestions.length].questionId,
+                        ittQuestionId: this.itt.secondQuestions[x - this.itt.firstQuestions.length].questionId,
                         answer: event.currentTarget[x].value
                     });
                 }

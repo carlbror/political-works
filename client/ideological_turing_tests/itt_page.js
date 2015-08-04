@@ -29,6 +29,10 @@ Template.ittPage.events({
                 } else {
                     $("#dialog").dialog();
                 }
+            } else if(_.contains(user.ideologies, this.itt.firstIdeologyId)){
+                Router.go('ittAnswerPage', {_id: this.itt._id});
+            } else {
+                $("#dialog").dialog();
             }
         }
     }

@@ -1,7 +1,11 @@
 <template name="ittAnswerPage">
     <h1>{{itt.name}} <small>Give your answer</small></h1>
     <hr>
+    {{#if wrongIdeologue}}
 
+    {{{wrongIdeologueMessage}}}
+
+    {{else}}
     Answer {{firstTypeOrYourself}}
 
     {{#each itt.firstQuestions}}
@@ -25,4 +29,5 @@
     <form id="itt-answer-form">
         <input action="javascript:void(0);" type="submit" class="btn btn-success" value="Submit Answer">
     </form>
+    {{/if}}
 </template>
