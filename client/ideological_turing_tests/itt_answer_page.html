@@ -15,8 +15,8 @@
     {{/each}}
 
 
+    {{#if itt.secondQuestions}}
     <hr class="max-five-hundred-px">
-
 
     Answer {{secondTypeOrYourself}}
 
@@ -25,6 +25,7 @@
 
         <textarea form="itt-answer-form" class="max-five-hundred-px"></textarea>
     {{/each}}
+    {{/if}}
 
     <form id="itt-answer-form">
         <input action="javascript:void(0);" type="submit" class="btn btn-success" value="Submit Answer">

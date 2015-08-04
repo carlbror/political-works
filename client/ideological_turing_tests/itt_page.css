@@ -1,0 +1,28 @@
+.answer-or-guess-itt-container div{
+    width:150px;
+    height:50px;
+    display:inline-block;
+    margin:2px;
+
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5) inset, 0 1px 1px #DDD;
+    border-radius:2px;
+
+    color:#666;
+    vertical-align: top;
+    line-height: 50px;
+}
+
+.answer-or-guess-itt-container p{
+    color: white;
+    font-size: 16px;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.answer-itt{
+    background:linear-gradient(to bottom, #8dd2d9 , deepskyblue);
+}
+
+.guess-itt{
+    background:linear-gradient(#77d19e,#35BF5C);
+    float:right;
+}

@@ -504,3 +504,7 @@ h1.center {
 .four-seventy-five-px {
     max-width: 375px;
 }
+
+.max-width-six-hundred {
+    max-width: 600px;
+}
