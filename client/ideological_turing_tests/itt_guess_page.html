@@ -1,0 +1,24 @@
+<template name="ittGuessPage">
+    <h1>{{itt.name}} <small>Guess ideology</small></h1>
+    <hr>
+
+
+    {{#each itt.firstQuestions}}
+
+    <blockquote>{{question}}</blockquote>
+    <table>
+        <tr>
+            <td>Answer</td>
+            <td>What ideology has the one who wrote this?</td>
+            <td>Why do you think so? (Optional)</td>
+        </tr>
+        {{#each answerToQuestion}}
+        <tr>
+            <td></td>
+        </tr>
+        {{/each}}
+    </table>
+    {{/each}}
+
+
+</template>

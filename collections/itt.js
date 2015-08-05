@@ -64,13 +64,32 @@ Meteor.methods({
             if(doesIttExist) throw new Meteor.Error(401, 'You have already answered this ideological turing test');
 
 
-//            if(!answersToSecondQuestions){
-//                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions}}});
-//            } else {
-//                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions,
-//                    answersToSecondQuestions: answersToSecondQuestions}}});
-//            }
+            if(!answersToSecondQuestions){
+                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions}}});
+            } else {
+                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions,
+                    answersToSecondQuestions: answersToSecondQuestions}}});
+            }
             return ittId;
+        }
+    },
+    getITTWithoutUsersAnswers: function(ittId){
+        if(Meteor.isServer){
+            var fullItt =  ITT.findOne(ittId),
+                user = get_.userOrThrowError(),
+                usersAnswers = _.findWhere(fullItt.answers, {userId: user._id});
+            var ittWithOutUserId =  ITT.findOne({_id: ittId}, {fields: {"answers.userId":0}});
+
+            if(fullItt.secondQuestions){
+                ittWithOutUserId.answers = _.reject(ittWithOutUserId.answers, function(obj){
+                    return obj.answersToFirstQuestions[0].answer === usersAnswers.answersToFirstQuestions[0].answer &&
+                        obj.answersToSecondQuestions[0].answer === usersAnswers.answersToSecondQuestions[0].answer});
+            } else {
+                ittWithOutUserId.answers = _.reject(ittWithOutUserId.answers, function(obj){
+                    return obj.answersToFirstQuestions[0].answer === usersAnswers.answersToFirstQuestions[0].answer});
+            }
+
+            return ittWithOutUserId;
         }
     }
 });

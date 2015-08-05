@@ -652,6 +652,13 @@ Router.map(function(){
         }
     });
 
+    this.route('ittGuessPage', {
+        path: '/ideological-turing-test/:_id/guess-others-ideology',
+        data: function(){
+            return {itt: ReactiveMethod.call("getITTWithoutUsersAnswers", this.params._id)};
+        }
+    });
+
 
     /* *** USER *** */
     this.route('userPage', {

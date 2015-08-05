@@ -35,6 +35,12 @@ Template.ittPage.events({
                 $("#dialog").dialog();
             }
         }
+    },
+    'click .guess-ideologies-for-itt': function(event){
+        event.preventDefault();
+        if(this.itt){
+            Router.go('ittGuessPage', {_id: this.itt._id});
+        }
     }
 });
 
