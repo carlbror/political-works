@@ -1,24 +1,68 @@
 <template name="ittGuessPage">
-    <h1>{{itt.name}} <small>Guess ideology</small></h1>
-    <hr>
+    <div class="itt-guess-page">
+        <h1>{{itt.name}}
+            <small>Guess ideology</small>
+        </h1>
+        <hr>
 
 
-    {{#each itt.firstQuestions}}
-
-    <blockquote>{{question}}</blockquote>
-    <table>
-        <tr>
-            <td>Answer</td>
-            <td>What ideology has the one who wrote this?</td>
-            <td>Why do you think so? (Optional)</td>
-        </tr>
-        {{#each answerToQuestion}}
-        <tr>
-            <td></td>
-        </tr>
+        {{#each itt.firstQuestions}}
+        <h3>Questions people are answering as {{secondIdeologues}}</h3>
+        <blockquote class="max-width-seven-hundred">{{question}}</blockquote>
+        <table>
+            <tr>
+                <td>Answer</td>
+                <td>What ideology does the one who wrote this subscribe to?</td>
+                <td>Why do you think so? (Optional)</td>
+            </tr>
+            {{#each answers}}
+            <tr>
+                <td>{{answer}}</td>
+                <td>
+                    <select>
+                        <option></option>
+                        {{#with ../../itt}}
+                        <option value="{{firstIdeologyId}}">{{firstIdeologyName}}</option>
+                        <option value="{{secondIdeologyId}}">{{secondIdeologyName}}</option>
+                        {{/with}}
+                    </select>
+                </td>
+                <td>
+                    <textarea></textarea>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
         {{/each}}
-    </table>
-    {{/each}}
 
-
+        {{#each itt.secondQuestions}}
+        <hr>
+        <h3>Questions people are answering as {{firstIdeologues}}</h3>
+        <blockquote class="max-width-seven-hundred">{{question}}</blockquote>
+        <table>
+            <tr>
+                <td>Answer</td>
+                <td>What ideology does the one who wrote this subscribe to?</td>
+                <td>Why do you think so? (Optional)</td>
+            </tr>
+            {{#each answers}}
+            <tr>
+                <td>{{answer}}</td>
+                <td>
+                    <select>
+                        <option></option>
+                        {{#with ../../itt}}
+                        <option value="{{firstIdeologyId}}">{{firstIdeologyName}}</option>
+                        <option value="{{secondIdeologyId}}">{{secondIdeologyName}}</option>
+                        {{/with}}
+                    </select>
+                </td>
+                <td>
+                    <textarea></textarea>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+        {{/each}}
+    </div>
 </template>
