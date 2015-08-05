@@ -19,7 +19,7 @@
             <tr>
                 <td>{{answer}}</td>
                 <td>
-                    <select>
+                    <select class="guess-ideology-selector" name="{{answer}}" form="itt-submit-guess-form">
                         <option></option>
                         {{#with ../../itt}}
                         <option value="{{firstIdeologyId}}">{{firstIdeologyName}}</option>
@@ -28,7 +28,7 @@
                     </select>
                 </td>
                 <td>
-                    <textarea></textarea>
+                    <textarea name="{{answer}}" form="itt-submit-guess-form"></textarea>
                 </td>
             </tr>
             {{/each}}
@@ -49,7 +49,7 @@
             <tr>
                 <td>{{answer}}</td>
                 <td>
-                    <select>
+                    <select class="guess-ideology-selector" name="{{answer}}" form="itt-submit-guess-form">
                         <option></option>
                         {{#with ../../itt}}
                         <option value="{{firstIdeologyId}}">{{firstIdeologyName}}</option>
@@ -58,11 +58,15 @@
                     </select>
                 </td>
                 <td>
-                    <textarea></textarea>
+                    <textarea name="{{answer}}" form="itt-submit-guess-form"></textarea>
                 </td>
             </tr>
             {{/each}}
         </table>
         {{/each}}
+
+        <form id="itt-submit-guess-form">
+            <input type="submit" class="btn btn-success" value="Submit guesses">
+        </form>
     </div>
 </template>

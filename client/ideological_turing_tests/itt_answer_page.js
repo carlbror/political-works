@@ -67,6 +67,7 @@ Template.ittAnswerPage.events({
                     question: this.itt.firstQuestions[x].question,
                     answer: event.currentTarget[x].value
                 });
+                if(!event.currentTarget[x].value){throwError("You need to fill in every form.")}
             }
 
             if(this.itt.secondQuestions){
@@ -75,6 +76,7 @@ Template.ittAnswerPage.events({
                         question: this.itt.secondQuestions[x - this.itt.firstQuestions.length].question,
                         answer: event.currentTarget[x].value
                     });
+                    if(!event.currentTarget[x].value){throwError("You need to fill in every form.")}
                 }
             }
 
