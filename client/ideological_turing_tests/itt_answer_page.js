@@ -64,7 +64,7 @@ Template.ittAnswerPage.events({
 
             for(x = 0; x < this.itt.firstQuestions.length; x++){
                 answersToFirstQuestions.push({
-                    ittQuestionId: this.itt.firstQuestions[x].question,
+                    question: this.itt.firstQuestions[x].question,
                     answer: event.currentTarget[x].value
                 });
             }
@@ -72,11 +72,12 @@ Template.ittAnswerPage.events({
             if(this.itt.secondQuestions){
                 for(x = this.itt.firstQuestions.length; x < this.itt.firstQuestions.length + this.itt.secondQuestions.length; x++){
                     answersToSecondQuestions.push({
-                        ittQuestionId: this.itt.secondQuestions[x - this.itt.firstQuestions.length].question,
+                        question: this.itt.secondQuestions[x - this.itt.firstQuestions.length].question,
                         answer: event.currentTarget[x].value
                     });
                 }
             }
+
             Meteor.call('submitAnswerToITT', answersToFirstQuestions, answersToSecondQuestions, this.itt._id, function(err, ittId){
                 if(err) throwError(err.reason);
                 else Router.go('ittPage', {_id: ittId});

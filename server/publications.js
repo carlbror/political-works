@@ -36,8 +36,8 @@ Meteor.publish('lists', function(){
 });
 
 Meteor.publish('ittData', function(){
-    return ITT.find({}, {fields: {name:1, firstIdeologyId:1, secondIdeologyId:1, firstQuestions:1, secondQuestions: 1,
-    "answers.answersToFirstQuestions": 1, "answers.answersToSecondQuestions": 1}});
+    return ITT.find({}, {fields: {name:1, firstIdeologyId:1, secondIdeologyId:1, "firstQuestions.question":1,
+        "firstQuestions.answers.answer":1, "secondQuestions.question":1, "secondQuestions.answers.answer":1}});
 });
 
 Meteor.publish("userData", function () {
