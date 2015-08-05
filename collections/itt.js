@@ -58,13 +58,10 @@ Meteor.methods({
             ittId = o_.sanitizeString(ittId);
 
             var user = get_.userOrThrowError();
-//            var doesIttExist = ITT.findOne({_id: ittId, "answers.userId": user._id});
-//            if(doesIttExist) throw new Meteor.Error(401, 'You have already answered this ideological turing test');
+            var doesIttExist = ITT.findOne({_id: ittId, "firstQuestions.answers.userId": user._id});
+            if(doesIttExist) throw new Meteor.Error(401, 'You have already answered this ideological turing test');
 
             _.each(answersToFirstQuestions, function(answerObj){
-                console.log(ittId);
-                console.log(answerObj.question);
-                console.log(answerObj.answer);
                 ITT.update({_id: ittId, "firstQuestions.question": answerObj.question},
                     {$push: {"firstQuestions.$.answers": {userId: user._id, answer: answerObj.answer}}});
             });
