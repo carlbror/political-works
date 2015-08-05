@@ -637,8 +637,11 @@ Router.map(function(){
     this.route('ittPage',{
         path: '/ideological-turing-test/:_id',
         data: function(){
-            return {
-                itt: ITT.findOne(this.params._id)
+            var itt = ITT.findOne(this.params._id);
+            if(itt){
+                itt.firstQuestions = return_.shuffledArray(itt.firstQuestions);
+                if(itt.secondQuestions) itt.secondQuestions = return_.shuffledArray(itt.secondQuestions);
+                return {itt: itt};
             }
         }
     });
@@ -646,8 +649,11 @@ Router.map(function(){
     this.route('ittAnswerPage', {
         path: '/ideological-turing-test/:_id/give-answer',
         data: function(){
-            return {
-                itt: ITT.findOne(this.params._id)
+            var itt = ITT.findOne(this.params._id);
+            if(itt){
+                itt.firstQuestions = return_.shuffledArray(itt.firstQuestions);
+                if(itt.secondQuestions) itt.secondQuestions = return_.shuffledArray(itt.secondQuestions);
+                return {itt: itt};
             }
         }
     });
