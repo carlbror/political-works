@@ -100,18 +100,30 @@ Meteor.methods({
             var ittWithOutUserId = ITT.findOne({_id: ittId}, {fields: fieldProjection});
 
 
-            for(x = 0; x < ittWithOutUserId.firstQuestions.length; x++){
-                ittWithOutUserId.firstQuestions[x].answers = _.reject(ittWithOutUserId.firstQuestions[x].answers,
-                    function(obj){
-                        return obj.answer === firstAnswers[x].answer;
-                    });
-            }
-            if(fullItt.secondQuestions){
-                for(x = 0; x < ittWithOutUserId.secondQuestions.length; x++){
-                    ittWithOutUserId.secondQuestions[x].answers = _.reject(ittWithOutUserId.secondQuestions[x].answers,
+            if(!!firstAnswers[0]){
+                for(x = 0; x < ittWithOutUserId.firstQuestions.length; x++){
+                    ittWithOutUserId.firstQuestions[x].answers = _.reject(ittWithOutUserId.firstQuestions[x].answers,
                         function(obj){
-                            return obj.answer === secondAnswers[x].answer;
+                            return obj.answer === firstAnswers[x].answer;
                         });
+                }
+
+                ittWithOutUserId.firstQuestions = return_.shuffledArray(ittWithOutUserId.firstQuestions);
+                for(x = 0; x < ittWithOutUserId.firstQuestions.length; x++){
+                    ittWithOutUserId.firstQuestions[x].answers = return_.shuffledArray(ittWithOutUserId.firstQuestions[x].answers);
+                }
+                if(fullItt.secondQuestions){
+                    for(x = 0; x < ittWithOutUserId.secondQuestions.length; x++){
+                        ittWithOutUserId.secondQuestions[x].answers = _.reject(ittWithOutUserId.secondQuestions[x].answers,
+                            function(obj){
+                                return obj.answer === secondAnswers[x].answer;
+                            });
+                    }
+
+                    ittWithOutUserId.secondQuestions = return_.shuffledArray(ittWithOutUserId.secondQuestions);
+                    for(x = 0; x < ittWithOutUserId.secondQuestions.length; x++){
+                        ittWithOutUserId.secondQuestions[x].answers = return_.shuffledArray(ittWithOutUserId.secondQuestions[x].answers);
+                    }
                 }
             }
 
