@@ -20,7 +20,6 @@ Meteor.methods({
 
         _.each(sanitizedObj.firstQuestions, function(question){
             firstQuestions.push({
-                questionId: Random.id(),
                 question: question
             });
         });
@@ -43,7 +42,6 @@ Meteor.methods({
         if(sanitizedObj.secondQuestions.length > 0){
             _.each(sanitizedObj.secondQuestions, function(question){
                 secondQuestions.push({
-                    questionId: Random.id(),
                     question: question
                 });
             });
@@ -63,13 +61,18 @@ Meteor.methods({
             var doesIttExist = ITT.findOne({_id: ittId, "answers.userId": user._id});
             if(doesIttExist) throw new Meteor.Error(401, 'You have already answered this ideological turing test');
 
+            _.each(answersToFirstQuestions, function(answerObj){
+                ITT.update({_id: ittId, "firstQuestions.question": answerObj.question},
+                    {$push: {"firstQuestions.$.answers": {userId: user._id, answer: answerObj.answer}}});
+            });
 
-            if(!answersToSecondQuestions){
-                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions}}});
-            } else {
-                ITT.update(ittId, {$push: {answers: {userId: user._id, answersToFirstQuestions: answersToFirstQuestions,
-                    answersToSecondQuestions: answersToSecondQuestions}}});
+            if(answersToSecondQuestions){
+                _.each(answersToSecondQuestions, function(answerObj){
+                    ITT.update({_id: ittId, "secondQuestions.question": answerObj.question},
+                        {$push: {"secondQuestions.$.answers": {userId: user._id, answer: answerObj.answer}}});
+                });
             }
+
             return ittId;
         }
     },
