@@ -78,18 +78,41 @@ Meteor.methods({
     },
     getITTWithoutUsersAnswers: function(ittId){
         if(Meteor.isServer){
-            var fullItt =  ITT.findOne(ittId),
+            var fullItt = ITT.findOne(ittId),
                 user = get_.userOrThrowError(),
-                usersAnswers = _.findWhere(fullItt.answers, {userId: user._id});
-            var ittWithOutUserId =  ITT.findOne({_id: ittId}, {fields: {"answers.userId":0}});
+                firstAnswers = [],
+                secondAnswers = [],
+                fieldProjection;
 
-            if(fullItt.secondQuestions){
-                ittWithOutUserId.answers = _.reject(ittWithOutUserId.answers, function(obj){
-                    return obj.answersToFirstQuestions[0].answer === usersAnswers.answersToFirstQuestions[0].answer &&
-                        obj.answersToSecondQuestions[0].answer === usersAnswers.answersToSecondQuestions[0].answer});
+            _.each(fullItt.firstQuestions, function(firstQuestion){
+                firstAnswers.push(_.findWhere(firstQuestion.answers, {userId: user._id}));
+            });
+
+            if(!fullItt.secondQuestions){
+                fieldProjection = {"firstQuestions.answers.userId": 0};
             } else {
-                ittWithOutUserId.answers = _.reject(ittWithOutUserId.answers, function(obj){
-                    return obj.answersToFirstQuestions[0].answer === usersAnswers.answersToFirstQuestions[0].answer});
+                _.each(fullItt.secondQuestions, function(secondQuestion){
+                    secondAnswers.push(_.findWhere(secondQuestion.answers, {userId: user._id}));
+                });
+                fieldProjection = {"firstQuestions.answers.userId": 0, "secondQuestions.answers.userId": 0};
+            }
+
+            var ittWithOutUserId = ITT.findOne({_id: ittId}, {fields: fieldProjection});
+
+
+            for(x = 0; x < ittWithOutUserId.firstQuestions.length; x++){
+                ittWithOutUserId.firstQuestions[x].answers = _.reject(ittWithOutUserId.firstQuestions[x].answers,
+                    function(obj){
+                        return obj.answer === firstAnswers[x].answer;
+                    });
+            }
+            if(fullItt.secondQuestions){
+                for(x = 0; x < ittWithOutUserId.secondQuestions.length; x++){
+                    ittWithOutUserId.secondQuestions[x].answers = _.reject(ittWithOutUserId.secondQuestions[x].answers,
+                        function(obj){
+                            return obj.answer === secondAnswers[x].answer;
+                        });
+                }
             }
 
             return ittWithOutUserId;
