@@ -1,0 +1,10 @@
+<template name="ittsList">
+    <h1>Tests to check your political knowledge</h1><hr>
+    {{#each itts}}
+    <div class="post">
+        <div class="post-content">
+            <h3><a href="{{pathFor 'ittPage'}}">{{name}}</a></h3>
+        </div>
+    </div>
+    {{/each}}
+</template>

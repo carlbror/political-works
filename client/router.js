@@ -625,6 +625,15 @@ Router.map(function(){
 
 
     /* *** TURING TESTS *** */
+    this.route('ittsList', {
+        path: '/ideological-turing-tests',
+        data: function(){
+            return {
+                itts: ITT.find({}, {sort: {name:1}}, {fields: {name:1}}).fetch()
+            }
+        }
+    });
+
     this.route('createIdeologicalTuringTest', {
         path: '/create-ideological-turing-test',
         data: function(){
