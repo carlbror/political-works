@@ -14,7 +14,6 @@ function ScienceAlert(){
         document.getElementById('scienceDialogboxhead').innerHTML = "Add an enlightening work on " + dialog;
     }
     this.close = function(){
-        console.log("science");
         $('#scienceDialogbox')[0].style.display = "none";
         $('#scienceDialogoverlay')[0].style.display = "none";
 
@@ -184,7 +183,6 @@ Template.addWorkToScienceAlert.events({
 
 Template.addWorkToScienceAlert.rendered = function(){
     $('.title').on('autocompleteselect', function(event, ui){
-        console.log(ui.item.value);
 
         var work = _.findWhere(works, {title: ui.item.value}),
             producersOfWork = _.filter(producers, function(producer){
@@ -234,7 +232,6 @@ Template.addWorkToScienceAlert.rendered = function(){
 
     $('.title').bind('input', function(){
         if(currentSelectedWork && currentSelectedWork !== $('.title').val()){
-            console.log("will remove stuff when changed title")
             var producerField = $('.producer'),
                 urlField = $('.url'),
                 urlDiscussionField = $('.discussion-url');

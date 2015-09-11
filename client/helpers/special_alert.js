@@ -14,7 +14,6 @@ function SpecialAlert(){
         document.getElementById('dialogboxhead').innerHTML = "Review work for " + dialog;
     }
     this.close = function(){
-        console.log("special alert");
         document.getElementById('dialogbox').style.display = "none";
         document.getElementById('dialogoverlay').style.display = "none";
 
@@ -42,6 +41,7 @@ Template.specialAlert.events({
         works = this.works;
         producers = this.producers;
         $(".title").autocomplete({
+            select: function( event, ui ) {},
             source: this.titles
         });
     },
@@ -218,6 +218,45 @@ Template.specialAlert.events({
 });
 
 Template.specialAlert.rendered = function(){
+    $('.title').on('autocompleteselect', function(event, ui){
+
+        var work = _.findWhere(works, {title: ui.item.value}),
+            producersOfWork = _.filter(producers, function(producer){
+                return _.contains(work.producers, producer._id)
+            });
+        currentSelectedWork = work.title;
+
+        var producerField = $('.producer'),
+            urlField = $('.url'),
+            urlDiscussionField = $('.discussion-url');
+
+        producerField.val("");
+        urlField.val("");
+        urlDiscussionField.val("");
+
+        for(var x = 0; x < producersOfWork.length; x++){
+            var producer = $('.producer');
+            if(x === producersOfWork.length - 1){
+                $('.producer').val(producer.val() + producersOfWork[x].name);
+            } else {
+                $('.producer').val(producer.val() + producersOfWork[x].name + ", ");
+            }
+        }
+
+        urlField.val(work.url);
+        urlDiscussionField.val(work.discussionUrl);
+
+        $(".type-of-work option").filter(function(){
+            return $(this).text() == work.type;
+        }).prop('selected', true);
+
+        producerField.prop('disabled', true);
+        urlField.prop('disabled', true);
+        urlDiscussionField.prop('disabled', true);
+        $('.type-of-work').prop('disabled', true);
+    });
+
+
     $('body').on('keydown', function(e){
         if(e.which === 27){
             Alert.close();
@@ -227,42 +266,6 @@ Template.specialAlert.rendered = function(){
     $('body').on('click', function(e){
         if(e.target.id === "dialogoverlay"){
             Alert.close();
-        }
-
-        if($(e.originalEvent.target).attr('class') === "ui-menu-item" &&
-            $(e.originalEvent.target).parents('.producer').length){
-            var work = _.findWhere(works, {title: $(e.originalEvent.target)[0].innerHTML}),
-                producersOfWork = _.filter(producers, function(producer){return _.contains(work.producers, producer._id)});
-            currentSelectedWork = work.title;
-
-            var producerField = $('.producer'),
-                urlField = $('.url'),
-                urlDiscussionField = $('.discussion-url');
-
-            producerField.val("");
-            urlField.val("");
-            urlDiscussionField.val("");
-
-            for(var x=0; x<producersOfWork.length; x++){
-                var producer = $('.producer');
-                if(x === producersOfWork.length-1){
-                    $('.producer').val(producer.val() + producersOfWork[x].name);
-                } else {
-                    $('.producer').val(producer.val() + producersOfWork[x].name + ", ");
-                }
-            }
-
-            urlField.val(work.url);
-            urlDiscussionField.val(work.discussionUrl);
-
-            $(".type-of-work option").filter(function() {
-                return $(this).text() == work.type;
-            }).prop('selected', true);
-
-            producerField.prop('disabled', true);
-            urlField.prop('disabled', true);
-            urlDiscussionField.prop('disabled', true);
-            $('.type-of-work').prop('disabled', true);
         }
     });
 
