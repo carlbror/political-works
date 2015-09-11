@@ -21,7 +21,24 @@ Template.ittGuessPage.events({
         event.preventDefault();
         if(this.itt){
             var guesses = [],
-                explanations = [];
+                explanations = [],
+                guessesBelongingToFirstQuestions,
+                guessesBelongingToSecondQuestions;
+
+            for(x = 0; x < this.itt.firstQuestions.length; x++){
+                var memory;
+                for(y = 0; y < this.itt.firstQuestions[x].answers.length*2; y++){
+                    if(event.currentTarget[y].type === "select-one" && event.currentTarget.value) {
+                        
+                    }
+
+                }
+                answersToFirstQuestions.push({
+                    question: this.itt.firstQuestions[x].question,
+                    answer: event.currentTarget[x].value
+                });
+                if(!event.currentTarget[x].value){throwError("You need to fill in every form.")}
+            }
 
             _.each(event.currentTarget, function(target){
                 if(target.type === "submit"){
@@ -35,7 +52,10 @@ Template.ittGuessPage.events({
                 }
             });
 
-            Meteor.call('')
+            Meteor.call('submitGuessesToITT', guesses, this.itt._id, function(err, ittId){
+                if(err) throwError(err.reason);
+                else Router.go('ittPage', {_id: ittId});
+            })
         }
     }
 });

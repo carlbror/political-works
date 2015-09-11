@@ -76,6 +76,17 @@ Meteor.methods({
             return ittId;
         }
     },
+    submitGuessesToITT: function(guesses, ittId){
+        guesses = o_.sanitizeArrayWithObjectsInside(guesses);
+        ittId = o_.sanitizeString(ittId);
+
+        var user = get_.userOrThrowError();
+        var doesIttExist = ITT.findOne({_id: ittId, "firstQuestions.answers.guesses.userId": user._id});
+        if(doesIttExist) throw new Meteor.Error(401, 'You have already guessed on this ideological turing test');
+
+
+
+    },
     getITTWithoutUsersAnswers: function(ittId){
         if(Meteor.isServer){
             var fullItt = ITT.findOne(ittId),
