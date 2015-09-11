@@ -14,6 +14,7 @@ function SpecialAlert(){
         document.getElementById('dialogboxhead').innerHTML = "Review work for " + dialog;
     }
     this.close = function(){
+        console.log("special alert");
         document.getElementById('dialogbox').style.display = "none";
         document.getElementById('dialogoverlay').style.display = "none";
 

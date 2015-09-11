@@ -14,8 +14,9 @@ function ScienceAlert(){
         document.getElementById('scienceDialogboxhead').innerHTML = "Add an enlightening work on " + dialog;
     }
     this.close = function(){
-        document.getElementById('scienceDialogbox').style.display = "none";
-        document.getElementById('scienceDialogoverlay').style.display = "none";
+        console.log("science");
+        $('#scienceDialogbox')[0].style.display = "none";
+        $('#scienceDialogoverlay')[0].style.display = "none";
 
     }
 };
@@ -38,6 +39,7 @@ Template.addWorkToScienceAlert.events({
         works = this.works;
         producers = this.producers;
         $(".title").autocomplete({
+            select: function( event, ui ) {},
             source: this.titles
         });
     },
@@ -181,54 +183,58 @@ Template.addWorkToScienceAlert.events({
 });
 
 Template.addWorkToScienceAlert.rendered = function(){
-    $('body').on('keydown', function(e){
+    $('.title').on('autocompleteselect', function(event, ui){
+        console.log(ui.item.value);
+
+        var work = _.findWhere(works, {title: ui.item.value}),
+            producersOfWork = _.filter(producers, function(producer){
+                return _.contains(work.producers, producer._id)
+            });
+        currentSelectedWork = work.title;
+
+        var producerField = $('.producer'),
+            urlField = $('.url'),
+            urlDiscussionField = $('.discussion-url');
+
+        producerField.val("");
+        urlField.val("");
+        urlDiscussionField.val("");
+
+        for(var x = 0; x < producersOfWork.length; x++){
+            var producer = $('.producer');
+            if(x === producersOfWork.length - 1){
+                $('.producer').val(producer.val() + producersOfWork[x].name);
+            } else {
+                $('.producer').val(producer.val() + producersOfWork[x].name + ", ");
+            }
+        }
+
+        urlField.val(work.url);
+        urlDiscussionField.val(work.discussionUrl);
+
+        $(".type-of-work option").filter(function(){
+            return $(this).text() == work.type;
+        }).prop('selected', true);
+
+        producerField.prop('disabled', true);
+        urlField.prop('disabled', true);
+        urlDiscussionField.prop('disabled', true);
+        $('.type-of-work').prop('disabled', true);
+    });
+
+    $('body').on('keydown',function(e){
         if(e.which === 27){
             SciencyAlert.close();
         }
     }).on('click', function(e){
-        if(e.target.id === "scienceDialogoverlay"){
-            SciencyAlert.close();
-        }
-
-        if($(e.originalEvent.target).attr('class') === "ui-menu-item" &&
-            $(e.originalEvent.target).parents('.producer').length){
-            var work = _.findWhere(works, {title: $(e.originalEvent.target)[0].innerHTML}),
-                producersOfWork = _.filter(producers, function(producer){return _.contains(work.producers, producer._id)});
-            currentSelectedWork = work.title;
-
-            var producerField = $('.producer'),
-                urlField = $('.url'),
-                urlDiscussionField = $('.discussion-url');
-
-            producerField.val("");
-            urlField.val("");
-            urlDiscussionField.val("");
-
-            for(var x=0; x<producersOfWork.length; x++){
-                var producer = $('.producer');
-                if(x === producersOfWork.length-1){
-                    $('.producer').val(producer.val() + producersOfWork[x].name);
-                } else {
-                    $('.producer').val(producer.val() + producersOfWork[x].name + ", ");
-                }
+            if(e.target.id === "scienceDialogoverlay"){
+                SciencyAlert.close();
             }
+        });
 
-            urlField.val(work.url);
-            urlDiscussionField.val(work.discussionUrl);
-
-            $(".type-of-work option").filter(function() {
-                return $(this).text() == work.type;
-            }).prop('selected', true);
-
-            producerField.prop('disabled', true);
-            urlField.prop('disabled', true);
-            urlDiscussionField.prop('disabled', true);
-            $('.type-of-work').prop('disabled', true);
-        }
-    });
-
-    $('.title').bind('input', function() {
+    $('.title').bind('input', function(){
         if(currentSelectedWork && currentSelectedWork !== $('.title').val()){
+            console.log("will remove stuff when changed title")
             var producerField = $('.producer'),
                 urlField = $('.url'),
                 urlDiscussionField = $('.discussion-url');
@@ -236,7 +242,7 @@ Template.addWorkToScienceAlert.rendered = function(){
             producerField.val("");
             urlField.val("");
             urlDiscussionField.val("");
-            $(".type-of-work option").filter(function() {
+            $(".type-of-work option").filter(function(){
                 return $(this).text() == "";
             }).prop('selected', true);
 
