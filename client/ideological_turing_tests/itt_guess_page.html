@@ -5,10 +5,61 @@
         </h1>
         <hr>
 
-
         {{#each itt.firstQuestions}}
         <h3>Questions people are answering as {{secondIdeologues}}</h3>
         <blockquote class="max-width-seven-hundred">{{question}}</blockquote>
+
+        <div class="guess-first-ideologies">
+            <div class="container">
+                <div class="row showOnlyWhenLarge">
+                    <div class="span7">
+                        Answer
+                    </div>
+
+                    <div class="span3">
+                        What ideology does the one who wrote this subscribe to?
+                    </div>
+
+                    <div class="span2">
+                        Why do you think so? (Optional)
+                    </div>
+                </div>
+                <hr>
+
+                <div style="width: 100%;">
+                    <div style="float: left; width: 52%;">Answer</div>
+                    <div style="float: left; width: 31%;">What ideology does the one who wrote this subscribe to? </div>
+                    <div style="float: left; width: 17%;">Why do you think so? (Optional)</div>
+                    <br style="clear: left;" />
+                </div>
+
+
+
+
+                {{#each answers}}
+                <div class="row">
+                    <div class="span7">
+                        {{answer}}
+                    </div>
+
+                    <div class="span3">
+                        <select class="guess-ideology-selector" name="{{answer}}" form="itt-submit-guess-form">
+                            <option></option>
+                            {{#with ../../itt}}
+                            <option value="{{firstIdeologyId}}">{{firstIdeologyName}}</option>
+                            <option value="{{secondIdeologyId}}">{{secondIdeologyName}}</option>
+                            {{/with}}
+                        </select>
+                    </div>
+
+                    <div class="span2">
+                        <textarea name="{{answer}}" form="itt-submit-guess-form"></textarea>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
         <table>
             <tr>
                 <td>Answer</td>
@@ -19,13 +70,7 @@
             <tr>
                 <td>{{answer}}</td>
                 <td>
-                    <select class="guess-ideology-selector" name="{{answer}}" form="itt-submit-guess-form">
-                        <option></option>
-                        {{#with ../../itt}}
-                        <option value="{{firstIdeologyId}}">{{firstIdeologyName}}</option>
-                        <option value="{{secondIdeologyId}}">{{secondIdeologyName}}</option>
-                        {{/with}}
-                    </select>
+
                 </td>
                 <td>
                     <textarea name="{{answer}}" form="itt-submit-guess-form"></textarea>
